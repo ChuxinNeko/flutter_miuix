@@ -49,3 +49,15 @@ app.*.map.json
 
 # Reference: original Kotlin miuix source (kept locally, not uploaded)
 demo/
+
+# Root-level platform scaffolding from `flutter create`.
+# flutter_miuix is a pure Dart/Flutter package (no platform channels), so the
+# root runner projects are unnecessary. The runnable demo lives in example/,
+# which keeps its own platform folders. Leading slashes anchor these to the
+# repo root so example/android, example/ios, etc. stay tracked.
+/android/
+/ios/
+/linux/
+/macos/
+/web/
+/windows/
