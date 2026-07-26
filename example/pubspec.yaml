@@ -1,0 +1,31 @@
+name: miuix_example
+description: "miuix Flutter 组件库 demo showcase"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_miuix:
+    path: ../
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/pencil.jpg
+
+  fonts:
+    - family: MiSans
+      fonts:
+        - asset: fonts/MiSans-Normal.ttf
