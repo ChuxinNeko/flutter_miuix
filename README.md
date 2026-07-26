@@ -6,9 +6,7 @@
 [![Dart](https://img.shields.io/badge/Dart-%E2%89%A53.12.2-0175C2?logo=dart)](https://dart.dev)
 [![License](https://img.shields.io/badge/License-Apache--2.0-blue)](https://www.apache.org/licenses/LICENSE-2.0)
 
-> A Flutter port of [miuix](https://github.com/miuix-kotlin-multiplatform/miuix) — bringing HyperOS-style UI components to Flutter natively.
-
-`flutter_miuix` is a Flutter port of [miuix](https://github.com/miuix-kotlin-multiplatform/miuix) (originally from compose-miuix-ui/miuix). It recreates the core elements of the miuix design language: squircle corners, folme spring motion, liquid-glass blur, Monet dynamic colors, and a complete component library tuned for HyperOS-style interactions.
+`flutter_miuix` is a HyperOS-style component library for Flutter, ported from [miuix](https://github.com/compose-miuix-ui/miuix).
 
 ## Features
 
@@ -153,8 +151,7 @@ Detailed API documentation lives in [`doc/.api_frag/`](doc/.api_frag/) and is or
 
 ## Acknowledgements
 
-- [miuix-kotlin-multiplatform/miuix](https://github.com/miuix-kotlin-multiplatform/miuix) — The original miuix Kotlin Multiplatform project; all design, motion, and interaction logic derives from it
-- [compose-miuix-ui/miuix](https://github.com/miuix-kotlin-multiplatform/miuix) — The Compose implementation of miuix
+- [compose-miuix-ui/miuix](https://github.com/compose-miuix-ui/miuix) — The original miuix project (Compose Multiplatform implementation); all design, motion, and interaction logic derives from it
 - [materialkolor](https://github.com/jordond/materialkolor) — Kotlin Material dynamic color library; `miuixColorsFromSeed` in this package is equivalent to its core flow
 
 ## License

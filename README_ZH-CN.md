@@ -6,9 +6,7 @@
 [![Dart](https://img.shields.io/badge/Dart-%E2%89%A53.12.2-0175C2?logo=dart)](https://dart.dev)
 [![License](https://img.shields.io/badge/License-Apache--2.0-blue)](https://www.apache.org/licenses/LICENSE-2.0)
 
-> [miuix](https://github.com/miuix-kotlin-multiplatform/miuix) 的 Flutter 移植版 — 让 HyperOS 风格的 UI 组件在 Flutter 上原生化重现。
-
-`flutter_miuix` 是 [miuix](https://github.com/miuix-kotlin-multiplatform/miuix)（源自 compose-miuix-ui/miuix）的 Flutter 平台移植版。它复刻了 miuix 设计语言的核心要素：Squircle 超椭圆圆角、Folme 弹簧动效、液态玻璃模糊、Monet 动态取色、以及一整套贴合 HyperOS 交互习惯的组件库。
+`flutter_miuix` 是一个适用于 Flutter 的 HyperOS 风格组件库，移植自 [miuix](https://github.com/compose-miuix-ui/miuix)。
 
 ## 特性
 
@@ -153,8 +151,7 @@ class HomePage extends StatelessWidget {
 
 ## 致谢
 
-- [miuix-kotlin-multiplatform/miuix](https://github.com/miuix-kotlin-multiplatform/miuix) — 原版 miuix Kotlin Multiplatform 项目，本库的所有设计、动效与交互逻辑均源自该项目
-- [compose-miuix-ui/miuix](https://github.com/miuix-kotlin-multiplatform/miuix) — miuix 的 Compose 实现
+- [compose-miuix-ui/miuix](https://github.com/compose-miuix-ui/miuix) — 原版 miuix 项目（Compose Multiplatform 实现），本库的所有设计、动效与交互逻辑均源自该项目
 - [materialkolor](https://github.com/jordond/materialkolor) — Kotlin 端的 Material 动态配色库，本库的 `miuixColorsFromSeed` 等价于其核心流程
 
 ## License

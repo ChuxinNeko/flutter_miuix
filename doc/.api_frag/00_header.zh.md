@@ -2,7 +2,7 @@
 
 > 本文档为 **flutter_miuix** 组件库的完整 API 参考（中文版）。英文版见 [`API.en.md`](API.en.md)。
 
-flutter_miuix 是将 [miuix](https://github.com/miuix-kotlin-multiplatform/miuix)（Kotlin Compose Multiplatform 组件库）1:1 移植到 Flutter 的实现，提供小米 HyperOS / MIUI 风格的完整组件集：Squircle 圆角、动态取色（Monet）、液态玻璃模糊等。
+flutter_miuix 是将 [miuix](https://github.com/compose-miuix-ui/miuix)（Kotlin Compose Multiplatform 组件库）1:1 移植到 Flutter 的实现，提供小米 HyperOS / MIUI 风格的完整组件集：Squircle 圆角、动态取色（Monet）、液态玻璃模糊等。
 
 - 所有组件的**尺寸、圆角、内边距等均可通过构造参数自定义**，且都带有与原版一致的默认值。
 - 颜色走 `MiuixColors` 语义角色，文本走 `MiuixTextStyles` 预设，随主题自动明暗切换。
