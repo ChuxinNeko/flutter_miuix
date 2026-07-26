@@ -907,7 +907,7 @@ class MiuixSmallTopAppBar extends StatelessWidget {
                     ),
                   ),
                 ),
-              if (bottomContent != null) bottomContent!,
+              ?bottomContent,
             ],
           ),
         ),

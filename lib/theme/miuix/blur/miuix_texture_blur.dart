@@ -96,14 +96,11 @@ class _TextureBlurRenderWidget extends SingleChildRenderObjectWidget {
 
 class _RenderTextureBlur extends RenderProxyBox {
   _RenderTextureBlur({
-    required MiuixBackdrop backdrop,
-    required double blurRadius,
-    required BlurColors colors,
-    required double devicePixelRatio,
-  })  : _backdrop = backdrop,
-        _blurRadius = blurRadius,
-        _colors = colors,
-        _devicePixelRatio = devicePixelRatio {
+    required this._backdrop,
+    required this._blurRadius,
+    required this._colors,
+    required this._devicePixelRatio,
+  }) {
     _backdrop.addListener(markNeedsPaint);
   }
 

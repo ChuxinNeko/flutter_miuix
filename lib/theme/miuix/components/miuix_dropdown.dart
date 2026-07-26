@@ -31,7 +31,7 @@ class MiuixDropdownItem {
   /// 兼容旧 `SpinnerEntry` 的构造：以 [title]（可空，空则回退空串）作为文本。
   ///
   /// 对应 Kotlin `DropdownItem(icon, title, summary)` 次级构造函数。
-  MiuixDropdownItem.spinner({
+  const MiuixDropdownItem.spinner({
     this.icon,
     String? title,
     this.summary,
@@ -330,10 +330,10 @@ class MiuixDropdownImpl extends StatelessWidget {
   ///
   /// [optionSize] 为选项总数；[isSelected] 表示是否选中；[index] 为当前项下标；
   /// [dropdownColors] 为配色，默认取 [MiuixDropdownDefaults.dropdownColors]；
-  /// [enabled] 默认取 [item].enabled，禁用行忽略点击并使用禁用文本色；
+  /// [_enabled] 默认取 [item].enabled，禁用行忽略点击并使用禁用文本色；
   /// [dialogMode] 表示对话框模式；[hasSubmenu] 为 true 时该行作为子菜单触发器：
   /// 尾部显示箭头而非选中勾号，无障碍角色变为按钮；
-  /// [isFirst]/[isLast] 控制弹窗模式下首/末行的更大内边距，默认按 [index] 推断，
+  /// [_isFirst]/[_isLast] 控制弹窗模式下首/末行的更大内边距，默认按 [index] 推断，
   /// 多分组调用方应传入全局标志以便仅真正的首/末行获得额外内边距；
   /// [onSelectedIndexChange] 在选中时以 [index] 回调。
   const MiuixDropdownImpl({
@@ -344,14 +344,12 @@ class MiuixDropdownImpl extends StatelessWidget {
     required this.index,
     required this.onSelectedIndexChange,
     this.dropdownColors,
-    bool? enabled,
+    this._enabled,
     this.dialogMode = false,
     this.hasSubmenu = false,
-    bool? isFirst,
-    bool? isLast,
-  }) : _enabled = enabled,
-       _isFirst = isFirst,
-       _isLast = isLast;
+    this._isFirst,
+    this._isLast,
+  });
 
   /// 文本便捷构造，对应 Kotlin 第二个 `DropdownImpl(text, ...)` 重载。
   ///

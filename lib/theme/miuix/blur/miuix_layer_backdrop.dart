@@ -48,10 +48,9 @@ class MiuixLayerBackdropCapture extends SingleChildRenderObjectWidget {
 
 class _RenderLayerBackdropCapture extends RenderProxyBox {
   _RenderLayerBackdropCapture({
-    required MiuixLayerBackdrop backdrop,
-    required double devicePixelRatio,
-  })  : _backdrop = backdrop,
-        _devicePixelRatio = devicePixelRatio;
+    required this._backdrop,
+    required this._devicePixelRatio,
+  });
 
   MiuixLayerBackdrop _backdrop;
   MiuixLayerBackdrop get backdrop => _backdrop;

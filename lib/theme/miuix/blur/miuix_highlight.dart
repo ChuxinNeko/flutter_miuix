@@ -227,14 +227,11 @@ class _HighlightRenderWidget extends SingleChildRenderObjectWidget {
 }
 class _RenderHighlight extends RenderProxyBox {
   _RenderHighlight({
-    required Highlight highlight,
-    required ShapeBorder? shape,
-    required ui.FragmentShader shader,
-    required double devicePixelRatio,
-  })  : _highlight = highlight,
-        _shape = shape,
-        _shader = shader,
-        _devicePixelRatio = devicePixelRatio;
+    required this._highlight,
+    required this._shape,
+    required this._shader,
+    required this._devicePixelRatio,
+  });
 
   final ui.FragmentShader _shader;
 
