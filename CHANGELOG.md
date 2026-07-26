@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1
+
+### 变更
+
+- **包结构调整**：实现文件移入 `lib/src/`，仅保留 `lib/miuix.dart` 作为唯一公开入口。pub.dev 安装页现在只显示一行 `import 'package:flutter_miuix/miuix.dart';`，不再逐个列出内部文件。公开 API 与导入方式不变。
+
 ## 1.0.0
 
 首个发布版本。miuix（Kotlin Multiplatform）组件库到 Flutter 的 1:1 移植。
