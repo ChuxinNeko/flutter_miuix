@@ -1,0 +1,31 @@
+# NOTE: once a .pubignore exists, pub stops inheriting .gitignore's exclusions,
+# so everything that must stay out of the archive has to be listed here too.
+
+# --- Build artifacts & tooling caches (mirrors .gitignore) ---
+build/
+.dart_tool/
+.pub-cache/
+.pub/
+coverage/
+.idea/
+*.iml
+.metadata
+.flutter-plugins-dependencies
+.claude/
+
+# --- Reference: original Kotlin miuix source (kept locally, not uploaded) ---
+demo/
+
+# --- Platform scaffolding from `flutter create` ---
+# flutter_miuix is a pure Dart/Flutter UI package with no platform channels,
+# so consumers never need these runner projects.
+android/
+ios/
+linux/
+macos/
+web/
+windows/
+
+# --- Repo-only tooling and doc source fragments ---
+tool/
+doc/

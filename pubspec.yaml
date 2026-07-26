@@ -1,11 +1,18 @@
 name: flutter_miuix
 description: >-
-  A 1:1 Flutter port of the miuix (Kotlin Multiplatform) UI library — a
-  HyperOS/MIUI-style component set with squircle corners, Folme spring motion,
-  liquid glass blur, Monet dynamic colors, and 45+ widgets.
+  A HyperOS-style component library for Flutter, ported from miuix. 45+ widgets
+  with squircle corners, Folme spring motion, liquid glass blur, and Monet
+  dynamic colors.
 version: 1.0.0
-repository: https://github.com/your-org/flutter_miuix
-issue_tracker: https://github.com/your-org/flutter_miuix/issues
+repository: https://github.com/ChuxinNeko/flutter_miuix
+issue_tracker: https://github.com/ChuxinNeko/flutter_miuix/issues
+
+topics:
+  - ui
+  - widgets
+  - hyperos
+  - miuix
+  - material
 
 environment:
   sdk: ^3.12.2

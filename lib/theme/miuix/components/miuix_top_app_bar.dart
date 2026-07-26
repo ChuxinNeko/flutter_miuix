@@ -143,10 +143,8 @@ class MiuixExitUntilCollapsedScrollBehavior
   bool get isPinned => false;
 
   AnimationController? _snapController;
-  TickerProvider? _vsync;
 
   void _attachVsync(TickerProvider vsync) {
-    _vsync = vsync;
     _snapController ??= AnimationController.unbounded(vsync: vsync);
     _snapController!.addListener(_driveSnap);
   }
@@ -155,7 +153,6 @@ class MiuixExitUntilCollapsedScrollBehavior
     _snapController?.removeListener(_driveSnap);
     _snapController?.dispose();
     _snapController = null;
-    _vsync = null;
   }
 
   void _driveSnap() {
