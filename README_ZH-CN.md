@@ -9,7 +9,7 @@
 
 `flutter_miuix` 是一个适用于 Flutter 的 HyperOS 风格组件库，移植自 [miuix](https://github.com/compose-miuix-ui/miuix)。
 
-📖 **文档链接**：<https://miuix.nekofun.top/>
+📖 **[文档链接](https://miuix.nekofun.top/)**
 
 ## 特性
 

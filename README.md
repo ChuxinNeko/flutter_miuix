@@ -9,7 +9,7 @@
 
 `flutter_miuix` is a HyperOS-style component library for Flutter, ported from [miuix](https://github.com/compose-miuix-ui/miuix).
 
-📖 **文档链接 / Documentation**: <https://miuix.nekofun.top/>
+📖 **[文档链接 / Documentation](https://miuix.nekofun.top/)**
 
 ## Features
 
