@@ -2,7 +2,7 @@
 
 ### MiuixDismissScope
 
-An InheritedWidget that exposes a dismiss request to dialog content. Corresponds to Kotlin `LocalDismissState`. Wrapped around `MiuixOverlayDialog` content; descendants can obtain the host dialog's dismiss callback via `MiuixDismissScope.maybeOf(context)`, returning `null` when not inside a dialog.
+An InheritedWidget that exposes a dismiss request to dialog content. Wrapped around `MiuixOverlayDialog` content; descendants can obtain the host dialog's dismiss callback via `MiuixDismissScope.maybeOf(context)`, returning `null` when not inside a dialog.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -49,7 +49,7 @@ MiuixOverlayDialog(
 
 ### MiuixDialogDefaults
 
-Defaults for Miuix dialogs. Corresponds to Kotlin `DialogDefaults` (private constructor, `static` fields only).
+Defaults for Miuix dialogs (private constructor, `static` fields only).
 
 | Constant | Value | Description |
 |---|---|---|
@@ -101,7 +101,7 @@ MiuixOverlayBottomSheet(
 
 ### MiuixBottomSheetDefaults
 
-Defaults for Miuix bottom sheets. Corresponds to Kotlin `BottomSheetDefaults` (private constructor, `static` fields only).
+Defaults for Miuix bottom sheets (private constructor, `static` fields only).
 
 | Constant | Value | Description |
 |---|---|---|
@@ -117,7 +117,7 @@ Defaults for Miuix bottom sheets. Corresponds to Kotlin `BottomSheetDefaults` (p
 
 ### MiuixWindowBottomSheet
 
-A window-level bottom sheet. Corresponds to Kotlin `WindowBottomSheet`. Flutter has no standalone OS window layer; this widget registers with the root Overlay (`renderInRootScaffold` forced `true`) as the equivalent of Compose `Window*`. Differs from `MiuixOverlayBottomSheet` only in that it has no `renderInRootScaffold` param (forced `true`); other params are identical.
+A window-level bottom sheet. Flutter has no standalone OS window layer; this widget registers with the root Overlay (`renderInRootScaffold` forced `true`). Differs from `MiuixOverlayBottomSheet` only in that it has no `renderInRootScaffold` param (forced `true`); other params are identical.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -176,7 +176,7 @@ A group of dropdown items (one visual group). When `enabled` is false all items 
 
 ### MiuixDropdownColors
 
-Colors used by dropdown option rows. Corresponds to Kotlin `DropdownColors` (legacy alias `SpinnerColors`). All 7 fields are required.
+Colors used by dropdown option rows (legacy alias `SpinnerColors`). All 7 fields are required.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -190,7 +190,7 @@ Colors used by dropdown option rows. Corresponds to Kotlin `DropdownColors` (leg
 
 ### MiuixDropdownDefaults
 
-Default sizes, paddings and colors for dropdown rows. Corresponds to Kotlin `DropdownDefaults` (private constructor, `static` fields and methods only).
+Default sizes, paddings and colors for dropdown rows (private constructor, `static` fields and methods only).
 
 | Constant | Value | Description |
 |---|---|---|
@@ -215,11 +215,11 @@ Default sizes, paddings and colors for dropdown rows. Corresponds to Kotlin `Dro
 
 ### MiuixDropdownArrowEndAction
 
-A trailing up/down arrow action icon. Corresponds to Kotlin `RowScope.DropdownArrowEndAction`. Drawn at `MiuixDropdownDefaults.arrowSize` (10×16), vertically centered, color determined by `actionColor`. Typically placed at the end of the trigger row to indicate a dropdown can be expanded.
+A trailing up/down arrow action icon. Drawn at `MiuixDropdownDefaults.arrowSize` (10×16), vertically centered, color determined by `actionColor`. Typically placed at the end of the trigger row to indicate a dropdown can be expanded.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
-| `actionColor` | `Color` | required | Fill color of the arrow (corresponds to Kotlin `ColorFilter.tint(actionColor)`) |
+| `actionColor` | `Color` | required | Fill color of the arrow |
 
 **Example:**
 ```dart
@@ -234,7 +234,7 @@ MiuixBasicComponent(
 
 ### MiuixDropdownImpl
 
-The render implementation of a dropdown option row. Corresponds to Kotlin `DropdownImpl` (legacy `SpinnerItemImpl`). This widget only handles the presentation and click of a single row; the popup layer, trigger and cascading submenu live in separate files. Commonly used inside a `MiuixListPopupColumn` to build custom dropdown content.
+The render implementation of a dropdown option row. This widget only handles the presentation and click of a single row; the popup layer, trigger and cascading submenu live in separate files. Commonly used inside a `MiuixListPopupColumn` to build custom dropdown content.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -295,7 +295,7 @@ MiuixOverlayDropdownMenu(
 
 ### MiuixWindowDropdownMenu
 
-A window-level dropdown menu (single group). Corresponds to Kotlin `WindowDropdownMenu(entry)`. Named constructor `.entries` takes multiple groups. Flutter has no standalone OS window layer; this widget registers with the root Overlay (`renderInRootScaffold` forced `true`) as the equivalent of Compose `Window*`. Differs from `MiuixOverlayDropdownMenu` only in that it has no `renderInRootScaffold` param (forced `true`); other params are identical.
+A window-level dropdown menu (single group). Named constructor `.entries` takes multiple groups. Flutter has no standalone OS window layer; this widget registers with the root Overlay (`renderInRootScaffold` forced `true`). Differs from `MiuixOverlayDropdownMenu` only in that it has no `renderInRootScaffold` param (forced `true`); other params are identical.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -347,7 +347,7 @@ A Scaffold icon dropdown menu triggered by an IconButton (single group). Named c
 
 ### MiuixWindowIconDropdownMenu
 
-A window-level icon dropdown menu (single group). Corresponds to Kotlin `WindowIconDropdownMenu(entry)`. Named constructor `.entries` takes multiple groups. Flutter has no standalone OS window layer; this widget registers with the root Overlay (`renderInRootScaffold` forced `true`) as the equivalent of Compose `Window*`. Differs from `MiuixOverlayIconDropdownMenu` only in that it has no `renderInRootScaffold` param (forced `true`); other params are identical.
+A window-level icon dropdown menu (single group). Named constructor `.entries` takes multiple groups. Flutter has no standalone OS window layer; this widget registers with the root Overlay (`renderInRootScaffold` forced `true`). Differs from `MiuixOverlayIconDropdownMenu` only in that it has no `renderInRootScaffold` param (forced `true`); other params are identical.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -385,7 +385,7 @@ A Scaffold icon cascading dropdown menu triggered by an IconButton; a `MiuixDrop
 
 ### MiuixWindowIconCascadingDropdownMenu
 
-A window-level icon cascading dropdown menu (single group). Corresponds to Kotlin `WindowIconCascadingDropdownMenu(entry)`. Named constructor `.entries` takes multiple groups. Flutter has no standalone OS window layer; this widget registers with the window-level Overlay as the equivalent of Compose `Window*`. Differs from `MiuixOverlayIconCascadingDropdownMenu` only in that it has no `renderInRootScaffold` param (forced `true`); other params are identical.
+A window-level icon cascading dropdown menu (single group). Named constructor `.entries` takes multiple groups. Flutter has no standalone OS window layer; this widget registers with the window-level Overlay. Differs from `MiuixOverlayIconCascadingDropdownMenu` only in that it has no `renderInRootScaffold` param (forced `true`); other params are identical.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -403,7 +403,7 @@ A window-level icon cascading dropdown menu (single group). Corresponds to Kotli
 
 ### MiuixDropdownEntriesPopupContent
 
-Renders `MiuixDropdownEntry` group lists inside a popup container. Corresponds to Kotlin `DropdownEntriesPopupContent`. Computes the popup-global first/last internally: only the very first and very last rows of the whole popup get the larger first/last padding; group boundaries fall back to middle-row padding. A 1.5dp divider is inserted between groups. The caller must place it inside a scrollable container such as `MiuixListPopupColumn`; this widget itself does not scroll.
+Renders `MiuixDropdownEntry` group lists inside a popup container. Computes the popup-global first/last internally: only the very first and very last rows of the whole popup get the larger first/last padding; group boundaries fall back to middle-row padding. A 1.5dp divider is inserted between groups. The caller must place it inside a scrollable container such as `MiuixListPopupColumn`; this widget itself does not scroll.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -413,7 +413,7 @@ Renders `MiuixDropdownEntry` group lists inside a popup container. Corresponds t
 
 ### MiuixDropdownEntriesDialogItems
 
-Renders `MiuixDropdownEntry` group lists inside a dialog container (as children of `ListView`/`Column`). Corresponds to Kotlin `LazyListScope.dropdownEntriesDialogItems`. Dialog mode uses a uniform vertical padding and does not propagate popup-global first/last; a 1.5dp divider is also inserted between groups.
+Renders `MiuixDropdownEntry` group lists inside a dialog container (as children of `ListView`/`Column`). Dialog mode uses a uniform vertical padding and does not propagate popup-global first/last; a 1.5dp divider is also inserted between groups.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -423,7 +423,7 @@ Renders `MiuixDropdownEntry` group lists inside a dialog container (as children 
 
 ### MiuixOverlayDropdownPopup
 
-A Scaffold-level dropdown popup. Corresponds to Kotlin `OverlayDropdownPopup`. Default constructor takes a single `entry` (single group); named constructor `.entries` takes an `entries` list (multi-group). Internally renders via `MiuixOverlayListPopup` and `MiuixDropdownEntriesPopupContent`, aligned with `MiuixPopupAlign.end`. Tapping an item triggers `HapticFeedback.selectionClick()` and closes based on `collapseOnSelection`.
+A Scaffold-level dropdown popup. Default constructor takes a single `entry` (single group); named constructor `.entries` takes an `entries` list (multi-group). Internally renders via `MiuixOverlayListPopup` and `MiuixDropdownEntriesPopupContent`, aligned with `MiuixPopupAlign.end`. Tapping an item triggers `HapticFeedback.selectionClick()` and closes based on `collapseOnSelection`.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -440,7 +440,7 @@ A Scaffold-level dropdown popup. Corresponds to Kotlin `OverlayDropdownPopup`. D
 
 ### MiuixWindowDropdownPopup
 
-A window-level dropdown popup. Corresponds to Kotlin `WindowDropdownPopup`. Flutter's Navigator Overlay is already a window-level host, so this does not depend on `MiuixScaffold` and has no `renderInRootScaffold` param. Otherwise behaves like `MiuixOverlayDropdownPopup`.
+A window-level dropdown popup. Flutter's Navigator Overlay is already a window-level host, so this does not depend on `MiuixScaffold` and has no `renderInRootScaffold` param. Otherwise behaves like `MiuixOverlayDropdownPopup`.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -456,7 +456,7 @@ A window-level dropdown popup. Corresponds to Kotlin `WindowDropdownPopup`. Flut
 
 ### MiuixOverlayDropdownDialog
 
-A Scaffold dropdown dialog (single group). Corresponds to Kotlin `OverlayDropdownDialog(entry)`. Named constructor `.entries` takes multiple groups; uses `MiuixOverlayDialog` as the container to render `MiuixDropdownEntriesDialogItems`, with a title and a bottom confirm button. Tapping an item triggers `HapticFeedback.selectionClick()` and closes the dialog depending on `collapseOnSelection`.
+A Scaffold dropdown dialog (single group). Named constructor `.entries` takes multiple groups; uses `MiuixOverlayDialog` as the container to render `MiuixDropdownEntriesDialogItems`, with a title and a bottom confirm button. Tapping an item triggers `HapticFeedback.selectionClick()` and closes the dialog depending on `collapseOnSelection`.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -473,7 +473,7 @@ A Scaffold dropdown dialog (single group). Corresponds to Kotlin `OverlayDropdow
 
 ### MiuixWindowDropdownDialog
 
-A window-level dropdown dialog (single group). Corresponds to Kotlin `WindowDropdownDialog(entry)`. Named constructor `.entries` takes multiple groups. Flutter has no standalone OS window layer; this widget registers with the root Overlay via `MiuixOverlayDialog`'s `renderInRootScaffold: true`, as the equivalent of Compose `WindowDropdownDialog`. Differs from `MiuixOverlayDropdownDialog` only in that it has no `renderInRootScaffold` param (forced `true`); other params are identical.
+A window-level dropdown dialog (single group). Named constructor `.entries` takes multiple groups. Flutter has no standalone OS window layer; this widget registers with the root Overlay via `MiuixOverlayDialog`'s `renderInRootScaffold: true`. Differs from `MiuixOverlayDropdownDialog` only in that it has no `renderInRootScaffold` param (forced `true`); other params are identical.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -503,7 +503,7 @@ ListPopup is a lightweight popup layer positioned by an anchor Rect, replicating
 
 #### MiuixPopupAlign
 
-Logical alignment of the popup relative to the anchor. Corresponds to the alignment enum of Kotlin `PopupPositionProvider`. `start`/`end` are mirrored automatically under RTL.
+Logical alignment of the popup relative to the anchor. `start`/`end` are mirrored automatically under RTL.
 
 | Value | Description |
 |---|---|
@@ -516,7 +516,7 @@ Logical alignment of the popup relative to the anchor. Corresponds to the alignm
 
 #### MiuixPopupPositionProvider
 
-Position calculation interface for the unified popup host. Corresponds to Kotlin `PopupPositionProvider`. All coordinates are logical pixels relative to the window's top-left; implementations **must not** read [MediaQuery] themselves, so the same algorithm works for both Overlay and window-level hosts.
+Position calculation interface for the unified popup host. All coordinates are logical pixels relative to the window's top-left; implementations **must not** read [MediaQuery] themselves, so the same algorithm works for both Overlay and window-level hosts.
 
 | Method / Field | Type | Description |
 |---|---|---|
@@ -525,7 +525,7 @@ Position calculation interface for the unified popup host. Corresponds to Kotlin
 
 #### MiuixPopupSpringSpec
 
-Flutter-equivalent of a Compose spring. Corresponds to Kotlin `PopupSpringSpec`.
+Spring specification for popup animations.
 
 | Param | Type | Description |
 |---|---|---|
@@ -537,7 +537,7 @@ The `description` getter returns a Flutter `SpringDescription`; `simulation(from
 
 #### MiuixPopupTweenSpec
 
-Duration and curve of a popup tween animation. Corresponds to Kotlin `PopupTweenSpec`.
+Duration and curve of a popup tween animation.
 
 | Param | Type | Description |
 |---|---|---|
@@ -546,7 +546,7 @@ Duration and curve of a popup tween animation. Corresponds to Kotlin `PopupTween
 
 #### MiuixListPopupDefaults
 
-Size, animation and default position strategies for ListPopup. Corresponds to Kotlin `ListPopupDefaults` (private constructor, `static` fields only).
+Size, animation and default position strategies for ListPopup (private constructor, `static` fields only).
 
 | Constant / Method | Value / Returns | Description |
 |---|---|---|
@@ -575,7 +575,7 @@ A scrollable column that unifies all items to the width of the widest of the fir
 
 #### MiuixListPopupContent
 
-A container that carries the list content with scale, fade and directional squircle reveal. Corresponds to Kotlin `ListPopupContent`. Usually consumed internally by the popup host; callers rarely construct it directly.
+A container that carries the list content with scale, fade and directional squircle reveal. Usually consumed internally by the popup host; callers rarely construct it directly.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -592,7 +592,7 @@ A container that carries the list content with scale, fade and directional squir
 
 #### MiuixOverlayListPopup
 
-A Scaffold-level list popup. Corresponds to Kotlin `OverlayListPopup`. Registers with the root or local registry via [MiuixPopupLayout] and is drawn by the unified popup host.
+A Scaffold-level list popup. Registers with the root or local registry via [MiuixPopupLayout] and is drawn by the unified popup host.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -623,11 +623,11 @@ MiuixOverlayListPopup(
 
 #### MiuixWindowListPopup
 
-A window-level list popup. Corresponds to Kotlin `WindowListPopup`. Flutter's Navigator Overlay is already a window-level host, so this does not depend on [MiuixScaffold]. Same params as `MiuixOverlayListPopup` but without `renderInRootScaffold`.
+A window-level list popup. Flutter's Navigator Overlay is already a window-level host, so this does not depend on [MiuixScaffold]. Same params as `MiuixOverlayListPopup` but without `renderInRootScaffold`.
 
 #### MiuixOverlayCascadingListPopup
 
-A Scaffold-level two-level cascading list popup. Corresponds to Kotlin `OverlayCascadingListPopup`. When a `MiuixDropdownItem.children` is non-empty it becomes a submenu trigger; cascade depth is limited to 2. The main menu reuses ListPopup animations; the submenu uses 0.95 main-layer scale, half-strength dim and a spring expand to reproduce the cascade state.
+A Scaffold-level two-level cascading list popup. When a `MiuixDropdownItem.children` is non-empty it becomes a submenu trigger; cascade depth is limited to 2. The main menu reuses ListPopup animations; the submenu uses 0.95 main-layer scale, half-strength dim and a spring expand to reproduce the cascade state.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -647,11 +647,11 @@ A Scaffold-level two-level cascading list popup. Corresponds to Kotlin `OverlayC
 
 #### MiuixWindowCascadingListPopup
 
-A window-level two-level cascading list popup. Corresponds to Kotlin `WindowCascadingListPopup`. Same params as above, without `renderInRootScaffold`.
+A window-level two-level cascading list popup. Same params as above, without `renderInRootScaffold`.
 
 #### MiuixPopupLayoutPosition
 
-Which side of the anchor the popup sits on, and which horizontal edge it hugs. Corresponds to Kotlin `PopupLayoutPosition`.
+Which side of the anchor the popup sits on, and which horizontal edge it hugs.
 
 | Field | Type | Description |
 |---|---|---|
@@ -662,7 +662,7 @@ Which side of the anchor the popup sits on, and which horizontal edge it hugs. C
 
 #### MiuixListPopupLayoutInfo
 
-Full layout info needed by the popup host for positioning, scaling and reveal animation. Corresponds to Kotlin `ListPopupLayoutInfo`. Usually computed via [computeListPopupLayoutInfo] and passed into the host.
+Full layout info needed by the popup host for positioning, scaling and reveal animation. Usually computed via [computeListPopupLayoutInfo] and passed into the host.
 
 | Field | Type | Description |
 |---|---|---|
@@ -675,15 +675,15 @@ Full layout info needed by the popup host for positioning, scaling and reveal an
 
 #### `computeListPopupLayoutInfo(context, {alignment, popupPositionProvider, parentBounds, popupContentSize})` → `MiuixListPopupLayoutInfo`
 
-Computes the layout info needed by the popup host from the window safe area, anchor and measured content. Corresponds to Kotlin `computeListPopupLayoutInfo`. `parentBounds` must be in window coordinates; pass `Size.zero` on first build — a predicted origin is returned, then re-computed once `MiuixListPopupContent.onPopupContentSizeChange` reports back.
+Computes the layout info needed by the popup host from the window safe area, anchor and measured content. `parentBounds` must be in window coordinates; pass `Size.zero` on first build — a predicted origin is returned, then re-computed once `MiuixListPopupContent.onPopupContentSizeChange` reports back.
 
 #### `safeTransformOrigin(x, y)` → `Offset`
 
-Zeroes out NaN and negative values in a transform origin; positive values (including >1) are preserved. Corresponds to Kotlin `safeTransformOrigin`.
+Zeroes out NaN and negative values in a transform origin; positive values (including >1) are preserved.
 
 ### MiuixTooltipAnchorPosition
 
-Enum of preferred tooltip positions relative to the anchor. Corresponds to Kotlin `TooltipAnchorPosition`. Automatically flips to the opposite side when space is short; `start`/`end` are first resolved to `left`/`right` under RTL.
+Enum of preferred tooltip positions relative to the anchor. Automatically flips to the opposite side when space is short; `start`/`end` are first resolved to `left`/`right` under RTL.
 
 | Value | Description |
 |---|---|
@@ -696,7 +696,7 @@ Enum of preferred tooltip positions relative to the anchor. Corresponds to Kotli
 
 ### MiuixTooltipState
 
-Visibility state controller for tooltips, extending `ChangeNotifier`. Corresponds to Kotlin `TooltipState`. All instances share a single active slot, so at most one tooltip is visible at a time; non-persistent states auto-close after `MiuixTooltipDefaults.tooltipDuration` (1500ms).
+Visibility state controller for tooltips, extending `ChangeNotifier`. All instances share a single active slot, so at most one tooltip is visible at a time; non-persistent states auto-close after `MiuixTooltipDefaults.tooltipDuration` (1500ms).
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -711,7 +711,7 @@ Visibility state controller for tooltips, extending `ChangeNotifier`. Correspond
 
 ### MiuixTooltipScope
 
-Anchor info available when building tooltip content. Corresponds to Kotlin `TooltipScope`.
+Anchor info available when building tooltip content.
 
 | Field | Type | Description |
 |---|---|---|
@@ -720,7 +720,7 @@ Anchor info available when building tooltip content. Corresponds to Kotlin `Tool
 
 ### MiuixRichTooltipColors
 
-Color configuration for rich tooltips. Corresponds to Kotlin `RichTooltipColors`. All 4 fields are required.
+Color configuration for rich tooltips. All 4 fields are required.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -731,7 +731,7 @@ Color configuration for rich tooltips. Corresponds to Kotlin `RichTooltipColors`
 
 ### MiuixTooltipDefaults
 
-Default sizes, colors and animation durations for tooltips. Corresponds to Kotlin `TooltipDefaults` (private constructor, `static` fields only).
+Default sizes, colors and animation durations for tooltips (private constructor, `static` fields only).
 
 | Constant | Value | Description |
 |---|---|---|
@@ -828,7 +828,7 @@ A convenience wrapper for rich tooltips; creates a persistent state by default a
 
 ### MiuixSnackbarVisuals
 
-Visual data of a snackbar. Corresponds to Kotlin `SnackbarVisuals`.
+Visual data of a snackbar.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -839,7 +839,7 @@ Visual data of a snackbar. Corresponds to Kotlin `SnackbarVisuals`.
 
 ### MiuixSnackbarData
 
-Interaction data interface for snackbars. Corresponds to Kotlin `SnackbarData`.
+Interaction data interface for snackbars.
 
 | Method / Field | Type | Description |
 |---|---|---|
@@ -849,7 +849,7 @@ Interaction data interface for snackbars. Corresponds to Kotlin `SnackbarData`.
 
 ### MiuixSnackbarResult
 
-Result enum for snackbar completion. Corresponds to Kotlin `SnackbarResult`.
+Result enum for snackbar completion.
 
 | Value | Description |
 |---|---|
@@ -858,7 +858,7 @@ Result enum for snackbar completion. Corresponds to Kotlin `SnackbarResult`.
 
 ### MiuixSnackbarColors
 
-Color configuration for snackbar cards. Corresponds to Kotlin `SnackbarColors`. All 5 fields are required.
+Color configuration for snackbar cards. All 5 fields are required.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -870,7 +870,7 @@ Color configuration for snackbar cards. Corresponds to Kotlin `SnackbarColors`. 
 
 ### MiuixSnackbarDefaults
 
-Defaults for snackbars. Corresponds to Kotlin `SnackbarDefaults` (private constructor, `static` fields only).
+Defaults for snackbars (private constructor, `static` fields only).
 
 | Constant | Value | Description |
 |---|---|---|
@@ -886,7 +886,7 @@ Defaults for snackbars. Corresponds to Kotlin `SnackbarDefaults` (private constr
 
 ### MiuixSnackbarHostState
 
-State object for the Snackbar Host, extending `ChangeNotifier`. Corresponds to Kotlin `SnackbarHostState`. Holds the snackbar queue; each `showSnackbar` adds an independent snackbar at the bottom of the queue, so multiple messages can be visible at once. The returned Future completes on timeout, dismiss, swipe-dismiss or action performed.
+State object for the Snackbar Host, extending `ChangeNotifier`. Holds the snackbar queue; each `showSnackbar` adds an independent snackbar at the bottom of the queue, so multiple messages can be visible at once. The returned Future completes on timeout, dismiss, swipe-dismiss or action performed.
 
 | Method | Returns | Description |
 |---|---|---|
@@ -959,7 +959,7 @@ MiuixFloatingToolbar(
 
 ### MiuixFloatingToolbarDefaults
 
-Defaults for floating toolbars. Corresponds to Kotlin `FloatingToolbarDefaults` (private constructor, `static` fields only).
+Defaults for floating toolbars (private constructor, `static` fields only).
 
 | Constant | Value | Description |
 |---|---|---|
@@ -972,7 +972,7 @@ Defaults for floating toolbars. Corresponds to Kotlin `FloatingToolbarDefaults` 
 
 ### MiuixProgressIndicatorColors
 
-Color configuration for progress indicators. Corresponds to Kotlin `ProgressIndicatorColors`. All 3 fields are required.
+Color configuration for progress indicators. All 3 fields are required.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
@@ -987,7 +987,7 @@ Color configuration for progress indicators. Corresponds to Kotlin `ProgressIndi
 
 ### MiuixProgressIndicatorDefaults
 
-Defaults for progress indicators. Corresponds to Kotlin `ProgressIndicatorDefaults` (private constructor, `static` fields only).
+Defaults for progress indicators (private constructor, `static` fields only).
 
 | Constant | Value | Description |
 |---|---|---|
@@ -1029,7 +1029,7 @@ An infinite progress indicator with a track ring and an orbiting dot.
 
 | Param | Type | Default | Description |
 |---|---|---|---|
-| `color` | `Color` | `Color(0xFF888888)` | Color (matches Compose `Color.Gray`) |
+| `color` | `Color` | `Color(0xFF888888)` | Color |
 | `size` | `double` | `20` | Indicator size |
 | `strokeWidth` | `double` | `2` | Track ring width |
 | `orbitingDotSize` | `double` | `2` | Orbiting dot size |
@@ -1042,7 +1042,7 @@ const MiuixLinearProgressIndicator(progress: 0.6)
 
 ### MiuixRefreshState
 
-Enum of visual states for the pull-to-refresh indicator. Corresponds to Kotlin `RefreshState`.
+Enum of visual states for the pull-to-refresh indicator.
 
 | Value | Description |
 |---|---|
@@ -1054,11 +1054,11 @@ Enum of visual states for the pull-to-refresh indicator. Corresponds to Kotlin `
 
 ### MiuixPullToRefreshDefaults
 
-Defaults for pull-to-refresh. Corresponds to Kotlin `PullToRefreshDefaults` (private constructor, `static` fields only).
+Defaults for pull-to-refresh (private constructor, `static` fields only).
 
 | Constant | Value | Description |
 |---|---|---|
-| `color` | `Color(0xFF888888)` | Indicator color (matches Compose `Color.Gray`) |
+| `color` | `Color(0xFF888888)` | Indicator color |
 | `circleSize` | `20` | Indicator circle size |
 | `refreshThreshold` | `0.25` | Refresh trigger progress threshold (0–1) |
 | `refreshTexts` | `['Pull down to refresh', 'Release to refresh', 'Refreshing...', 'Refreshed successfully']` | Per-state hint texts |

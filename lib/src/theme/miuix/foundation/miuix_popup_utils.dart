@@ -247,6 +247,21 @@ abstract class MiuixPopupEntry extends ChangeNotifier {
   /// ChangeNotifier 上 addListener，抛 use-after-dispose。
   bool orphaned = false;
 
+  bool _disposed = false;
+
+  /// 是否已释放。
+  bool get isDisposed => _disposed;
+
+  /// dispose 幂等化：宿主 Layout State 与 HostedEntry 可能在同一帧被卸载
+  /// （例如承载弹层的路由整体 pop），两侧的 orphaned 判断会同时成立并各自
+  /// 调用 dispose——第二次调用直接忽略，避免 use-after-dispose 断言。
+  @override
+  void dispose() {
+    if (_disposed) return;
+    _disposed = true;
+    super.dispose();
+  }
+
   bool get isDialog;
 
   void updateBase({
@@ -885,6 +900,13 @@ class _MiuixHostedEntryState extends State<_MiuixHostedEntry>
   }
 
   void _visibilityChanged() {
+    // element 已摘下（整体销毁中，如 MiuixDialogLayout.dispose 里 dismiss()）：
+    // 跳过全部动画与 inherited 查找——_close() → _exitTransition 会读
+    // MediaQuery，deactivated 期间必抛 "deactivated ancestor" 断言。
+    if (_deactivated || !mounted) {
+      _lastTarget = widget.entry.controller.visible;
+      return;
+    }
     final newTarget = widget.entry.controller.visible;
     if (newTarget) {
       if ((_contentController.isAnimating || _dimController.isAnimating) &&

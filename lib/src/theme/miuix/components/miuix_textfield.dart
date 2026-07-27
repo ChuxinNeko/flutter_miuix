@@ -86,6 +86,7 @@ class MiuixTextField extends StatefulWidget {
     this.onSubmitted,
     this.obscureText = false,
     this.cursorColor,
+    this.autofocus = false,
   });
 
   final TextEditingController? controller;
@@ -117,6 +118,9 @@ class MiuixTextField extends StatefulWidget {
 
   final bool obscureText;
   final Color? cursorColor;
+
+  /// 挂载后是否自动聚焦并唤起键盘（常用于对话框内的输入框）。
+  final bool autofocus;
 
   @override
   State<MiuixTextField> createState() => _MiuixTextFieldState();
@@ -241,7 +245,17 @@ class _MiuixTextFieldState extends State<MiuixTextField>
         final borderColor = Color.lerp(
                 colors.backgroundColor, colors.borderColor, borderProgress)!;
 
-        return DecoratedBox(
+        return GestureDetector(
+          // 整块区域可点击聚焦（对应 Compose 版整个输入框可点）：背景、内边距、
+          // 非交互图标区域点击均唤起键盘。内部 TextField / trailing 按钮等更深层
+          // 的手势在竞技场中优先，不受影响。
+          behavior: HitTestBehavior.opaque,
+          onTap: widget.enabled
+              ? () {
+                  if (!_focusNode.hasFocus) _focusNode.requestFocus();
+                }
+              : null,
+          child: DecoratedBox(
           decoration: ShapeDecoration(
             color: colors.backgroundColor,
             shape: MiuixSquircleBorder(
@@ -286,6 +300,7 @@ class _MiuixTextFieldState extends State<MiuixTextField>
               ],
             ),
           ),
+          ),
         );
       },
     );
@@ -316,9 +331,12 @@ class _MiuixTextFieldState extends State<MiuixTextField>
             focusNode: _focusNode,
             enabled: widget.enabled,
             readOnly: widget.readOnly,
+            autofocus: widget.autofocus,
             style: textStyle,
             cursorColor: cursorColor,
             keyboardType: widget.keyboardType,
+            textInputAction: widget.textInputAction,
+            textCapitalization: widget.textCapitalization,
             obscureText: widget.obscureText,
             // obscureText 时 Flutter 强制要求 maxLines=1；singleLine 也强制单行。
             maxLines: (widget.singleLine || widget.obscureText)
@@ -326,6 +344,7 @@ class _MiuixTextFieldState extends State<MiuixTextField>
                 : widget.maxLines,
             minLines: widget.minLines,
             onChanged: widget.onChanged,
+            onSubmitted: widget.onSubmitted,
             decoration: const InputDecoration(
               isDense: true,
               contentPadding: EdgeInsets.zero,
@@ -336,16 +355,20 @@ class _MiuixTextFieldState extends State<MiuixTextField>
             ),
           ),
         ),
-        // 标签：Floating 时上移
+        // 标签：Floating 时上移。必须 IgnorePointer——RenderParagraph 参与命中
+        // 测试且 Stack 命中即止，否则占位/标签文字会吞掉点击，点在文字上
+        // 无法聚焦唤起键盘。
         if (_showLabel)
-          Transform.translate(
-            offset: Offset(0, -floatOffset),
-            child: Text(
-              widget.label,
-              style: TextStyle(
-                fontSize: labelFontSize,
-                color: labelColor,
-                fontWeight: FontWeight.w500,
+          IgnorePointer(
+            child: Transform.translate(
+              offset: Offset(0, -floatOffset),
+              child: Text(
+                widget.label,
+                style: TextStyle(
+                  fontSize: labelFontSize,
+                  color: labelColor,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
           ),

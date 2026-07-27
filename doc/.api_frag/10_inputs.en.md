@@ -39,7 +39,7 @@ MiuixTextField(
 
 ### MiuixTextFieldColors
 
-Color configuration for the text field. Corresponds to Kotlin `TextFieldColors`. All fields are required.
+Color configuration for the text field. All fields are required.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -49,7 +49,7 @@ Color configuration for the text field. Corresponds to Kotlin `TextFieldColors`.
 
 ### MiuixTextFieldDefaults
 
-Default values for the text field. Corresponds to Kotlin `TextFieldDefaults`. Private constructor; only `static` fields/methods.
+Default values for the text field. Private constructor; only `static` fields/methods.
 
 | Constant | Value | Description |
 |---|---|---|
@@ -84,7 +84,7 @@ MiuixSwitch(
 
 ### MiuixSwitchColors
 
-Color configuration for the switch. Corresponds to Kotlin `SwitchColors`. All fields are required.
+Color configuration for the switch. All fields are required.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -99,7 +99,7 @@ Color configuration for the switch. Corresponds to Kotlin `SwitchColors`. All fi
 
 ### MiuixSwitchDefaults
 
-Default values for the switch. Corresponds to Kotlin `SwitchDefaults`. Private constructor; only `static` fields/methods.
+Default values for the switch. Private constructor; only `static` fields/methods.
 
 | Constant | Value | Description |
 |---|---|---|
@@ -135,7 +135,7 @@ MiuixCheckbox(
 
 ### MiuixCheckboxColors
 
-Color configuration for the checkbox. Corresponds to Kotlin `CheckboxColors`. All fields are required.
+Color configuration for the checkbox. All fields are required.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -150,7 +150,7 @@ Color configuration for the checkbox. Corresponds to Kotlin `CheckboxColors`. Al
 
 ### MiuixCheckboxDefaults
 
-Default values for the checkbox. Corresponds to Kotlin `CheckboxDefaults`. Private constructor; only `static` fields/methods.
+Default values for the checkbox. Private constructor; only `static` fields/methods.
 
 | Constant | Value | Description |
 |---|---|---|
@@ -181,7 +181,7 @@ MiuixRadioButton(
 
 ### MiuixRadioButtonColors
 
-Color configuration for the radio button. Corresponds to Kotlin `RadioButtonColors`. All fields are required.
+Color configuration for the radio button. All fields are required.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -190,7 +190,7 @@ Color configuration for the radio button. Corresponds to Kotlin `RadioButtonColo
 
 ### MiuixRadioButtonDefaults
 
-Default values for the radio button. Corresponds to Kotlin `RadioButtonDefaults`. Private constructor; only `static` fields/methods.
+Default values for the radio button. Private constructor; only `static` fields/methods.
 
 | Constant | Value | Description |
 |---|---|---|
@@ -231,7 +231,7 @@ MiuixSlider(
 
 ### MiuixSliderColors
 
-Color configuration for the slider. Corresponds to Kotlin `SliderColors`. All fields are required. `MiuixVerticalSlider` and `MiuixRangeSlider` reuse this configuration.
+Color configuration for the slider. All fields are required. `MiuixVerticalSlider` and `MiuixRangeSlider` reuse this configuration.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -246,7 +246,7 @@ Color configuration for the slider. Corresponds to Kotlin `SliderColors`. All fi
 
 ### MiuixSliderDefaults
 
-Default values for the slider. Corresponds to Kotlin `SliderDefaults`. Private constructor; only `static` fields/methods.
+Default values for the slider. Private constructor; only `static` fields/methods.
 
 | Constant | Value | Description |
 |---|---|---|
@@ -365,7 +365,7 @@ MiuixSearchBar(
 
 ### MiuixSearchBarDefaults
 
-Default values for the search bar. Corresponds to Kotlin `SearchBarDefaults`. Private constructor; only `static` fields/methods.
+Default values for the search bar. Private constructor; only `static` fields/methods.
 
 | Constant | Value | Description |
 |---|---|---|
@@ -440,7 +440,7 @@ MiuixNumberPicker(
 
 ### MiuixNumberPickerColors
 
-Color configuration for the number picker. Corresponds to Kotlin `NumberPickerColors`. All fields are required.
+Color configuration for the number picker. All fields are required.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -451,7 +451,7 @@ Color configuration for the number picker. Corresponds to Kotlin `NumberPickerCo
 
 ### MiuixNumberPickerDefaults
 
-Default values for the number picker. Corresponds to Kotlin `NumberPickerDefaults`. Private constructor; only `static` fields/methods.
+Default values for the number picker. Private constructor; only `static` fields/methods.
 
 | Constant | Value | Description |
 |---|---|---|

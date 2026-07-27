@@ -46,7 +46,7 @@ MiuixTextButton('Cancel', onPressed: () {})
 
 ### MiuixButtonColors
 
-Button color configuration (Kotlin `ButtonColors`); all four fields are required.
+Button color configuration; all four fields are required.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -67,7 +67,7 @@ const MiuixButtonColors(
 
 ### MiuixButtonDefaults
 
-Private constructor; only `static` fields/methods. Maps to Kotlin `ButtonDefaults`.
+Private constructor; only `static` fields/methods.
 
 | Constant | Value | Description |
 |---|---|---|
@@ -106,7 +106,7 @@ MiuixIconButton(
 
 ### MiuixIconButtonDefaults
 
-Private constructor; only `static` fields/methods. Maps to Kotlin `IconButtonDefaults`.
+Private constructor; only `static` fields/methods.
 
 | Constant | Value | Description |
 |---|---|---|
@@ -123,7 +123,7 @@ A Miuix-style floating action button with a circular background and shadow; cont
 | onPressed | VoidCallback? | required | Tap callback; null disables the button |
 | child | Widget | required | Child widget |
 | enabled | bool | true | Whether the button is enabled |
-| shape | ShapeBorder | `StadiumBorder()` (maps to Kotlin `CircleShape`) | Shape |
+| shape | ShapeBorder | `StadiumBorder()` | Shape |
 | containerColor | Color? | null (defaults to `colors.primary`) | Container background color |
 | shadowElevation | double | 4 | Shadow elevation (logical pixels) |
 | minWidth | double | 60 | Minimum width |
@@ -139,14 +139,14 @@ MiuixFloatingActionButton(
 
 ### MiuixFloatingActionButtonDefaults
 
-Private constructor; only `static` fields/methods. Maps to Kotlin `FloatingActionButtonDefaults`.
+Private constructor; only `static` fields/methods.
 
 | Constant | Value | Description |
 |---|---|---|
 | minWidth | `60` | Default minimum width |
 | minHeight | `60` | Default minimum height |
 | shadowElevation | `4` | Default shadow elevation |
-| shape | `StadiumBorder()` | Default shape; maps to Kotlin `CircleShape` (a circle under square bounds, a capsule under rectangular bounds) |
+| shape | `StadiumBorder()` | Default shape; a circle under square bounds, a capsule under rectangular bounds |
 
 ### MiuixCard
 
@@ -172,7 +172,7 @@ const MiuixCard(
 
 ### MiuixCardColors
 
-Card color configuration (Kotlin `CardColors`); both fields are required.
+Card color configuration; both fields are required.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -189,7 +189,7 @@ const MiuixCardColors(
 
 ### MiuixCardDefaults
 
-Private constructor; only `static` fields/methods. Maps to Kotlin `CardDefaults`.
+Private constructor; only `static` fields/methods.
 
 | Constant | Value | Description |
 |---|---|---|
@@ -241,7 +241,7 @@ const MiuixBadge(child: MiuixText('9'))
 
 ### MiuixBadgeDefaults
 
-Private constructor; only `static` fields/methods. Maps to Kotlin `BadgeDefaults`.
+Private constructor; only `static` fields/methods.
 
 | Constant | Value | Description |
 |---|---|---|
@@ -302,7 +302,7 @@ const SizedBox(height: 24, child: MiuixVerticalDivider())
 
 ### MiuixDividerDefaults
 
-Private constructor; only `static` fields/methods. Maps to Kotlin `DividerDefaults`.
+Private constructor; only `static` fields/methods.
 
 | Constant | Value | Description |
 |---|---|---|
@@ -359,7 +359,7 @@ MiuixBasicComponent(
 
 ### MiuixBasicComponentRole
 
-Accessibility role enum for BasicComponent; maps to Compose `Role`.
+Accessibility role enum for BasicComponent.
 
 | Value | Description |
 |---|---|
@@ -372,7 +372,7 @@ Accessibility role enum for BasicComponent; maps to Compose `Role`.
 
 ### MiuixBasicComponentColors
 
-BasicComponent color configuration (Kotlin `BasicComponentColors`); both fields are required.
+BasicComponent color configuration; both fields are required.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -389,7 +389,7 @@ const MiuixBasicComponentColors(
 
 ### MiuixBasicComponentDefaults
 
-Private constructor; only `static` fields/methods. Maps to Kotlin `BasicComponentDefaults`.
+Private constructor; only `static` fields/methods.
 
 | Constant | Value | Description |
 |---|---|---|
@@ -446,9 +446,9 @@ MiuixIcon(vector: MiuixIcons.extended.byName('favoritesFill')!, size: 24)
 
 ### MiuixIconDefaults
 
-Private constructor; only `static` fields/methods. Maps to `DefaultIconSizeModifier` in Kotlin `Icon.kt`.
+Private constructor; only `static` fields/methods.
 
 | Constant | Value | Description |
 |---|---|---|
-| defaultSize | `24` | Default icon size (logical pixels); maps to Kotlin `Modifier.size(24.dp)` |
+| defaultSize | `24` | Default icon size (logical pixels) |
 

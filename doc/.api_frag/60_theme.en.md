@@ -4,7 +4,7 @@ This chapter covers flutter_miuix's theming infrastructure: [MiuixTheme]/[MiuixS
 
 ### MiuixThemeData
 
-Immutable Miuix theme data aggregating [MiuixColors], [MiuixTextStyles] and [Brightness]. Corresponds to Kotlin `MiuixTheme`.
+Immutable Miuix theme data aggregating [MiuixColors], [MiuixTextStyles] and [Brightness].
 
 | Field / Method | Type | Description |
 |---|---|---|
@@ -25,7 +25,7 @@ final data = MiuixThemeData.light(
 
 ### MiuixTheme
 
-An [InheritedWidget] that provides [MiuixThemeData] to a subtree. Corresponds to Kotlin `MiuixTheme { ... }`.
+An [InheritedWidget] that provides [MiuixThemeData] to a subtree.
 
 | Parameter / Method | Type | Default | Description |
 |---|---|---|---|
@@ -44,7 +44,7 @@ MiuixTheme(
 
 ### MiuixSystemTheme
 
-A convenience widget that applies light/dark theme automatically based on `MediaQuery.platformBrightnessOf`. Corresponds to Kotlin `ThemeController(ColorSchemeMode.System)`.
+A convenience widget that applies light/dark theme automatically based on `MediaQuery.platformBrightnessOf`.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -68,7 +68,7 @@ MiuixSystemTheme(
 
 ### MiuixColorSchemeMode
 
-Color scheme mode enum. Corresponds to Kotlin `ColorSchemeMode`.
+Color scheme mode enum.
 
 | Value | Description |
 |---|---|
@@ -83,7 +83,7 @@ Color scheme mode enum. Corresponds to Kotlin `ColorSchemeMode`.
 
 ### MiuixThemeController
 
-Full theme controller that resolves colors by [MiuixColorSchemeMode] and provides [MiuixTheme] to the subtree. Corresponds to Kotlin `ThemeController`.
+Full theme controller that resolves colors by [MiuixColorSchemeMode] and provides [MiuixTheme] to the subtree.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -112,7 +112,7 @@ MiuixThemeController(
 
 ### MiuixColors
 
-Miuix color scheme. Corresponds to Kotlin `Colors`. All fields are non-nullable and can be partially overridden via [copy]; light/dark defaults are provided by [lightColorScheme] / [darkColorScheme], matching the HyperOS specification.
+Miuix color scheme. All fields are non-nullable and can be partially overridden via [copy]; light/dark defaults are provided by [lightColorScheme] / [darkColorScheme], matching the HyperOS specification.
 
 #### Primary semantic roles
 
@@ -172,7 +172,7 @@ final colors = lightColorScheme().copy(
 
 ### MiuixTextStyles
 
-Miuix text style set. Corresponds to Kotlin `TextStyles`. Only font size / weight / line height are stored; the runtime color comes from [MiuixTheme]'s `onBackground`.
+Miuix text style set. Only font size / weight / line height are stored; the runtime color comes from [MiuixTheme]'s `onBackground`.
 
 | Field | Size | Height/Weight | Usage |
 |---|---|---|---|
@@ -203,7 +203,7 @@ Returns the default style set matching the Miuix specification (all values in th
 
 #### MiuixThemeColorSpec
 
-Material color spec version. Corresponds to Kotlin `ThemeColorSpec`. The current `material_color_utilities` 0.13.0 only implements SPEC_2021; `spec2025` is semantically equivalent to requesting 2025 on supported palettes but actually generates via 2021 (matching the original library's "fall back when unsupported" path).
+Material color spec version. The current `material_color_utilities` 0.13.0 only implements SPEC_2021; `spec2025` is semantically equivalent to requesting 2025 on supported palettes but actually generates via 2021 (matching the original library's "fall back when unsupported" path).
 
 | Value | Description |
 |---|---|
@@ -212,7 +212,7 @@ Material color spec version. Corresponds to Kotlin `ThemeColorSpec`. The current
 
 #### MiuixThemePaletteStyle
 
-Monet dynamic color palette style. Corresponds to Kotlin `ThemePaletteStyle`.
+Monet dynamic color palette style.
 
 | Value | DynamicScheme |
 |---|---|
@@ -228,7 +228,7 @@ Monet dynamic color palette style. Corresponds to Kotlin `ThemePaletteStyle`.
 
 #### `miuixColorsFromSeed({seed, colorSpec, paletteStyle, dark})`
 
-Generates a full Miuix color set from a seed color. Corresponds to Kotlin `colorsFromSeed`.
+Generates a full Miuix color set from a seed color.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -241,16 +241,16 @@ Returns [MiuixColors]. Flow: select the `DynamicScheme` by `paletteStyle` → ex
 
 #### `miuixMonetSystemColors({dark})`
 
-Default Monet colors: fixed seed `0xFF6750A4` + TonalSpot + Spec2021. Corresponds to Kotlin `monetSystemColors`, and is the `platformDynamicColors` fallback on non-Android platforms.
+Default Monet colors: fixed seed `0xFF6750A4` + TonalSpot + Spec2021. Also the `platformDynamicColors` fallback on non-Android platforms.
 
 #### `miuixPlatformDynamicColors({dark})` → `Future<MiuixColors>`
 
-Platform dynamic color. Corresponds to Kotlin `expect fun platformDynamicColors(dark)`.
+Platform dynamic color.
 
 - Android (and supported platforms): reads the system wallpaper/theme seed via `DynamicColorPlugin.getAccentColor`; if non-null, generates via [miuixColorsFromSeed] (TonalSpot + Spec2021).
 - Other platforms or read failures: falls back to [miuixMonetSystemColors] (fixed seed).
 
-> Unlike Compose's synchronous `@Composable`, the platform channel is **asynchronous**, so this function returns a `Future`. The UI layer ([MiuixThemeController]) uses [miuixMonetSystemColors] as a placeholder until the result is ready.
+> The platform channel is **asynchronous**, so this function returns a `Future`. The UI layer ([MiuixThemeController]) uses [miuixMonetSystemColors] as a placeholder until the result is ready.
 
 #### MiuixMonetRoles
 
@@ -260,7 +260,7 @@ Main roles: `primary`, `onPrimary`, `primaryFixed`, `onPrimaryFixed`, `error`, `
 
 #### `mapMd3RolesToMiuixColors(roles, {dark})`
 
-Maps MD3 (Monet) roles to Miuix [MiuixColors]. Corresponds to Kotlin `mapMd3RolesToMiuixColorsCommon`. Replicates the original field-by-field mapping; alpha-bearing disabled/slider/onSurfaceSecondary colors are composited onto their backgrounds via `ensureOpaqueOver` to ensure fully opaque results.
+Maps MD3 (Monet) roles to Miuix [MiuixColors]. Replicates the original field-by-field mapping; alpha-bearing disabled/slider/onSurfaceSecondary colors are composited onto their backgrounds via `ensureOpaqueOver` to ensure fully opaque results.
 
 ### MiuixMotion
 
@@ -276,7 +276,7 @@ A collection of commonly used Miuix motion curves and springs, grouped by HyperO
 
 #### `folmeSpring({damping, response})` → `SpringDescription`
 
-Constructs a [SpringDescription] from damping ratio [damping] and response time [response] (seconds). Corresponds to Kotlin `folmeSpring`: `stiffness = (2π/response)²`.
+Constructs a [SpringDescription] from damping ratio [damping] and response time [response] (seconds): `stiffness = (2π/response)²`.
 
 | Parameter | Type | Description |
 |---|---|---|
@@ -285,7 +285,7 @@ Constructs a [SpringDescription] from damping ratio [damping] and response time 
 
 #### AccelerateEasing
 
-Accelerate curve. Corresponds to Kotlin `AccelerateEasing`. With `factor=1`, `y=x²`; larger `factor` exaggerates ease-in.
+Accelerate curve. With `factor=1`, `y=x²`; larger `factor` exaggerates ease-in.
 
 ```dart
 const curve = AccelerateEasing(1.0);
@@ -293,11 +293,11 @@ const curve = AccelerateEasing(1.0);
 
 #### DecelerateEasing
 
-Decelerate curve. Corresponds to Kotlin `DecelerateEasing`. With `factor=1`, `1-(1-x)²`; larger `factor` exaggerates ease-out.
+Decelerate curve. With `factor=1`, `1-(1-x)²`; larger `factor` exaggerates ease-out.
 
 #### SinOutEasing
 
-Sine ease-out curve. Corresponds to Kotlin `SinOutEasing`: `sin(t·π/2)`.
+Sine ease-out curve: `sin(t·π/2)`.
 
 **Full motion example:**
 ```dart

@@ -52,9 +52,13 @@ class MiuixIconButton extends StatelessWidget {
     final shape = MiuixSquircleBorder(cornerRadius: cornerRadius);
     final radius = BorderRadius.circular(cornerRadius);
 
+    // widthFactor/heightFactor=1：Center 贴内容尺寸（再由 ConstrainedBox 保证
+    // 最小 40）。对应 Compose `defaultMinSize + contentAlignment=Center`。
+    // 不设 factor 时 Center 会在有界宽松约束下撑满可用空间——顶栏测量层就
+    // 曾把导航图标测成整屏宽，导致折叠标题避让到屏幕外。
     Widget content = ConstrainedBox(
       constraints: BoxConstraints(minWidth: minWidth, minHeight: minHeight),
-      child: Center(child: child),
+      child: Center(widthFactor: 1, heightFactor: 1, child: child),
     );
 
     if (backgroundColor != null) {

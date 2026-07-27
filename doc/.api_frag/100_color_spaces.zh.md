@@ -2,7 +2,7 @@
 
 本章涵盖 flutter_miuix 的颜色空间抽象：[Hsv]（传统 HSV）、[OkLab]（感知均匀 Lab）、[OkLch]（感知均匀 LCH）、[OkHsv]（基于 OkLab 的 HSV）以及 [Color] 上的转换扩展 [MiuixColorSpaceExtensions]。
 
-源自 compose-miuix-ui/miuix 的 `color/space/{Hsv,OkLab,OkLch,OkHsv}.kt` 与 `color/api/Extensions.kt`。所有颜色空间类均为 `@immutable`，并实现 `==` / `hashCode`，可直接用于 `ValueListenable`、`AnimatedBuilder` 等需要值相等的场景。
+所有颜色空间类均为 `@immutable`，并实现 `==` / `hashCode`，可直接用于 `ValueListenable`、`AnimatedBuilder` 等需要值相等的场景。
 
 ### 设计概览
 
@@ -13,13 +13,13 @@
 | [OkLch] | l/c/h | l/c: `[0, 100]`；h: `[0, 360]` 度 | 感知均匀色度色相，调色板生成 |
 | [OkHsv] | h/s/v | h: `[0, 360]` 度；s/v: `[0, 100]` 百分比 | 感知均匀 HSV，取色器首选 |
 
-> **归一化区间**：所有类对外暴露的是"便于用户理解的归一化区间"（明度/饱和度/色度用 0..100，色相用 0..360 度），与 Kotlin 源一致；内部再按各空间的要求缩放到算法区间（如 OkLab 的 a/b 内部为 `[-0.4, 0.4]`、OkLch 的 c 内部为 `[0, 0.4]`）。
+> **归一化区间**：所有类对外暴露的是"便于用户理解的归一化区间"（明度/饱和度/色度用 0..100，色相用 0..360 度）；内部再按各空间的要求缩放到算法区间（如 OkLab 的 a/b 内部为 `[-0.4, 0.4]`、OkLch 的 c 内部为 `[0, 0.4]`）。
 
 > **色域裁剪**：所有 `toColor` 在映射回 sRGB 时都做色域裁剪，确保输出颜色各通道在 `[0, 1]` 内。OkLab/OkLch 的 a/b/c 还会先裁剪到安全范围，避免色域外的不可预测颜色。
 
 ### Hsv
 
-传统 HSV 颜色空间。对应 Kotlin `Hsv`。直接复刻 Compose `Color.hsv` 的 `hsvToRgbComponent` 算法，**保留完整浮点精度**而非 8 位取整（与 Compose 行为一致）。
+传统 HSV 颜色空间。**保留完整浮点精度**而非 8 位取整。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -29,7 +29,7 @@
 
 | 方法 / 字段 | 返回 | 说明 |
 |---|---|---|
-| `toColor([alpha = 1.0])` | `Color` | 转 sRGB；色相规范化到 `[0, 360)`，s/v 裁剪到 `[0, 1]`，按 Compose 算法逐分量求值 |
+| `toColor([alpha = 1.0])` | `Color` | 转 sRGB；色相规范化到 `[0, 360)`，s/v 裁剪到 `[0, 1]`，逐分量求值 |
 | `copyWith({h, s, v})` | `Hsv` | 替换指定分量后的副本 |
 | `h` / `s` / `v` | `double` | 各分量 |
 
@@ -41,7 +41,7 @@ Hsv(0, 100, 100).copyWith(h: 240).toColor(); // 红→蓝
 
 ### OkLab
 
-感知均匀 Lab 颜色空间。对应 Kotlin `OkLab`。明度 l 与 a（绿-红轴）、b（蓝-黄轴）解耦，相邻数值差对应近似相等的感知色差。
+感知均匀 Lab 颜色空间。明度 l 与 a（绿-红轴）、b（蓝-黄轴）解耦，相邻数值差对应近似相等的感知色差。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -66,7 +66,7 @@ const OkLab(60, 30, 10).toColor();
 
 ### OkLch
 
-感知均匀 LCH 颜色空间（OkLab 的极坐标形式）。对应 Kotlin `OkLch`。色度 c 与色相 h 解耦，调色板生成时按固定 l、c 扫描 h 可得感知均匀的色相环。
+感知均匀 LCH 颜色空间（OkLab 的极坐标形式）。色度 c 与色相 h 解耦，调色板生成时按固定 l、c 扫描 h 可得感知均匀的色相环。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -92,7 +92,7 @@ final dimmer = lab.copyWith(l: (lab.l - 10).clamp(0, 100)).toColor();
 
 ### OkHsv
 
-基于 OkLab 的 HSV 颜色空间。对应 Kotlin `OkHsv`。与 [Hsv] 的 API 形状一致，但色相、饱和度、明度均在感知均匀空间下定义，调色时各方向色差更均衡。
+基于 OkLab 的 HSV 颜色空间。与 [Hsv] 的 API 形状一致，但色相、饱和度、明度均在感知均匀空间下定义，调色时各方向色差更均衡。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -102,11 +102,11 @@ final dimmer = lab.copyWith(l: (lab.l - 10).clamp(0, 100)).toColor();
 
 | 方法 / 字段 | 返回 | 说明 |
 |---|---|---|
-| `toColor([alpha = 1.0])` | `Color` | 转 sRGB；与 Kotlin 源一致，**不对 h/s/v 或 alpha 做额外裁剪**，原样传入底层算法 |
+| `toColor([alpha = 1.0])` | `Color` | 转 sRGB；**不对 h/s/v 或 alpha 做额外裁剪**，原样传入底层算法 |
 | `copyWith({h, s, v})` | `OkHsv` | 替换指定分量后的副本 |
 | `h` / `s` / `v` | `double` | 各分量 |
 
-> 与 [Hsv] 的 `toColor` 不同，[OkHsv] 的 `toColor` 不主动把 s/v 裁剪到 `[0, 1]`，调用方需自行保证输入合法（与 Kotlin 行为对齐）。
+> 与 [Hsv] 的 `toColor` 不同，[OkHsv] 的 `toColor` 不主动把 s/v 裁剪到 `[0, 1]`，调用方需自行保证输入合法。
 
 **示例：**
 ```dart
@@ -116,7 +116,7 @@ OkHsv(0, 0, 100).copyWith(h: 180).toColor();
 
 ### MiuixColorSpaceExtensions
 
-`Color` 上的颜色空间转换扩展。对应 Kotlin `color/api/Extensions.kt`。把当前 sRGB [Color] 转换为归一化区间的 [OkLab] / [Hsv] / [OkLch]。
+`Color` 上的颜色空间转换扩展。把当前 sRGB [Color] 转换为归一化区间的 [OkLab] / [Hsv] / [OkLch]。
 
 ```dart
 extension MiuixColorSpaceExtensions on Color {
@@ -167,5 +167,5 @@ final colors = analogousPalette(const Color(0xFF3482FF));
 ### 内部实现说明
 
 - 所有 `toColor` 的底层算法由内部的 `Transforms` 类提供（RGB ↔ OkLab、OkLCH、HSV、OkHSV，含色域裁剪与缓存）。该类**未在 `package:flutter_miuix/miuix.dart` 中导出**，属于内部实现，调用方应通过本节的 4 个颜色空间类与 [MiuixColorSpaceExtensions] 使用。
-- OkLab/OkLCH 的数学源自 Björn Ottosson 的原始论文；OkHSV 的色域裁剪采用 Brent Burmeister 的 cusp 算法，与 Kotlin 源 1:1 对齐。
+- OkLab/OkLCH 的数学源自 Björn Ottosson 的原始论文；OkHSV 的色域裁剪采用 Brent Burmeister 的 cusp 算法。
 - `generateOkLchHueColors` 等批量生成函数未公开导出；如需色相环，请按上例用 `List.generate` + `OkLch.copyWith` 自行生成。

@@ -6,7 +6,7 @@
 
 #### MiuixPopupTransitionBuilder
 
-弹窗内容过渡的构建器类型别名。对应 Kotlin `PopupTransitionBuilder`。`MiuixPopupTransition.builder` 即此类型；接收 `0..1` 的进度（0 表示完全隐藏，1 表示完全显示）、子节点，返回过渡后的 Widget。
+弹窗内容过渡的构建器类型别名。`MiuixPopupTransition.builder` 即此类型；接收 `0..1` 的进度（0 表示完全隐藏，1 表示完全显示）、子节点，返回过渡后的 Widget。
 
 **签名：**
 
@@ -26,7 +26,7 @@ typedef MiuixPopupTransitionBuilder = Widget Function(
 
 #### MiuixPopupController
 
-控制一个对话框或普通弹窗的显示状态。继承 `ChangeNotifier` 并实现 `ValueListenable<bool>`。对应 Kotlin `PopupController`。
+控制一个对话框或普通弹窗的显示状态。继承 `ChangeNotifier` 并实现 `ValueListenable<bool>`。
 
 | 字段 / 方法 | 类型 | 说明 |
 |---|---|---|
@@ -42,7 +42,7 @@ typedef MiuixPopupTransitionBuilder = Widget Function(
 
 #### MiuixPopupTransition
 
-描述一次进入或退出过渡。对应 Kotlin `PopupTransition`。
+描述一次进入或退出过渡。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -64,7 +64,7 @@ MiuixPopupTransition.fade(
 
 #### MiuixPopupDefaults
 
-Kotlin 默认过渡的 Flutter 等价定义（`MiuixPopupDefaults._()` 私有构造，全部为 `static final` 字段）。
+默认过渡的定义（`MiuixPopupDefaults._()` 私有构造，全部为 `static final` 字段）。
 
 | 字段 | 时长 / 曲线 | 用途 |
 |---|---|---|
@@ -199,7 +199,7 @@ MiuixPopupHost(
 
 #### MiuixPopupUtils
 
-与 Kotlin 静态工具类一致的便捷入口（`MiuixPopupUtils._()` 私有构造，仅暴露 `static` 方法）。
+静态工具类式的便捷入口（`MiuixPopupUtils._()` 私有构造，仅暴露 `static` 方法）。
 
 | 方法 | 等价于 |
 |---|---|
@@ -224,7 +224,7 @@ HyperOS 标志性的平滑圆角，用三次贝塞尔（控制比例 `0.643`）�
 
 #### `addSquircleRect(path, width, height, cornerRadius, {extension, enabled})`
 
-向 [path] 追加一个 squircle 圆角矩形。对应 Kotlin `Path.addSquircleRect`。
+向 [path] 追加一个 squircle 圆角矩形。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -260,7 +260,7 @@ Container(
 
 ### MiuixPressable
 
-Miuix 风格的可按压容器。在子节点之上叠加一层半透明遮罩，按下/悬停/聚焦时通过 spring 驱动 alpha 变化，可选叠加 sink（下沉缩放）或 tilt（3D 倾斜）反馈。合并自 Kotlin 端 `MiuixIndication` + `SinkFeedback` / `TiltFeedback`。
+Miuix 风格的可按压容器。在子节点之上叠加一层半透明遮罩，按下/悬停/聚焦时通过 spring 驱动 alpha 变化，可选叠加 sink（下沉缩放）或 tilt（3D 倾斜）反馈。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -283,7 +283,7 @@ Miuix 风格的可按压容器。在子节点之上叠加一层半透明遮罩�
 
 #### MiuixPressFeedbackType
 
-按压视觉反馈类型。对应 Kotlin `PressFeedbackType`。
+按压视觉反馈类型。
 
 | 值 | 说明 |
 |---|---|
@@ -308,7 +308,7 @@ MiuixPressable(
 
 ### MiuixContentColor
 
-向子树传递一个默认的"内容色"（文字/图标色），对应 Compose 的 `LocalContentColor`。由 `MiuixSurface` / `MiuixCard` / `MiuixButton` 等容器向下传递，供 `MiuixText` / `MiuixIcon` 等子组件默认取色。
+向子树传递一个默认的"内容色"（文字/图标色）。由 `MiuixSurface` / `MiuixCard` / `MiuixButton` 等容器向下传递，供 `MiuixText` / `MiuixIcon` 等子组件默认取色。
 
 | 参数 / 方法 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -318,7 +318,7 @@ MiuixPressable(
 
 ### 弹簧与阻尼工具
 
-源自 Kotlin `SpringMath` / `SpringEngine` / `SpringOperator`。
+Folme 弹簧动效的底层数学与逐帧引擎。
 
 #### MiuixSpringDefaults
 
@@ -333,15 +333,15 @@ MiuixPressable(
 
 #### `obtainDampingDistance(normalizedInput, range)` → `double`
 
-对应 Kotlin `SpringMath.obtainDampingDistance`。阻尼公式为 `x - x² + x³/3`；`normalizedInput` 先夹取到 `0..1`，乘 `range` 得阻尼位移。
+阻尼公式为 `x - x² + x³/3`；`normalizedInput` 先夹取到 `0..1`，乘 `range` 得阻尼位移。
 
 #### `obtainTouchDistance(currentPixelOffset, range)` → `double`
 
-对应 Kotlin `SpringMath.obtainTouchDistance`，把阻尼位移还原为触摸位移。还原公式为 `range - range^(2/3) * (range - 3*offset)^(1/3)`。
+把阻尼位移还原为触摸位移。还原公式为 `range - range^(2/3) * (range - 3*offset)^(1/3)`。
 
 #### MiuixSpringOperator
 
-对应 Kotlin `SpringOperator`，以显式欧拉法计算下一帧速度。
+以显式欧拉法计算下一帧速度。
 
 | 参数 | 说明 |
 |---|---|
@@ -352,7 +352,7 @@ MiuixPressable(
 
 #### MiuixSpringEngine
 
-对应 Kotlin `SpringEngine` 的临界阻尼逐帧引擎。可手动 `start`/`step`，也可通过 `runSettleAnimation` 用 Flutter `Ticker` 驱动。
+临界阻尼逐帧引擎。可手动 `start`/`step`，也可通过 `runSettleAnimation` 用 Flutter `Ticker` 驱动。
 
 | 方法 | 说明 |
 |---|---|
@@ -374,11 +374,9 @@ MiuixPressable(
 
 #### MiuixRuntimeShader
 
-运行时着色器的跨平台封装。对应 Kotlin `interface RuntimeShader`。
+运行时着色器的跨平台封装。
 
-**与原版的关键差异**：
-- Kotlin 侧从**运行时字符串**编译 AGSL/SkSL，uniform 按**名字**设置（`setFloatUniform("name", ...)`）。
-- Flutter 的 `FragmentShader` 只能由**预编译的 `.frag` 资源**（经 impellerc）产生，uniform 按**下标**设置（`setFloat(index, value)`）。本封装通过 `uniformLayout`（uniform 名 → 起始 float 下标）把名字翻译成下标，保留 Kotlin 端"按名设 uniform"的调用风格。
+Flutter 的 `FragmentShader` 只能由**预编译的 `.frag` 资源**（经 impellerc）产生，uniform 按**下标**设置（`setFloat(index, value)`）。本封装通过 `uniformLayout`（uniform 名 → 起始 float 下标）把名字翻译成下标，从而支持"按名设 uniform"的调用风格。
 
 | 参数 / 字段 | 类型 | 说明 |
 |---|---|---|
@@ -387,22 +385,22 @@ MiuixPressable(
 | `uniformLayout` | `Map<String, int>` | uniform 名 → 起始 float 下标 |
 | `samplerLayout` | `Map<String, int>` | sampler 名 → sampler 下标 |
 
-| 方法 | 对应 Kotlin |
+| 方法 | 说明 |
 |---|---|
-| `setFloatUniform(name, value)` | `setFloatUniform(name, value)` |
-| `setFloat2Uniform(name, v1, v2)` | `setFloatUniform(name, v1, v2)` |
-| `setFloat3Uniform(name, v1, v2, v3)` | `setFloatUniform(name, v1, v2, v3)` |
-| `setFloat4Uniform(name, v1, v2, v3, v4)` | `setFloatUniform(name, v1, v2, v3, v4)` |
-| `setFloatArrayUniform(name, values)` | `setFloatUniform(name, FloatArray)` |
-| `setColorUniform(name, color)` | `setColorUniform(name, Color)`（RGBA 0..1） |
-| `setInputShader(name, image)` | `setInputShader(name, shader)`（传 `ui.Image`） |
+| `setFloatUniform(name, value)` | 设置单个 float uniform |
+| `setFloat2Uniform(name, v1, v2)` | 设置 vec2 uniform |
+| `setFloat3Uniform(name, v1, v2, v3)` | 设置 vec3 uniform |
+| `setFloat4Uniform(name, v1, v2, v3, v4)` | 设置 vec4 uniform |
+| `setFloatArrayUniform(name, values)` | 设置 float 数组 uniform |
+| `setColorUniform(name, color)` | 设置颜色 uniform（RGBA 0..1） |
+| `setInputShader(name, image)` | 设置采样器（传 `ui.Image`） |
 | `dispose()` | 释放底层 `FragmentShader` |
 
 未在 `uniformLayout` / `samplerLayout` 登记的名字会抛 `ArgumentError`。
 
 ### MiuixScrollEndHaptic
 
-当可滚动内容被**惯性甩到**起始/末尾边界时触发一次触觉反馈。对应 Kotlin `Modifier.scrollEndHaptic()`。
+当可滚动内容被**惯性甩到**起始/末尾边界时触发一次触觉反馈。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -431,7 +429,7 @@ MiuixScrollEndHaptic(
 
 #### MiuixVectorPath
 
-单条矢量路径的绘制描述。对应 Compose `ImageVector` 里的一个 `path { ... }` 节点。
+单条矢量路径的绘制描述。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -445,7 +443,7 @@ MiuixScrollEndHaptic(
 
 #### MiuixVectorIcon
 
-矢量图标。对应 Compose 的 `ImageVector`。
+矢量图标。
 
 | 参数 | 类型 | 说明 |
 |---|---|---|
@@ -461,7 +459,7 @@ MiuixScrollEndHaptic(
 | 参数 | 类型 | 说明 |
 |---|---|---|
 | `icon` | `MiuixVectorIcon` | 矢量图标 |
-| `tint` | `Color?` | 上色色；非空时以 `ColorFilter.mode(tint, BlendMode.srcIn)` 对整幅矢量上色，与 Compose `ColorFilter.tint` 一致；为空时按矢量原始颜色绘制（多色/不上色场景） |
+| `tint` | `Color?` | 上色色；非空时以 `ColorFilter.mode(tint, BlendMode.srcIn)` 对整幅矢量上色；为空时按矢量原始颜色绘制（多色/不上色场景） |
 
 #### `miuixEvenOddPath()` → `Path`
 
@@ -483,4 +481,4 @@ MiuixScrollEndHaptic(
 
 数字以空白分隔，命令字母单独成 token。`fillType` 默认 `nonZero`。
 
-> Compose 的 `HorizontalTo` / `VerticalTo` 在生成阶段已被展开为完整的 `L x y`，因此无需处理 H/V。
+> `HorizontalTo` / `VerticalTo` 在生成阶段已被展开为完整的 `L x y`，因此无需处理 H/V。

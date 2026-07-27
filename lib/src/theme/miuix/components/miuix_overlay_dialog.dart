@@ -4,6 +4,8 @@
 // 遮罩、点击外部关闭及 Miuix 进入/退出过渡。
 // SPDX-License-Identifier: Apache-2.0
 
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../foundation/miuix_popup_utils.dart';
@@ -178,6 +180,10 @@ class _MiuixDialogContent extends StatelessWidget {
     final EdgeInsets system = defaultWindowInsetsPadding
         ? MediaQuery.paddingOf(context)
         : EdgeInsets.zero;
+    // 输入法（键盘）高度：面板需随键盘上移，否则底部锚定的对话框会被键盘
+    // 遮挡（对应 Compose 版 imePadding）。键盘弹出时其高度已覆盖底部安全区，
+    // 取两者较大值避免重复留白。
+    final double imeBottom = MediaQuery.viewInsetsOf(context).bottom;
     final double radius =
         cornerRadius ?? (isLarge ? MiuixDialogDefaults.cornerRadius : 32);
 
@@ -262,12 +268,15 @@ class _MiuixDialogContent extends StatelessWidget {
           button: true,
           label: 'Dismiss',
           onTap: onDismissRequest,
-          child: Padding(
+          // AnimatedPadding：键盘高度变化逐帧上报时平滑跟随，避免跳变。
+          child: AnimatedPadding(
+            duration: const Duration(milliseconds: 150),
+            curve: Curves.easeOut,
             padding: EdgeInsets.fromLTRB(
               outsideMargin.width,
               system.top,
               outsideMargin.width,
-              system.bottom + outsideMargin.height,
+              math.max(system.bottom, imeBottom) + outsideMargin.height,
             ),
             child: Align(
               alignment: isLarge ? Alignment.center : Alignment.bottomCenter,

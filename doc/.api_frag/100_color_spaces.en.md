@@ -2,7 +2,7 @@
 
 This chapter covers flutter_miuix's color space abstractions: [Hsv] (traditional HSV), [OkLab] (perceptually uniform Lab), [OkLch] (perceptually uniform LCH), [OkHsv] (OkLab-based HSV), and the [Color] conversion extension [MiuixColorSpaceExtensions].
 
-Ported from compose-miuix-ui/miuix's `color/space/{Hsv,OkLab,OkLch,OkHsv}.kt` and `color/api/Extensions.kt`. All color space classes are `@immutable` and implement `==` / `hashCode`, so they can be used directly in scenarios requiring value equality such as `ValueListenable` and `AnimatedBuilder`.
+All color space classes are `@immutable` and implement `==` / `hashCode`, so they can be used directly in scenarios requiring value equality such as `ValueListenable` and `AnimatedBuilder`.
 
 ### Design Overview
 
@@ -13,13 +13,13 @@ Ported from compose-miuix-ui/miuix's `color/space/{Hsv,OkLab,OkLch,OkHsv}.kt` an
 | [OkLch] | l/c/h | l/c: `[0, 100]`; h: `[0, 360]` deg | Perceptually uniform chroma & hue, palette generation |
 | [OkHsv] | h/s/v | h: `[0, 360]` deg; s/v: `[0, 100]` percent | Perceptually uniform HSV, preferred for color pickers |
 
-> **Normalized Intervals**: All classes expose "user-friendly normalized intervals" (lightness/saturation/chroma in 0..100, hue in 0..360 degrees), consistent with the Kotlin source; internally they are scaled to each space's algorithmic interval (e.g. OkLab's a/b internally `[-0.4, 0.4]`, OkLch's c internally `[0, 0.4]`).
+> **Normalized Intervals**: All classes expose "user-friendly normalized intervals" (lightness/saturation/chroma in 0..100, hue in 0..360 degrees); internally they are scaled to each space's algorithmic interval (e.g. OkLab's a/b internally `[-0.4, 0.4]`, OkLch's c internally `[0, 0.4]`).
 
 > **Gamut Clipping**: All `toColor` methods clip to the sRGB gamut when mapping back, ensuring output channels stay within `[0, 1]`. OkLab/OkLch's a/b/c are also pre-clipped to safe ranges to avoid unpredictable out-of-gamut colors.
 
 ### Hsv
 
-Traditional HSV color space. Corresponds to Kotlin `Hsv`. Directly replicates Compose's `Color.hsv` `hsvToRgbComponent` algorithm, **preserving full floating-point precision** instead of 8-bit truncation (consistent with Compose behavior).
+Traditional HSV color space. **Preserves full floating-point precision** instead of 8-bit truncation.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -29,7 +29,7 @@ Traditional HSV color space. Corresponds to Kotlin `Hsv`. Directly replicates Co
 
 | Method / Field | Returns | Description |
 |---|---|---|
-| `toColor([alpha = 1.0])` | `Color` | Converts to sRGB; hue normalized to `[0, 360)`, s/v clamped to `[0, 1]`, components computed via Compose algorithm |
+| `toColor([alpha = 1.0])` | `Color` | Converts to sRGB; hue normalized to `[0, 360)`, s/v clamped to `[0, 1]`, computed component by component |
 | `copyWith({h, s, v})` | `Hsv` | Copy with selected fields replaced |
 | `h` / `s` / `v` | `double` | Components |
 
@@ -41,7 +41,7 @@ Hsv(0, 100, 100).copyWith(h: 240).toColor(); // red -> blue
 
 ### OkLab
 
-Perceptually uniform Lab color space. Corresponds to Kotlin `OkLab`. Lightness l is decoupled from a (green-red axis) and b (blue-yellow axis), so adjacent numeric differences correspond to approximately equal perceived color differences.
+Perceptually uniform Lab color space. Lightness l is decoupled from a (green-red axis) and b (blue-yellow axis), so adjacent numeric differences correspond to approximately equal perceived color differences.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -66,7 +66,7 @@ const OkLab(60, 30, 10).toColor();
 
 ### OkLch
 
-Perceptually uniform LCH color space (polar form of OkLab). Corresponds to Kotlin `OkLch`. Chroma c is decoupled from hue h, so scanning h with fixed l and c yields a perceptually uniform hue ring — ideal for palette generation.
+Perceptually uniform LCH color space (polar form of OkLab). Chroma c is decoupled from hue h, so scanning h with fixed l and c yields a perceptually uniform hue ring — ideal for palette generation.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -92,7 +92,7 @@ final dimmer = lab.copyWith(l: (lab.l - 10).clamp(0, 100)).toColor();
 
 ### OkHsv
 
-OkLab-based HSV color space. Corresponds to Kotlin `OkHsv`. Same API shape as [Hsv], but hue, saturation, and value are all defined in a perceptually uniform space, so color differences are more balanced in all directions when tuning colors.
+OkLab-based HSV color space. Same API shape as [Hsv], but hue, saturation, and value are all defined in a perceptually uniform space, so color differences are more balanced in all directions when tuning colors.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -102,11 +102,11 @@ OkLab-based HSV color space. Corresponds to Kotlin `OkHsv`. Same API shape as [H
 
 | Method / Field | Returns | Description |
 |---|---|---|
-| `toColor([alpha = 1.0])` | `Color` | Converts to sRGB; consistent with Kotlin source, **does NOT additionally clip h/s/v or alpha** — passes them through to the underlying algorithm |
+| `toColor([alpha = 1.0])` | `Color` | Converts to sRGB; **does NOT additionally clip h/s/v or alpha** — passes them through to the underlying algorithm |
 | `copyWith({h, s, v})` | `OkHsv` | Copy with selected fields replaced |
 | `h` / `s` / `v` | `double` | Components |
 
-> Unlike [Hsv]'s `toColor`, [OkHsv]'s `toColor` does NOT clamp s/v to `[0, 1]` proactively — callers must ensure valid inputs (aligned with Kotlin behavior).
+> Unlike [Hsv]'s `toColor`, [OkHsv]'s `toColor` does NOT clamp s/v to `[0, 1]` proactively — callers must ensure valid inputs.
 
 **Example:**
 ```dart
@@ -116,7 +116,7 @@ OkHsv(0, 0, 100).copyWith(h: 180).toColor();
 
 ### MiuixColorSpaceExtensions
 
-Color space conversion extension on `Color`. Corresponds to Kotlin `color/api/Extensions.kt`. Converts the current sRGB [Color] to a normalized-interval [OkLab] / [Hsv] / [OkLch].
+Color space conversion extension on `Color`. Converts the current sRGB [Color] to a normalized-interval [OkLab] / [Hsv] / [OkLch].
 
 ```dart
 extension MiuixColorSpaceExtensions on Color {
@@ -167,5 +167,5 @@ final colors = analogousPalette(const Color(0xFF3482FF));
 ### Internal Implementation Notes
 
 - The underlying algorithms for all `toColor` methods are provided by an internal `Transforms` class (RGB ↔ OkLab, OkLCH, HSV, OkHSV, including gamut clipping and caching). This class is **NOT exported** from `package:flutter_miuix/miuix.dart` — it is an internal implementation. Callers should use the 4 color space classes and [MiuixColorSpaceExtensions] in this section.
-- The OkLab/OkLCH math comes from Björn Ottosson's original paper; OkHSV's gamut clipping uses Brent Burmeister's cusp algorithm, aligned 1:1 with the Kotlin source.
+- The OkLab/OkLCH math comes from Björn Ottosson's original paper; OkHSV's gamut clipping uses Brent Burmeister's cusp algorithm.
 - Batch generation functions like `generateOkLchHueColors` are not publicly exported. For hue rings, use `List.generate` + `OkLch.copyWith` as shown in the example above.

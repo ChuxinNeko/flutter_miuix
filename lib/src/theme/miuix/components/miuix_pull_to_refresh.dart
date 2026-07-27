@@ -563,40 +563,49 @@ class _MiuixPullToRefreshState extends State<MiuixPullToRefresh>
                       width: double.infinity,
                       height: headerHeight,
                       child: ClipRect(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              height: indicatorHeight,
-                              width: double.infinity,
-                              child: Align(
-                                alignment: Alignment.topCenter,
-                                child: SizedBox.square(
-                                  dimension: widget.circleSize,
-                                  child: CustomPaint(
-                                    painter: _RefreshIndicatorPainter(
-                                      controller: _controller,
-                                      color: widget.color,
-                                      circleSize: widget.circleSize,
-                                      rotation: _rotation,
+                        // 刷新头以动画高度渐显，内容（指示圈 + 文案）按自然高度
+                        // 布局、顶部锚定，由 ClipRect 裁剪未展开部分；不加
+                        // OverflowBox 时 Column 会在受限高度里布局，下拉中段
+                        // 触发 RenderFlex 溢出断言（视觉上本就被裁剪）。
+                        child: OverflowBox(
+                          alignment: Alignment.topCenter,
+                          minHeight: 0,
+                          maxHeight: double.infinity,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(
+                                height: indicatorHeight,
+                                width: double.infinity,
+                                child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: SizedBox.square(
+                                    dimension: widget.circleSize,
+                                    child: CustomPaint(
+                                      painter: _RefreshIndicatorPainter(
+                                        controller: _controller,
+                                        color: widget.color,
+                                        circleSize: widget.circleSize,
+                                        rotation: _rotation,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Opacity(
-                              opacity: _refreshTextAlpha,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 6),
-                                child: Text(
-                                  _refreshText,
-                                  style: widget.refreshTextStyle.copyWith(
-                                    color: widget.color,
+                              Opacity(
+                                opacity: _refreshTextAlpha,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 6),
+                                  child: Text(
+                                    _refreshText,
+                                    style: widget.refreshTextStyle.copyWith(
+                                      color: widget.color,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

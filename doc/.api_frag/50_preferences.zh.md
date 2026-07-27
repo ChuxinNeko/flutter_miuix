@@ -29,7 +29,7 @@ MiuixArrowPreference(
 
 ### MiuixArrowPreferenceEndActionColors
 
-ArrowPreference 末尾箭头的颜色配置。对应 Kotlin `EndActionColors`。根据 `enabled` 在启用色与禁用色之间切换。
+ArrowPreference 末尾箭头的颜色配置。根据 `enabled` 在启用色与禁用色之间切换。
 
 | 字段 | 类型 | 说明 |
 |---|---|---|
@@ -42,7 +42,7 @@ ArrowPreference 末尾箭头的颜色配置。对应 Kotlin `EndActionColors`。
 
 ### MiuixArrowPreferenceDefaults
 
-ArrowPreference 的默认值集合。对应 Kotlin `ArrowPreferenceDefaults`。私有构造，仅提供静态方法。
+ArrowPreference 的默认值集合。私有构造，仅提供静态方法。
 
 | 方法 | 签名 | 说明 |
 |---|---|---|
@@ -79,7 +79,7 @@ MiuixSwitchPreference(
 
 ### MiuixCheckboxLocation
 
-`MiuixCheckboxPreference` 中复选框的位置枚举。对应 Kotlin `CheckboxLocation`。RTL 下 `start`/`end` 会自动镜像。
+`MiuixCheckboxPreference` 中复选框的位置枚举。RTL 下 `start`/`end` 会自动镜像。
 
 | 值 | 说明 |
 |---|---|
@@ -120,7 +120,7 @@ MiuixCheckboxPreference(
 
 ### MiuixRadioButtonLocation
 
-`MiuixRadioButtonPreference` 中单选按钮的位置枚举。对应 Kotlin `RadioButtonLocation`。RTL 下 `start`/`end` 会自动镜像。
+`MiuixRadioButtonPreference` 中单选按钮的位置枚举。RTL 下 `start`/`end` 会自动镜像。
 
 | 值 | 说明 |
 |---|---|
@@ -160,7 +160,7 @@ MiuixRadioButtonPreference(
 
 ### MiuixRadioButtonPreferenceColors
 
-RadioButtonPreference 标题与摘要的颜色配置。对应 Kotlin `RadioButtonPreferenceColors`。根据 `selected` 在基础色与选中色之间切换。
+RadioButtonPreference 标题与摘要的颜色配置。根据 `selected` 在基础色与选中色之间切换。
 
 | 字段 | 类型 | 说明 |
 |---|---|---|
@@ -176,7 +176,7 @@ RadioButtonPreference 标题与摘要的颜色配置。对应 Kotlin `RadioButto
 
 ### MiuixRadioButtonPreferenceDefaults
 
-RadioButtonPreference 的默认值集合。对应 Kotlin `RadioButtonPreferenceDefaults`。私有构造，仅提供静态方法。
+RadioButtonPreference 的默认值集合。私有构造，仅提供静态方法。
 
 | 方法 | 签名 | 说明 |
 |---|---|---|
@@ -413,7 +413,7 @@ MiuixWindowSpinnerPreference(
 
 ### MiuixColorSpace
 
-`MiuixColorPicker` 使用的色彩空间枚举。对应 Kotlin `ColorSpace`。
+`MiuixColorPicker` 使用的色彩空间枚举。
 
 | 值 | 说明 |
 |---|---|
@@ -449,7 +449,7 @@ MiuixColorPicker(
 
 ### MiuixHsvColorPicker
 
-HSV 色彩空间的 Miuix 取色器。对应 Kotlin `HsvColorPicker`。参数与 `MiuixColorPicker` 相同，但无 `colorSpace` 字段，固定使用 HSV 色彩空间。
+HSV 色彩空间的 Miuix 取色器。参数与 `MiuixColorPicker` 相同，但无 `colorSpace` 字段，固定使用 HSV 色彩空间。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -460,7 +460,7 @@ HSV 色彩空间的 Miuix 取色器。对应 Kotlin `HsvColorPicker`。参数与
 
 ### MiuixOkHsvColorPicker
 
-OkHSV 色彩空间的 Miuix 取色器。对应 Kotlin `OkHsvColorPicker`。参数与 `MiuixColorPicker` 相同，但无 `colorSpace` 字段，固定使用 OkHSV 色彩空间（基于 OkLab，感知均匀性更好）。
+OkHSV 色彩空间的 Miuix 取色器。参数与 `MiuixColorPicker` 相同，但无 `colorSpace` 字段，固定使用 OkHSV 色彩空间（基于 OkLab，感知均匀性更好）。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -471,7 +471,7 @@ OkHSV 色彩空间的 Miuix 取色器。对应 Kotlin `OkHsvColorPicker`。参�
 
 ### MiuixOkLabColorPicker
 
-OkLab 色彩空间的 Miuix 取色器。对应 Kotlin `OkLabColorPicker`。参数与 `MiuixColorPicker` 相同，但无 `colorSpace` 字段，固定使用 OkLab 色彩空间（明度 + 绿红轴 + 蓝黄轴）。
+OkLab 色彩空间的 Miuix 取色器。参数与 `MiuixColorPicker` 相同，但无 `colorSpace` 字段，固定使用 OkLab 色彩空间（明度 + 绿红轴 + 蓝黄轴）。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -482,7 +482,7 @@ OkLab 色彩空间的 Miuix 取色器。对应 Kotlin `OkLabColorPicker`。参�
 
 ### MiuixOkLchColorPicker
 
-OkLch 色彩空间的 Miuix 取色器。对应 Kotlin `OkLchColorPicker`。参数与 `MiuixColorPicker` 相同，但无 `colorSpace` 字段，固定使用 OkLch 色彩空间（明度 + 色度 + 色相）。
+OkLch 色彩空间的 Miuix 取色器。参数与 `MiuixColorPicker` 相同，但无 `colorSpace` 字段，固定使用 OkLch 色彩空间（明度 + 色度 + 色相）。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -516,7 +516,7 @@ MiuixColorPalette(
 
 ### MiuixColorPaletteDefaults
 
-MiuixColorPalette 的默认尺寸与网格参数。对应 Kotlin `ColorPaletteDefaults`。私有构造，仅含静态常量。
+MiuixColorPalette 的默认尺寸与网格参数。私有构造，仅含静态常量。
 
 | 常量 | 值 | 说明 |
 |---|---|---|

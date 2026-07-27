@@ -39,7 +39,7 @@ MiuixTextField(
 
 ### MiuixTextFieldColors
 
-TextField 颜色配置。对应 Kotlin `TextFieldColors`。所有字段为必填。
+TextField 颜色配置。所有字段为必填。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -49,7 +49,7 @@ TextField 颜色配置。对应 Kotlin `TextFieldColors`。所有字段为必填
 
 ### MiuixTextFieldDefaults
 
-TextField 默认值集合。对应 Kotlin `TextFieldDefaults`。私有构造，仅 `static` 字段/方法。
+TextField 默认值集合。私有构造，仅 `static` 字段/方法。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -84,7 +84,7 @@ MiuixSwitch(
 
 ### MiuixSwitchColors
 
-Switch 颜色配置。对应 Kotlin `SwitchColors`。所有字段为必填。
+Switch 颜色配置。所有字段为必填。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -99,7 +99,7 @@ Switch 颜色配置。对应 Kotlin `SwitchColors`。所有字段为必填。
 
 ### MiuixSwitchDefaults
 
-Switch 默认值集合。对应 Kotlin `SwitchDefaults`。私有构造，仅 `static` 字段/方法。
+Switch 默认值集合。私有构造，仅 `static` 字段/方法。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -135,7 +135,7 @@ MiuixCheckbox(
 
 ### MiuixCheckboxColors
 
-Checkbox 颜色配置。对应 Kotlin `CheckboxColors`。所有字段为必填。
+Checkbox 颜色配置。所有字段为必填。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -150,7 +150,7 @@ Checkbox 颜色配置。对应 Kotlin `CheckboxColors`。所有字段为必填�
 
 ### MiuixCheckboxDefaults
 
-Checkbox 默认值集合。对应 Kotlin `CheckboxDefaults`。私有构造，仅 `static` 字段/方法。
+Checkbox 默认值集合。私有构造，仅 `static` 字段/方法。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -181,7 +181,7 @@ MiuixRadioButton(
 
 ### MiuixRadioButtonColors
 
-RadioButton 颜色配置。对应 Kotlin `RadioButtonColors`。所有字段为必填。
+RadioButton 颜色配置。所有字段为必填。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -190,7 +190,7 @@ RadioButton 颜色配置。对应 Kotlin `RadioButtonColors`。所有字段为�
 
 ### MiuixRadioButtonDefaults
 
-RadioButton 默认值集合。对应 Kotlin `RadioButtonDefaults`。私有构造，仅 `static` 字段/方法。
+RadioButton 默认值集合。私有构造，仅 `static` 字段/方法。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -231,7 +231,7 @@ MiuixSlider(
 
 ### MiuixSliderColors
 
-Slider 颜色配置。对应 Kotlin `SliderColors`。所有字段为必填。`MiuixVerticalSlider` 与 `MiuixRangeSlider` 也复用此配置。
+Slider 颜色配置。所有字段为必填。`MiuixVerticalSlider` 与 `MiuixRangeSlider` 也复用此配置。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -246,7 +246,7 @@ Slider 颜色配置。对应 Kotlin `SliderColors`。所有字段为必填。`Mi
 
 ### MiuixSliderDefaults
 
-Slider 默认值集合。对应 Kotlin `SliderDefaults`。私有构造，仅 `static` 字段/方法。
+Slider 默认值集合。私有构造，仅 `static` 字段/方法。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -365,7 +365,7 @@ MiuixSearchBar(
 
 ### MiuixSearchBarDefaults
 
-SearchBar 默认值集合。对应 Kotlin `SearchBarDefaults`。私有构造，仅 `static` 字段/方法。
+SearchBar 默认值集合。私有构造，仅 `static` 字段/方法。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -440,7 +440,7 @@ MiuixNumberPicker(
 
 ### MiuixNumberPickerColors
 
-NumberPicker 颜色配置。对应 Kotlin `NumberPickerColors`。所有字段为必填。
+NumberPicker 颜色配置。所有字段为必填。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -451,7 +451,7 @@ NumberPicker 颜色配置。对应 Kotlin `NumberPickerColors`。所有字段为
 
 ### MiuixNumberPickerDefaults
 
-NumberPicker 默认值集合。对应 Kotlin `NumberPickerDefaults`。私有构造，仅 `static` 字段/方法。
+NumberPicker 默认值集合。私有构造，仅 `static` 字段/方法。
 
 | 常量 | 值 | 说明 |
 |---|---|---|

@@ -2,7 +2,7 @@
 
 > This is the complete API reference for the **flutter_miuix** component library (English). For the Chinese version, see [`API.zh.md`](API.zh.md).
 
-flutter_miuix is a 1:1 port of [miuix](https://github.com/compose-miuix-ui/miuix) (a Kotlin Compose Multiplatform UI library) to Flutter. It delivers the full Xiaomi HyperOS / MIUI-style component set: squircle corners, dynamic color (Monet), liquid-glass blur, and more.
+flutter_miuix is a Flutter component library ported from [miuix](https://github.com/compose-miuix-ui/miuix). It delivers the full Xiaomi HyperOS / MIUI-style component set: squircle corners, dynamic color (Monet), liquid-glass blur, and more.
 
 - Every component's **size, corner radius, padding, and other dimensions are customizable via constructor parameters**, each with a default value matching the original library.
 - Colors resolve through `MiuixColors` semantic roles and text through `MiuixTextStyles` presets, switching light/dark automatically with the theme.

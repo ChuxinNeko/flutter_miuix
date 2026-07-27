@@ -112,7 +112,9 @@ class MiuixButton extends StatelessWidget {
       color: txtColor,
       child: DecoratedBox(
         decoration: ShapeDecoration(color: containerColor, shape: shape),
-        child: Center(child: content),
+        // factor=1：贴内容尺寸（对应 Compose defaultMinSize 语义；不设 factor
+        // 时 Center 在有界宽松约束下会把按钮撑满可用宽度）。
+        child: Center(widthFactor: 1, heightFactor: 1, child: content),
       ),
     );
 

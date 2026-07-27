@@ -30,7 +30,7 @@ MiuixScaffold(
 
 ### MiuixScaffoldContentBuilder
 
-Type alias for the `MiuixScaffold.content` slot. Corresponds to Kotlin `content: (PaddingValues) -> Unit`. The scaffold first measures the top/bottom bars and system insets, then passes the `EdgeInsets` to be applied at the content root via this callback; the content should wrap its root with `Padding` itself.
+Type alias for the `MiuixScaffold.content` slot. The scaffold first measures the top/bottom bars and system insets, then passes the `EdgeInsets` to be applied at the content root via this callback; the content should wrap its root with `Padding` itself.
 
 **Signature:**
 
@@ -44,7 +44,7 @@ typedef MiuixScaffoldContentBuilder = Widget Function(EdgeInsets contentPadding)
 
 ### MiuixFabPosition
 
-Position of the floating action button (FAB) within MiuixScaffold. Corresponds to Kotlin `FabPosition`.
+Position of the floating action button (FAB) within MiuixScaffold.
 
 | Value | Description |
 |---|---|
@@ -55,7 +55,7 @@ Position of the floating action button (FAB) within MiuixScaffold. Corresponds t
 
 ### MiuixToolbarPosition
 
-Position of the floating toolbar within MiuixScaffold. Corresponds to Kotlin `ToolbarPosition`; the enum order matches Kotlin's integer values (TopStart=0 ... BottomCenter=7).
+Position of the floating toolbar within MiuixScaffold. Enum order is TopStart=0 ... BottomCenter=7.
 
 | Value | Description |
 |---|---|
@@ -70,7 +70,7 @@ Position of the floating toolbar within MiuixScaffold. Corresponds to Kotlin `To
 
 ### MiuixTopAppBar
 
-Collapsible large-title top app bar, corresponds to Kotlin `TopAppBar`. Requires a MiuixScrollBehavior to collapse/expand; without scrollBehavior it stays statically expanded.
+Collapsible large-title top app bar. Requires a MiuixScrollBehavior to collapse/expand; without scrollBehavior it stays statically expanded.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -113,7 +113,7 @@ MiuixScaffold(
 
 ### MiuixSmallTopAppBar
 
-Static small-title top app bar, corresponds to Kotlin `SmallTopAppBar`. Does not collapse/expand and shows a centered title; if a scrollBehavior is passed, it locks the state's heightOffsetLimit to 0 (pinned effect).
+Static small-title top app bar. Does not collapse/expand and shows a centered title; if a scrollBehavior is passed, it locks the state's heightOffsetLimit to 0 (pinned effect).
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -139,7 +139,7 @@ MiuixSmallTopAppBar(title: 'Settings', subtitle: 'v1.0')
 
 ### MiuixTopAppBarState
 
-State for the top app bar (extends ChangeNotifier), corresponds to Kotlin `TopAppBarState`. Holds the collapse offset, content scroll offset, etc.; usually held and updated by a MiuixScrollBehavior and read by MiuixTopAppBar.
+State for the top app bar (extends ChangeNotifier). Holds the collapse offset, content scroll offset, etc.; usually held and updated by a MiuixScrollBehavior and read by MiuixTopAppBar.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -151,11 +151,11 @@ Key properties: `heightOffsetLimit`, `heightOffset` (clamped between the limit a
 
 ### MiuixScrollBehavior
 
-Scroll behavior abstraction, corresponds to Kotlin `ScrollBehavior`. Exposes `state` (MiuixTopAppBarState) and `isPinned` (whether it is fixed and does not collapse on scroll).
+Scroll behavior abstraction. Exposes `state` (MiuixTopAppBarState) and `isPinned` (whether it is fixed and does not collapse on scroll).
 
 ### MiuixExitUntilCollapsedScrollBehavior
 
-"Exit until collapsed" scroll behavior, corresponds to Kotlin `ExitUntilCollapsedScrollBehavior`. Scrolling up collapses the top app bar first, then scrolls the content below; scrolling down expands the top app bar first. Implements MiuixScrollBehavior; `isPinned` is always false.
+"Exit until collapsed" scroll behavior. Scrolling up collapses the top app bar first, then scrolls the content below; scrolling down expands the top app bar first. Implements MiuixScrollBehavior; `isPinned` is always false.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -194,7 +194,7 @@ Returns: `MiuixExitUntilCollapsedScrollBehavior`
 
 ### MiuixTopAppBarDefaults
 
-Top app bar defaults, corresponds to Kotlin `TopAppBarDefaults` (private constructor, static constants only).
+Top app bar defaults (private constructor, static constants only).
 
 | Constant | Value | Description |
 |---|---|---|
@@ -209,7 +209,7 @@ Top app bar defaults, corresponds to Kotlin `TopAppBarDefaults` (private constru
 
 ### MiuixNavigationBar
 
-Standard bottom navigation bar, corresponds to Kotlin `NavigationBar`. children is usually 2 to 5 MiuixNavigationBarItem widgets (asserts length 2..5), each Expanded evenly.
+Standard bottom navigation bar. children is usually 2 to 5 MiuixNavigationBarItem widgets (asserts length 2..5), each Expanded evenly.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -233,7 +233,7 @@ MiuixNavigationBar(
 
 ### MiuixNavigationBarItem
 
-Standard navigation item, corresponds to Kotlin `NavigationBarItem`. icon and labelWidget are slots; when labelWidget is omitted, text is built from label.
+Standard navigation item. icon and labelWidget are slots; when labelWidget is omitted, text is built from label.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -248,7 +248,7 @@ Standard navigation item, corresponds to Kotlin `NavigationBarItem`. icon and la
 
 ### MiuixFloatingNavigationBar
 
-Floating bottom navigation bar, corresponds to Kotlin `FloatingNavigationBar`. Items lay out at their own width (not evenly divided) with a fixed 12 spacing (asserts children length 2..5).
+Floating bottom navigation bar. Items lay out at their own width (not evenly divided) with a fixed 12 spacing (asserts children length 2..5).
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -275,7 +275,7 @@ MiuixFloatingNavigationBar(
 
 ### MiuixFloatingNavigationBarItem
 
-Floating navigation item, corresponds to Kotlin `FloatingNavigationBarItem`.
+Floating navigation item.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -289,7 +289,7 @@ Floating navigation item, corresponds to Kotlin `FloatingNavigationBarItem`.
 
 ### MiuixNavigationItem
 
-Navigation item data, corresponds to Kotlin `NavigationItem` (@immutable).
+Navigation item data (@immutable).
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -299,7 +299,7 @@ Navigation item data, corresponds to Kotlin `NavigationItem` (@immutable).
 
 ### MiuixNavigationBarDisplayMode
 
-Item display mode, corresponds to Kotlin `NavigationBarDisplayMode`.
+Item display mode.
 
 | Value | Description |
 |---|---|
@@ -320,7 +320,7 @@ Navigation bar colors, holding theme colors for both standard and floating bars 
 
 ### MiuixNavigationBarDefaults
 
-Standard navigation bar defaults, corresponds to Kotlin `NavigationBarDefaults` (private constructor).
+Standard navigation bar defaults (private constructor).
 
 | Constant | Value | Description |
 |---|---|---|
@@ -338,7 +338,7 @@ Static method `defaultColors(BuildContext) → MiuixNavigationBarColors`: builds
 
 ### MiuixFloatingNavigationBarDefaults
 
-Floating navigation bar defaults, corresponds to Kotlin `FloatingNavigationBarDefaults` (private constructor).
+Floating navigation bar defaults (private constructor).
 
 | Constant | Value | Description |
 |---|---|---|
@@ -379,7 +379,7 @@ Miuix navigation rail for wide screens with an optional expand controller. When 
 | labelFontSize | double | MiuixNavigationRailDefaults.labelFontSize (12) | Collapsed-state label font size |
 | expandedLabelFontSize | double | MiuixNavigationRailDefaults.expandedLabelFontSize (16) | Expanded-state label font size |
 
-> The last 5 size parameters are enhancements; their defaults equal the original Kotlin constants (non-breaking, 1:1 default preserved), for optionally compacting rail items.
+> The last 5 size parameters are enhancements; their defaults preserve the original values (non-breaking), for optionally compacting rail items.
 
 **Example:**
 ```dart
@@ -443,7 +443,7 @@ Navigation rail color config (@immutable).
 
 ### MiuixNavigationRailDefaults
 
-NavigationRail defaults, corresponds to Kotlin `NavigationRailDefaults` (private constructor).
+NavigationRail defaults (private constructor).
 
 | Constant | Value | Description |
 |---|---|---|
@@ -469,7 +469,7 @@ Static method `colors(BuildContext) → MiuixNavigationRailColors`: builds defau
 
 ### MiuixTabRow
 
-Miuix tab row, corresponds to Kotlin `TabRow`. Horizontally scrollable, with the selected tab indicated by a squircle background.
+Miuix tab row. Horizontally scrollable, with the selected tab indicated by a squircle background.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -497,7 +497,7 @@ MiuixTabRow(
 
 ### MiuixTabRowWithContour
 
-Tab row with an outer contour, corresponds to Kotlin `TabRowWithContour`. Wraps the whole row in a squircle frame; the indicator has a 200ms move animation.
+Tab row with an outer contour. Wraps the whole row in a squircle frame; the indicator has a 200ms move animation.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -525,7 +525,7 @@ MiuixTabRowWithContour(
 
 ### MiuixTabRowColors
 
-Tab row color config, corresponds to Kotlin `TabRowColors` (@immutable). Provides `background(bool)` and `content(bool)` helpers.
+Tab row color config (@immutable). Provides `background(bool)` and `content(bool)` helpers.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -536,7 +536,7 @@ Tab row color config, corresponds to Kotlin `TabRowColors` (@immutable). Provide
 
 ### MiuixTabRowDefaults
 
-Tab row defaults, corresponds to Kotlin `TabRowDefaults` (private constructor).
+Tab row defaults (private constructor).
 
 | Constant | Value | Description |
 |---|---|---|
@@ -558,7 +558,7 @@ Static method `defaultColors(BuildContext) → MiuixTabRowColors`: builds defaul
 
 ### MiuixBreadcrumbBar
 
-Horizontal breadcrumb bar, corresponds to Kotlin `BreadcrumbBar`. Scrolls horizontally when content overflows; a negative highlightIndex disables both highlighting and auto-centering.
+Horizontal breadcrumb bar. Scrolls horizontally when content overflows; a negative highlightIndex disables both highlighting and auto-centering.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -585,7 +585,7 @@ MiuixBreadcrumbBar(
 
 ### MiuixBreadcrumbItem
 
-A single path segment, corresponds to Kotlin `BreadcrumbItem` (@immutable).
+A single path segment (@immutable).
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -594,7 +594,7 @@ A single path segment, corresponds to Kotlin `BreadcrumbItem` (@immutable).
 
 ### MiuixBreadcrumbItemsPath
 
-An extension on `List<MiuixBreadcrumbItem>`, corresponds to Kotlin `joinToPath`. Joins all path segments' `path` field with a separator, useful for rebuilding the full path.
+An extension on `List<MiuixBreadcrumbItem>`. Joins all path segments' `path` field with a separator, useful for rebuilding the full path.
 
 | Method signature | Returns | Description |
 |---|---|---|
@@ -612,7 +612,7 @@ final full = items.joinToPath(); // 'home/docs/api'
 
 ### MiuixBreadcrumbBarColors
 
-Breadcrumb color config, corresponds to Kotlin `BreadcrumbBarColors` (@immutable).
+Breadcrumb color config (@immutable).
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -626,7 +626,7 @@ Breadcrumb color config, corresponds to Kotlin `BreadcrumbBarColors` (@immutable
 
 ### MiuixBreadcrumbBarDefaults
 
-Breadcrumb defaults, corresponds to Kotlin `BreadcrumbBarDefaults` (private constructor).
+Breadcrumb defaults (private constructor).
 
 | Constant | Value | Description |
 |---|---|---|
@@ -639,7 +639,7 @@ Static method `defaultColors(BuildContext) → MiuixBreadcrumbBarColors`: builds
 
 ### MiuixVerticalScrollBar
 
-Vertical scroll bar, corresponds to Kotlin `VerticalScrollBar`. Supports hover/drag highlight and auto fade-out.
+Vertical scroll bar. Supports hover/drag highlight and auto fade-out.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -665,7 +665,7 @@ Stack(children: [
 
 ### MiuixHorizontalScrollBar
 
-Horizontal scroll bar, corresponds to Kotlin `HorizontalScrollBar`. Parameters are identical to MiuixVerticalScrollBar.
+Horizontal scroll bar. Parameters are identical to MiuixVerticalScrollBar.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -681,7 +681,7 @@ Horizontal scroll bar, corresponds to Kotlin `HorizontalScrollBar`. Parameters a
 
 ### MiuixScrollBarAdapter
 
-Unified adapter over a Flutter ScrollController, corresponds to Kotlin `ScrollBarAdapter`.
+Unified adapter over a Flutter ScrollController.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -691,7 +691,7 @@ Key members: `scrollOffset`, `viewportSize`, `contentSize`, `maxScrollOffset`, `
 
 ### MiuixScrollBarColors
 
-Scroll bar colors, corresponds to Kotlin `ScrollBarColors`; null means `Color.Unspecified` (@immutable).
+Scroll bar colors; null means unset (@immutable).
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -700,7 +700,7 @@ Scroll bar colors, corresponds to Kotlin `ScrollBarColors`; null means `Color.Un
 
 ### MiuixScrollBarDefaults
 
-Scroll bar defaults, corresponds to Kotlin `ScrollBarDefaults` (private constructor).
+Scroll bar defaults (private constructor).
 
 | Constant | Value | Description |
 |---|---|---|

@@ -1,6 +1,49 @@
 # Changelog
 
-## 1.0.1
+## 1.0.7
+
+### 修复
+
+- **PullToRefresh 下拉中段触发 RenderFlex 溢出断言**：刷新头内容（指示圈 + 文案）在 `SizedBox(height: 动画高度)` 的受限约束内用 `Column` 布局，头部尚未展开到内容自然高度时（进度约 < 0.7）每帧抛出 "overflowed by N pixels on the bottom"（视觉上本就被 `ClipRect` 裁剪，仅调试期噪音）。现在 `ClipRect` 内垫一层顶部锚定、纵向无界的 `OverflowBox`，内容始终按自然高度布局、由裁剪负责渐显，视觉行为不变、断言消除。
+
+## 1.0.6
+
+### 修复
+
+- **TopAppBar 超长标题溢出屏幕**：主/副标题的 `Text` 位于 `Positioned(left, top)` 下，宽度无界，`maxLines: 1 + ellipsis` 永远不触发，长标题直接画出屏幕。现按当前折叠进度计算可用宽度（大端点右留 `titlePadding` 对称边距、小端点避开 actions）并用 `ConstrainedBox` 显式限宽，超长时正确显示省略号；折叠端点的居中定位同步改用钳制后的文字宽度，避免超长标题的目标位置压到导航图标上。
+
+## 1.0.5
+
+### 修复
+
+- **对话框被输入法遮挡**：`MiuixOverlayDialog` 在手机上底部锚定，但底边距只计算了安全区，未计入键盘高度（`viewInsets.bottom`）。现在面板随键盘上移（`AnimatedPadding` 平滑跟随，取键盘高度与底部安全区较大值），对应 Compose 版 `imePadding` 语义。
+- **弹层宿主拆卸期断言**：整棵树销毁时 `MiuixDialogLayout.dispose` 的 `dismiss()` 会同步触发宿主可见性回调，在已 deactivate 的 element 上读 `MediaQuery` 抛 "deactivated ancestor" 断言。回调入口现已短路。
+
+## 1.0.4
+
+### 修复
+
+- **TopAppBar 折叠标题飞出屏幕**：`MiuixIconButton` / `MiuixButton` / `MiuixFloatingActionButton` 内部 `Center` 未设 `widthFactor/heightFactor`，在有界宽松约束下被撑满可用空间（Compose `defaultMinSize` 语义应贴内容尺寸）。TopAppBar 测量层因此把导航图标测成整屏宽，折叠标题的避让目标被推到屏幕外——滚动时标题向右飞出。现已改为贴内容尺寸；注意这同时意味着按钮在 Column/ListView 等有界宽松上下文中不再自动撑满宽度（需要全宽时请自行包 `SizedBox(width: double.infinity)`）。
+- **折叠标题目标位置防御性钳制**：无论 nav/actions 测量结果如何，折叠目标绝不超出可视范围。
+- **吸附动画与手势争抢**：松手后的吸附动画不会被新滚动手势取消，与手势输入争抢 `heightOffset`（症状：折叠到底后被残留动画拉回展开、滚动中标题抖动）。现在新手势开始时停止残留吸附动画。
+
+## 1.0.3
+
+### 修复
+
+- **MiuixTextField 点击无法聚焦**：占位/浮动标签的 `Text` 叠在内部 `TextField` 之上且参与命中测试（`RenderParagraph` 命中即止），点在占位文字上事件被吞掉，无法唤起键盘。标签现包裹 `IgnorePointer`。
+- **MiuixTextField 整块可点击**：背景、内边距与非交互图标区域此前不可点击（有效点击区仅剩文本行本身）。现在整个输入框区域点击均聚焦唤起键盘（与 Compose 原版一致）；内部 trailing 按钮等更深层手势优先级不受影响。
+
+### 新增
+
+- **MiuixTextField.autofocus**：挂载后自动聚焦并唤起键盘（常用于对话框内输入框），默认 `false`。
+
+## 1.0.2
+
+### 修复
+
+- **MiuixTextField**：`textInputAction` / `textCapitalization` / `onSubmitted` 此前未转发给内部 `TextField`，导致键盘 action 键（搜索/完成）与提交回调不生效。现已正确转发。
+- **弹层 entry 双重 dispose**：承载弹层的路由整体 pop 时，`MiuixDialogLayout`/`MiuixPopupLayout` 的 State 与 popup host 的 HostedEntry 会在同一帧卸载，双方的 orphaned 判断同时成立并各自调用 `entry.dispose()`，抛 use-after-dispose 断言。`MiuixPopupEntry.dispose` 现已幂等（新增 `isDisposed`），二次调用为无害 no-op。
 
 ### 变更
 

@@ -1,18 +1,18 @@
 ## Icons
 
-This chapter covers flutter_miuix's icon system: [MiuixIcon] (the unified rendering entry, corresponding to Kotlin `Icon`), [MiuixIcons] (the icon set entry, corresponding to Kotlin `MiuixIcons`), [MiuixBasicIcons] (7 basic vector icons), and [MiuixExtendedIcons] (120+ extended icons × 5 weights).
+This chapter covers flutter_miuix's icon system: [MiuixIcon] (the unified rendering entry), [MiuixIcons] (the icon set entry), [MiuixBasicIcons] (7 basic vector icons), and [MiuixExtendedIcons] (120+ extended icons × 5 weights).
 
 The underlying vector data model ([MiuixVectorIcon] / [MiuixVectorPath] / `miuixParsePath`) is documented in the "Foundation" chapter.
 
 ### MiuixIcon
 
-Miuix-style icon. Corresponds to Kotlin `Icon`. Single-color icons are tinted via `tint` (defaulting to `MiuixContentColor`); multi-color icons pass [kMiuixTintUnspecified] to disable tinting, or supply a custom Widget via `child`.
+Miuix-style icon. Single-color icons are tinted via `tint` (defaulting to `MiuixContentColor`); multi-color icons pass [kMiuixTintUnspecified] to disable tinting, or supply a custom Widget via `child`.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `icon` | `IconData?` | `null` | Material icon data (corresponds to Kotlin `ImageVector` / `ImageBitmap`) |
+| `icon` | `IconData?` | `null` | Material icon data |
 | `vector` | `MiuixVectorIcon?` | `null` | Miuix vector icon (built-in basic / extended) |
-| `child` | `Widget?` | `null` | Custom icon Widget (e.g., multi-color; corresponds to Kotlin `Painter`) |
+| `child` | `Widget?` | `null` | Custom icon Widget (e.g., multi-color) |
 | `tint` | `Color?` | `null` | Tint color; `null` reads `MiuixContentColor.of(context)`; passing [kMiuixTintUnspecified] disables any tint |
 | `contentDescription` | `String?` | `null` | Accessibility description; `null` skips `Semantics` (decorative icon) |
 | `size` | `double?` | `null` | Icon size; `null` falls back to `MiuixIconDefaults.defaultSize` (24) for `icon`, or keeps the child's intrinsic size |
@@ -21,13 +21,13 @@ Miuix-style icon. Corresponds to Kotlin `Icon`. Single-color icons are tinted vi
 
 #### `kMiuixTintUnspecified`
 
-Sentinel color `Color(0x00000001)`, meaning "no tint" (for multi-color icons), corresponding to Compose's `Color.Unspecified`. Compared by `identical`: only this exact constant is treated as "no tint".
+Sentinel color `Color(0x00000001)`, meaning "no tint" (for multi-color icons). Compared by `identical`: only this exact constant is treated as "no tint".
 
 #### MiuixIconDefaults
 
 | Constant | Value | Description |
 |---|---|---|
-| `defaultSize` | `24` | Default icon size (logical pixels), corresponding to Kotlin `Modifier.size(24.dp)` |
+| `defaultSize` | `24` | Default icon size (logical pixels) |
 
 **Render paths**:
 
@@ -62,26 +62,26 @@ MiuixIcon(
 
 ### MiuixIcons
 
-Entry point for the built-in Miuix icon set. Corresponds to Kotlin `object MiuixIcons`. `MiuixIcons._()` private constructor; only `static` fields are exposed.
+Entry point for the built-in Miuix icon set. `MiuixIcons._()` private constructor; only `static` fields are exposed.
 
 | Field | Type | Description |
 |---|---|---|
-| `basic` | `MiuixBasicIcons` | Basic vector icons used internally (corresponds to `MiuixIcons.Basic`) |
-| `extended` | `MiuixExtendedIcons` | Extended icons, 120+ × 5 weights (corresponds to `MiuixIcons.Extended`) |
+| `basic` | `MiuixBasicIcons` | Basic vector icons used internally |
+| `extended` | `MiuixExtendedIcons` | Extended icons, 120+ × 5 weights |
 
 ### MiuixBasicIcons
 
-Basic icon namespace. Corresponds to extension properties on Kotlin `MiuixIcons.Basic`. Each getter returns a [MiuixVectorIcon] via lazy-loaded cached singleton (so each icon is built only once).
+Basic icon namespace. Each getter returns a [MiuixVectorIcon] via lazy-loaded cached singleton (so each icon is built only once).
 
-| getter | Viewport | Description | Sourced from |
-|---|---|---|---|
-| `arrowRight` | 10×16 | Right arrow (`>`) | `icon/basic/ArrowRight.kt` |
-| `arrowUpDown` | 10×16 | Up-down double arrow | `icon/basic/ArrowUpDown.kt` |
-| `check` | 56×56 | Check mark | `icon/basic/Check.kt` |
-| `close` | 24×24 | Close (`x`, stroked) | `icon/basic/Close.kt` |
-| `search` | 20×20 | Search (magnifier) | `icon/basic/Search.kt` |
-| `searchCleanup` | 68×68 | Search clear (circled x) | `icon/basic/SearchCleanup.kt` |
-| `sidebar` | 1224×1224 | Sidebar (with vertical flip) | `icon/basic/Sidebar.kt` |
+| getter | Viewport | Description |
+|---|---|---|
+| `arrowRight` | 10×16 | Right arrow (`>`) |
+| `arrowUpDown` | 10×16 | Up-down double arrow |
+| `check` | 56×56 | Check mark |
+| `close` | 24×24 | Close (`x`, stroked) |
+| `search` | 20×20 | Search (magnifier) |
+| `searchCleanup` | 68×68 | Search clear (circled x) |
+| `sidebar` | 1224×1224 | Sidebar (with vertical flip) |
 
 **Example:**
 ```dart
@@ -91,7 +91,7 @@ MiuixIcon(vector: MiuixIcons.basic.arrowRight, size: 12);
 
 ### MiuixExtendedIcons
 
-Extended icon set. Corresponds to Kotlin `MiuixIcons.Extended` (accessed via `MiuixIcons.<Name>`). 120+ icons × 5 weights.
+Extended icon set. 120+ icons × 5 weights.
 
 | Field / Method | Type | Description |
 |---|---|---|
@@ -101,15 +101,15 @@ Extended icon set. Corresponds to Kotlin `MiuixIcons.Extended` (accessed via `Mi
 
 #### MiuixIconWeight
 
-Icon weight for extended icons. Corresponds to Kotlin `MiuixIcons.{Light,Normal,Regular,Medium,Demibold}`.
+Icon weight for extended icons.
 
-| Value | Kotlin equivalent | Description |
-|---|---|---|
-| `light` | `MiuixIcons.Light` | Light |
-| `normal` | `MiuixIcons.Normal` | Normal |
-| `regular` | `MiuixIcons.Regular` | Regular (default) |
-| `medium` | `MiuixIcons.Medium` | Medium |
-| `demibold` | `MiuixIcons.Demibold` | Demibold |
+| Value | Description |
+|---|---|
+| `light` | Light |
+| `normal` | Normal |
+| `regular` | Regular (default) |
+| `medium` | Medium |
+| `demibold` | Demibold |
 
 **Implementation notes**: the raw data for extended icons is generated by `tool/gen_extended_icons.py`, which compresses each icon's 5-weight `PathNode` lists into SVG path strings, restored at runtime via `miuixParsePath` into [MiuixVectorIcon]. Built lazily and cached by `name#weightIndex`.
 

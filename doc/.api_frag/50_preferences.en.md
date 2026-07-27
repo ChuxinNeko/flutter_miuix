@@ -29,7 +29,7 @@ MiuixArrowPreference(
 
 ### MiuixArrowPreferenceEndActionColors
 
-Color configuration for the ArrowPreference trailing arrow. Corresponds to Kotlin `EndActionColors`. Switches between enabled and disabled colors based on `enabled`.
+Color configuration for the ArrowPreference trailing arrow. Switches between enabled and disabled colors based on `enabled`.
 
 | Field | Type | Description |
 |---|---|---|
@@ -42,7 +42,7 @@ Color configuration for the ArrowPreference trailing arrow. Corresponds to Kotli
 
 ### MiuixArrowPreferenceDefaults
 
-Default values for ArrowPreference. Corresponds to Kotlin `ArrowPreferenceDefaults`. Private constructor; provides only static methods.
+Default values for ArrowPreference. Private constructor; provides only static methods.
 
 | Method | Signature | Description |
 |---|---|---|
@@ -79,7 +79,7 @@ MiuixSwitchPreference(
 
 ### MiuixCheckboxLocation
 
-Enum of checkbox positions in `MiuixCheckboxPreference`. Corresponds to Kotlin `CheckboxLocation`. `start`/`end` are mirrored automatically under RTL.
+Enum of checkbox positions in `MiuixCheckboxPreference`. `start`/`end` are mirrored automatically under RTL.
 
 | Value | Description |
 |---|---|
@@ -120,7 +120,7 @@ MiuixCheckboxPreference(
 
 ### MiuixRadioButtonLocation
 
-Enum of radio button positions in `MiuixRadioButtonPreference`. Corresponds to Kotlin `RadioButtonLocation`. `start`/`end` are mirrored automatically under RTL.
+Enum of radio button positions in `MiuixRadioButtonPreference`. `start`/`end` are mirrored automatically under RTL.
 
 | Value | Description |
 |---|---|
@@ -160,7 +160,7 @@ MiuixRadioButtonPreference(
 
 ### MiuixRadioButtonPreferenceColors
 
-Color configuration for RadioButtonPreference title and summary. Corresponds to Kotlin `RadioButtonPreferenceColors`. Switches between base and selected colors based on `selected`.
+Color configuration for RadioButtonPreference title and summary. Switches between base and selected colors based on `selected`.
 
 | Field | Type | Description |
 |---|---|---|
@@ -176,7 +176,7 @@ Color configuration for RadioButtonPreference title and summary. Corresponds to 
 
 ### MiuixRadioButtonPreferenceDefaults
 
-Default values for RadioButtonPreference. Corresponds to Kotlin `RadioButtonPreferenceDefaults`. Private constructor; provides only static methods.
+Default values for RadioButtonPreference. Private constructor; provides only static methods.
 
 | Method | Signature | Description |
 |---|---|---|
@@ -413,7 +413,7 @@ MiuixWindowSpinnerPreference(
 
 ### MiuixColorSpace
 
-Enum of color spaces used by `MiuixColorPicker`. Corresponds to Kotlin `ColorSpace`.
+Enum of color spaces used by `MiuixColorPicker`.
 
 | Value | Description |
 |---|---|
@@ -449,7 +449,7 @@ MiuixColorPicker(
 
 ### MiuixHsvColorPicker
 
-Miuix color picker using the HSV color space. Corresponds to Kotlin `HsvColorPicker`. Parameters are the same as `MiuixColorPicker`, but without the `colorSpace` field; the HSV color space is fixed.
+Miuix color picker using the HSV color space. Parameters are the same as `MiuixColorPicker`, but without the `colorSpace` field; the HSV color space is fixed.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -460,7 +460,7 @@ Miuix color picker using the HSV color space. Corresponds to Kotlin `HsvColorPic
 
 ### MiuixOkHsvColorPicker
 
-Miuix color picker using the OkHSV color space. Corresponds to Kotlin `OkHsvColorPicker`. Parameters are the same as `MiuixColorPicker`, but without the `colorSpace` field; the OkHSV color space is fixed (OkLab-based, better perceptual uniformity).
+Miuix color picker using the OkHSV color space. Parameters are the same as `MiuixColorPicker`, but without the `colorSpace` field; the OkHSV color space is fixed (OkLab-based, better perceptual uniformity).
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -471,7 +471,7 @@ Miuix color picker using the OkHSV color space. Corresponds to Kotlin `OkHsvColo
 
 ### MiuixOkLabColorPicker
 
-Miuix color picker using the OkLab color space. Corresponds to Kotlin `OkLabColorPicker`. Parameters are the same as `MiuixColorPicker`, but without the `colorSpace` field; the OkLab color space is fixed (lightness + green-red axis + blue-yellow axis).
+Miuix color picker using the OkLab color space. Parameters are the same as `MiuixColorPicker`, but without the `colorSpace` field; the OkLab color space is fixed (lightness + green-red axis + blue-yellow axis).
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -482,7 +482,7 @@ Miuix color picker using the OkLab color space. Corresponds to Kotlin `OkLabColo
 
 ### MiuixOkLchColorPicker
 
-Miuix color picker using the OkLch color space. Corresponds to Kotlin `OkLchColorPicker`. Parameters are the same as `MiuixColorPicker`, but without the `colorSpace` field; the OkLch color space is fixed (lightness + chroma + hue).
+Miuix color picker using the OkLch color space. Parameters are the same as `MiuixColorPicker`, but without the `colorSpace` field; the OkLch color space is fixed (lightness + chroma + hue).
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -516,7 +516,7 @@ MiuixColorPalette(
 
 ### MiuixColorPaletteDefaults
 
-Default sizes and grid parameters for MiuixColorPalette. Corresponds to Kotlin `ColorPaletteDefaults`. Private constructor; contains only static constants.
+Default sizes and grid parameters for MiuixColorPalette. Private constructor; contains only static constants.
 
 | Constant | Value | Description |
 |---|---|---|

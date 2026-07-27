@@ -4,7 +4,7 @@
 
 ### MiuixThemeData
 
-不可变的 Miuix 主题数据，聚合 [MiuixColors]、[MiuixTextStyles] 与 [Brightness]。对应 Kotlin `MiuixTheme`。
+不可变的 Miuix 主题数据，聚合 [MiuixColors]、[MiuixTextStyles] 与 [Brightness]。
 
 | 字段 / 方法 | 类型 | 说明 |
 |---|---|---|
@@ -25,7 +25,7 @@ final data = MiuixThemeData.light(
 
 ### MiuixTheme
 
-向子树提供 [MiuixThemeData] 的 [InheritedWidget]。对应 Kotlin `MiuixTheme { ... }`。
+向子树提供 [MiuixThemeData] 的 [InheritedWidget]。
 
 | 参数 / 方法 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -44,7 +44,7 @@ MiuixTheme(
 
 ### MiuixSystemTheme
 
-根据 `MediaQuery.platformBrightnessOf` 自动套用浅色/深色主题的便捷组件。对应 Kotlin `ThemeController(ColorSchemeMode.System)` 的"跟随系统"行为。
+根据 `MediaQuery.platformBrightnessOf` 自动套用浅色/深色主题的便捷组件。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -68,7 +68,7 @@ MiuixSystemTheme(
 
 ### MiuixColorSchemeMode
 
-配色模式枚举。对应 Kotlin `ColorSchemeMode`。
+配色模式枚举。
 
 | 值 | 说明 |
 |---|---|
@@ -83,7 +83,7 @@ MiuixSystemTheme(
 
 ### MiuixThemeController
 
-完整的主题控制器，按 [MiuixColorSchemeMode] 解析配色并向子树提供 [MiuixTheme]。对应 Kotlin `ThemeController`。
+完整的主题控制器，按 [MiuixColorSchemeMode] 解析配色并向子树提供 [MiuixTheme]。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -112,7 +112,7 @@ MiuixThemeController(
 
 ### MiuixColors
 
-Miuix 颜色方案。对应 Kotlin `Colors`。所有字段均不可空，可通过 [copy] 覆盖部分颜色；浅色/深色默认值由 [lightColorScheme] / [darkColorScheme] 提供，与 HyperOS 规范一致。
+Miuix 颜色方案。所有字段均不可空，可通过 [copy] 覆盖部分颜色；浅色/深色默认值由 [lightColorScheme] / [darkColorScheme] 提供，与 HyperOS 规范一致。
 
 #### 主要语义角色
 
@@ -172,7 +172,7 @@ final colors = lightColorScheme().copy(
 
 ### MiuixTextStyles
 
-Miuix 文本样式集。对应 Kotlin `TextStyles`。所有样式仅保留字号/字重/行高，颜色由 [MiuixTheme] 的 `onBackground` 在运行时提供。
+Miuix 文本样式集。所有样式仅保留字号/字重/行高，颜色由 [MiuixTheme] 的 `onBackground` 在运行时提供。
 
 | 字段 | 字号 | 行高/字重 | 用途 |
 |---|---|---|---|
@@ -203,7 +203,7 @@ Miuix 文本样式集。对应 Kotlin `TextStyles`。所有样式仅保留字号
 
 #### MiuixThemeColorSpec
 
-Material 配色规范版本。对应 Kotlin `ThemeColorSpec`。当前 `material_color_utilities` 0.13.0 仅实现 SPEC_2021，`spec2025` 在受支持的 palette 上语义等价请求 2025，但底层按 2021 生成（与原版"不支持则降级"路径一致）。
+Material 配色规范版本。当前 `material_color_utilities` 0.13.0 仅实现 SPEC_2021，`spec2025` 在受支持的 palette 上语义等价请求 2025，但底层按 2021 生成（与原版"不支持则降级"路径一致）。
 
 | 值 | 说明 |
 |---|---|
@@ -212,7 +212,7 @@ Material 配色规范版本。对应 Kotlin `ThemeColorSpec`。当前 `material_
 
 #### MiuixThemePaletteStyle
 
-Monet 动态配色的 palette 风格。对应 Kotlin `ThemePaletteStyle`。
+Monet 动态配色的 palette 风格。
 
 | 值 | 对应 DynamicScheme |
 |---|---|
@@ -228,7 +228,7 @@ Monet 动态配色的 palette 风格。对应 Kotlin `ThemePaletteStyle`。
 
 #### `miuixColorsFromSeed({seed, colorSpec, paletteStyle, dark})`
 
-从种子色生成整套 miuix 配色。对应 Kotlin `colorsFromSeed`。
+从种子色生成整套 miuix 配色。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -241,16 +241,16 @@ Monet 动态配色的 palette 风格。对应 Kotlin `ThemePaletteStyle`。
 
 #### `miuixMonetSystemColors({dark})`
 
-默认 Monet 配色：固定种子 `0xFF6750A4` + TonalSpot + Spec2021。对应 Kotlin `monetSystemColors`，也是所有非 Android 平台的 `platformDynamicColors` 回退。
+默认 Monet 配色：固定种子 `0xFF6750A4` + TonalSpot + Spec2021。也是所有非 Android 平台的 `platformDynamicColors` 回退。
 
 #### `miuixPlatformDynamicColors({dark})` → `Future<MiuixColors>`
 
-平台动态取色。对应 Kotlin `expect fun platformDynamicColors(dark)`。
+平台动态取色。
 
 - Android（及支持的平台）：通过 `DynamicColorPlugin.getAccentColor` 读系统壁纸/主题种子色，非空则用 [miuixColorsFromSeed]（TonalSpot + Spec2021）生成。
 - 其他平台或读取失败：回退 [miuixMonetSystemColors]（固定种子）。
 
-> 与 Compose 同步的 `@Composable` 不同，平台通道是**异步**，故本函数返回 `Future`。UI 层（[MiuixThemeController]）在结果就绪前用 [miuixMonetSystemColors] 占位。
+> 平台通道是**异步**，故本函数返回 `Future`。UI 层（[MiuixThemeController]）在结果就绪前用 [miuixMonetSystemColors] 占位。
 
 #### MiuixMonetRoles
 
@@ -260,7 +260,7 @@ MD3（Monet）动态配色的角色集合（27 个字段）。由 [miuixColorsFr
 
 #### `mapMd3RolesToMiuixColors(roles, {dark})`
 
-把 MD3（Monet）角色映射为 miuix [MiuixColors]。对应 Kotlin `mapMd3RolesToMiuixColorsCommon`。逐字段照搬原版映射；带透明度的 disabled / slider / onSurfaceSecondary 等通过 `ensureOpaqueOver` 合成到对应背景上，保证结果全不透明。
+把 MD3（Monet）角色映射为 miuix [MiuixColors]。逐字段照搬原版映射；带透明度的 disabled / slider / onSurfaceSecondary 等通过 `ensureOpaqueOver` 合成到对应背景上，保证结果全不透明。
 
 ### MiuixMotion
 
@@ -276,7 +276,7 @@ Miuix 常用动效曲线与弹簧集合，按 HyperOS 交互习惯分类。
 
 #### `folmeSpring({damping, response})` → `SpringDescription`
 
-由阻尼比 [damping] 与响应时间 [response]（秒）构造一个 [SpringDescription]。对应 Kotlin `folmeSpring`：`stiffness = (2π/response)²`。
+由阻尼比 [damping] 与响应时间 [response]（秒）构造一个 [SpringDescription]：`stiffness = (2π/response)²`。
 
 | 参数 | 类型 | 说明 |
 |---|---|---|
@@ -285,7 +285,7 @@ Miuix 常用动效曲线与弹簧集合，按 HyperOS 交互习惯分类。
 
 #### AccelerateEasing
 
-加速曲线。对应 Kotlin `AccelerateEasing`。`factor=1` 时为 `y=x²`；`factor` 越大缓入越夸张。
+加速曲线。`factor=1` 时为 `y=x²`；`factor` 越大缓入越夸张。
 
 ```dart
 const curve = AccelerateEasing(1.0);
@@ -293,11 +293,11 @@ const curve = AccelerateEasing(1.0);
 
 #### DecelerateEasing
 
-减速曲线。对应 Kotlin `DecelerateEasing`。`factor=1` 时为 `1-(1-x)²`；`factor` 越大缓出越夸张。
+减速曲线。`factor=1` 时为 `1-(1-x)²`；`factor` 越大缓出越夸张。
 
 #### SinOutEasing
 
-正弦缓出曲线。对应 Kotlin `SinOutEasing`：`sin(t·π/2)`。
+正弦缓出曲线：`sin(t·π/2)`。
 
 **完整动效示例：**
 ```dart

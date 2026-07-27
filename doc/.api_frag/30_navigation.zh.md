@@ -30,7 +30,7 @@ MiuixScaffold(
 
 ### MiuixScaffoldContentBuilder
 
-`MiuixScaffold.content` 槽的类型别名。对应 Kotlin `content: (PaddingValues) -> Unit`。脚手架先测量顶/底栏与系统内边距，再把应应用到内容根部的 `EdgeInsets` 通过此回调传给内容；内容应自行用 `Padding` 包裹根部。
+`MiuixScaffold.content` 槽的类型别名。脚手架先测量顶/底栏与系统内边距，再把应应用到内容根部的 `EdgeInsets` 通过此回调传给内容；内容应自行用 `Padding` 包裹根部。
 
 **签名：**
 
@@ -44,7 +44,7 @@ typedef MiuixScaffoldContentBuilder = Widget Function(EdgeInsets contentPadding)
 
 ### MiuixFabPosition
 
-悬浮操作按钮（FAB）在 MiuixScaffold 中的位置。对应 Kotlin `FabPosition`。
+悬浮操作按钮（FAB）在 MiuixScaffold 中的位置。
 
 | 值 | 说明 |
 |---|---|
@@ -55,7 +55,7 @@ typedef MiuixScaffoldContentBuilder = Widget Function(EdgeInsets contentPadding)
 
 ### MiuixToolbarPosition
 
-悬浮工具栏在 MiuixScaffold 中的位置。对应 Kotlin `ToolbarPosition`；枚举顺序与 Kotlin 整型值一一对应（TopStart=0 … BottomCenter=7）。
+悬浮工具栏在 MiuixScaffold 中的位置。枚举顺序与整型值一一对应（TopStart=0 … BottomCenter=7）。
 
 | 值 | 说明 |
 |---|---|
@@ -70,7 +70,7 @@ typedef MiuixScaffoldContentBuilder = Widget Function(EdgeInsets contentPadding)
 
 ### MiuixTopAppBar
 
-大标题可折叠的 TopAppBar，对应 Kotlin `TopAppBar`。必须配合 MiuixScrollBehavior 使用才能实现折叠/展开；不传 scrollBehavior 时表现为静态展开状态。
+大标题可折叠的 TopAppBar。必须配合 MiuixScrollBehavior 使用才能实现折叠/展开；不传 scrollBehavior 时表现为静态展开状态。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -113,7 +113,7 @@ MiuixScaffold(
 
 ### MiuixSmallTopAppBar
 
-小标题静态 TopAppBar，对应 Kotlin `SmallTopAppBar`。不参与折叠/展开，固定显示居中标题；如传入 scrollBehavior，会把 state 的 heightOffsetLimit 锁为 0（pinned 效果）。
+小标题静态 TopAppBar。不参与折叠/展开，固定显示居中标题；如传入 scrollBehavior，会把 state 的 heightOffsetLimit 锁为 0（pinned 效果）。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -139,7 +139,7 @@ MiuixSmallTopAppBar(title: 'Settings', subtitle: 'v1.0')
 
 ### MiuixTopAppBarState
 
-TopAppBar 的状态（继承 ChangeNotifier），对应 Kotlin `TopAppBarState`。持有折叠偏移量、内容滚动偏移量等，通常由 MiuixScrollBehavior 持有并更新，由 MiuixTopAppBar 读取。
+TopAppBar 的状态（继承 ChangeNotifier）。持有折叠偏移量、内容滚动偏移量等，通常由 MiuixScrollBehavior 持有并更新，由 MiuixTopAppBar 读取。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -151,11 +151,11 @@ TopAppBar 的状态（继承 ChangeNotifier），对应 Kotlin `TopAppBarState`�
 
 ### MiuixScrollBehavior
 
-滚动行为抽象，对应 Kotlin `ScrollBehavior`。暴露 `state`（MiuixTopAppBarState）与 `isPinned`（是否固定，不随滚动收起）。
+滚动行为抽象。暴露 `state`（MiuixTopAppBarState）与 `isPinned`（是否固定，不随滚动收起）。
 
 ### MiuixExitUntilCollapsedScrollBehavior
 
-"折叠到顶部为止"的滚动行为，对应 Kotlin `ExitUntilCollapsedScrollBehavior`。上滑时优先折叠 TopAppBar，完全折叠后才让下方内容滚动；下滑时优先展开。实现 MiuixScrollBehavior，`isPinned` 恒为 false。
+"折叠到顶部为止"的滚动行为。上滑时优先折叠 TopAppBar，完全折叠后才让下方内容滚动；下滑时优先展开。实现 MiuixScrollBehavior，`isPinned` 恒为 false。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -194,7 +194,7 @@ MiuixScrollBehaviorListener(
 
 ### MiuixTopAppBarDefaults
 
-TopAppBar 默认值，对应 Kotlin `TopAppBarDefaults`（私有构造，仅静态常量）。
+TopAppBar 默认值（私有构造，仅静态常量）。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -209,7 +209,7 @@ TopAppBar 默认值，对应 Kotlin `TopAppBarDefaults`（私有构造，仅静�
 
 ### MiuixNavigationBar
 
-普通底部导航栏，对应 Kotlin `NavigationBar`。children 通常由 2 到 5 个 MiuixNavigationBarItem 组成（断言长度 2..5），每项会被 Expanded 等分。
+普通底部导航栏。children 通常由 2 到 5 个 MiuixNavigationBarItem 组成（断言长度 2..5），每项会被 Expanded 等分。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -233,7 +233,7 @@ MiuixNavigationBar(
 
 ### MiuixNavigationBarItem
 
-普通导航项，对应 Kotlin `NavigationBarItem`。icon 与 labelWidget 是槽位；未提供 labelWidget 时用 label 构造文本。
+普通导航项。icon 与 labelWidget 是槽位；未提供 labelWidget 时用 label 构造文本。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -248,7 +248,7 @@ MiuixNavigationBar(
 
 ### MiuixFloatingNavigationBar
 
-悬浮式底部导航栏，对应 Kotlin `FloatingNavigationBar`。内容按自身宽度排列，不参与等分，项目之间固定间隔 12（断言 children 长度 2..5）。
+悬浮式底部导航栏。内容按自身宽度排列，不参与等分，项目之间固定间隔 12（断言 children 长度 2..5）。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -275,7 +275,7 @@ MiuixFloatingNavigationBar(
 
 ### MiuixFloatingNavigationBarItem
 
-悬浮导航项，对应 Kotlin `FloatingNavigationBarItem`。
+悬浮导航项。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -289,7 +289,7 @@ MiuixFloatingNavigationBar(
 
 ### MiuixNavigationItem
 
-导航项数据，对应 Kotlin `NavigationItem`（@immutable）。
+导航项数据（@immutable）。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -299,7 +299,7 @@ MiuixFloatingNavigationBar(
 
 ### MiuixNavigationBarDisplayMode
 
-导航项显示模式，对应 Kotlin `NavigationBarDisplayMode`。
+导航项显示模式。
 
 | 值 | 说明 |
 |---|---|
@@ -320,7 +320,7 @@ MiuixFloatingNavigationBar(
 
 ### MiuixNavigationBarDefaults
 
-普通导航栏默认值，对应 Kotlin `NavigationBarDefaults`（私有构造）。
+普通导航栏默认值（私有构造）。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -338,7 +338,7 @@ MiuixFloatingNavigationBar(
 
 ### MiuixFloatingNavigationBarDefaults
 
-悬浮导航栏默认值，对应 Kotlin `FloatingNavigationBarDefaults`（私有构造）。
+悬浮导航栏默认值（私有构造）。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -379,7 +379,7 @@ MiuixFloatingNavigationBar(
 | labelFontSize | double | MiuixNavigationRailDefaults.labelFontSize (12) | 折叠态标签字号 |
 | expandedLabelFontSize | double | MiuixNavigationRailDefaults.expandedLabelFontSize (16) | 展开态标签字号 |
 
-> 后 5 个尺寸参数为增强项，默认值等于原 Kotlin 常量（非破坏、1:1 默认不变），用于按需压缩侧栏项。
+> 后 5 个尺寸参数为增强项，默认值保持原值（非破坏），用于按需压缩侧栏项。
 
 **示例：**
 ```dart
@@ -443,7 +443,7 @@ MiuixNavigationRailState 的类型别名（`typedef MiuixNavigationRailControlle
 
 ### MiuixNavigationRailDefaults
 
-NavigationRail 默认值，对应 Kotlin `NavigationRailDefaults`（私有构造）。
+NavigationRail 默认值（私有构造）。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -469,7 +469,7 @@ NavigationRail 默认值，对应 Kotlin `NavigationRailDefaults`（私有构造
 
 ### MiuixTabRow
 
-Miuix 标签栏，对应 Kotlin `TabRow`。横向可滚动，选中项以 squircle 背景指示。
+Miuix 标签栏。横向可滚动，选中项以 squircle 背景指示。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -497,7 +497,7 @@ MiuixTabRow(
 
 ### MiuixTabRowWithContour
 
-带外轮廓标签栏，对应 Kotlin `TabRowWithContour`。整体套一层 squircle 外框，指示器带 200ms 位移动画。
+带外轮廓标签栏。整体套一层 squircle 外框，指示器带 200ms 位移动画。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -525,7 +525,7 @@ MiuixTabRowWithContour(
 
 ### MiuixTabRowColors
 
-标签栏颜色配置，对应 Kotlin `TabRowColors`（@immutable）。提供 `background(bool)` 与 `content(bool)` 便捷方法。
+标签栏颜色配置（@immutable）。提供 `background(bool)` 与 `content(bool)` 便捷方法。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -536,7 +536,7 @@ MiuixTabRowWithContour(
 
 ### MiuixTabRowDefaults
 
-标签栏默认值，对应 Kotlin `TabRowDefaults`（私有构造）。
+标签栏默认值（私有构造）。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -558,7 +558,7 @@ MiuixTabRowWithContour(
 
 ### MiuixBreadcrumbBar
 
-横向面包屑导航栏，对应 Kotlin `BreadcrumbBar`。内容溢出时横向滚动；highlightIndex 为负数时同时关闭高亮和自动居中。
+横向面包屑导航栏。内容溢出时横向滚动；highlightIndex 为负数时同时关闭高亮和自动居中。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -585,7 +585,7 @@ MiuixBreadcrumbBar(
 
 ### MiuixBreadcrumbItem
 
-单个路径段，对应 Kotlin `BreadcrumbItem`（@immutable）。
+单个路径段（@immutable）。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -594,7 +594,7 @@ MiuixBreadcrumbBar(
 
 ### MiuixBreadcrumbItemsPath
 
-`List<MiuixBreadcrumbItem>` 的扩展，对应 Kotlin `joinToPath`。用分隔符拼接所有路径段的 `path` 字段，便于重建完整路径。
+`List<MiuixBreadcrumbItem>` 的扩展。用分隔符拼接所有路径段的 `path` 字段，便于重建完整路径。
 
 | 方法签名 | 返回 | 说明 |
 |---|---|---|
@@ -612,7 +612,7 @@ final full = items.joinToPath(); // 'home/docs/api'
 
 ### MiuixBreadcrumbBarColors
 
-面包屑颜色配置，对应 Kotlin `BreadcrumbBarColors`（@immutable）。
+面包屑颜色配置（@immutable）。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -626,7 +626,7 @@ final full = items.joinToPath(); // 'home/docs/api'
 
 ### MiuixBreadcrumbBarDefaults
 
-面包屑默认值，对应 Kotlin `BreadcrumbBarDefaults`（私有构造）。
+面包屑默认值（私有构造）。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -639,7 +639,7 @@ final full = items.joinToPath(); // 'home/docs/api'
 
 ### MiuixVerticalScrollBar
 
-竖向滚动条，对应 Kotlin `VerticalScrollBar`。支持悬停/拖拽高亮与自动淡出。
+竖向滚动条。支持悬停/拖拽高亮与自动淡出。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -665,7 +665,7 @@ Stack(children: [
 
 ### MiuixHorizontalScrollBar
 
-横向滚动条，对应 Kotlin `HorizontalScrollBar`。参数与 MiuixVerticalScrollBar 相同。
+横向滚动条。参数与 MiuixVerticalScrollBar 相同。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -681,7 +681,7 @@ Stack(children: [
 
 ### MiuixScrollBarAdapter
 
-统一适配 Flutter ScrollController，对应 Kotlin `ScrollBarAdapter`。
+统一适配 Flutter ScrollController。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -691,7 +691,7 @@ Stack(children: [
 
 ### MiuixScrollBarColors
 
-滚动条颜色，对应 Kotlin `ScrollBarColors`；null 表示 `Color.Unspecified`（@immutable）。
+滚动条颜色；null 表示未设置（@immutable）。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -700,7 +700,7 @@ Stack(children: [
 
 ### MiuixScrollBarDefaults
 
-滚动条默认值，对应 Kotlin `ScrollBarDefaults`（私有构造）。
+滚动条默认值（私有构造）。
 
 | 常量 | 值 | 说明 |
 |---|---|---|

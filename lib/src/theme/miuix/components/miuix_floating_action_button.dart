@@ -88,7 +88,8 @@ class MiuixFloatingActionButton extends StatelessWidget {
           minWidth: minWidth,
           minHeight: minHeight,
         ),
-        child: Center(child: child),
+        // factor=1：贴内容尺寸（对应 Compose defaultMinSize 语义）。
+        child: Center(widthFactor: 1, heightFactor: 1, child: child),
       ),
     );
 

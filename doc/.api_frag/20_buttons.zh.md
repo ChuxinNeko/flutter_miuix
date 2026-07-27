@@ -46,7 +46,7 @@ MiuixTextButton('取消', onPressed: () {})
 
 ### MiuixButtonColors
 
-按钮颜色配置，对应 Kotlin `ButtonColors`，四个字段均为必填。
+按钮颜色配置，四个字段均为必填。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -67,7 +67,7 @@ const MiuixButtonColors(
 
 ### MiuixButtonDefaults
 
-私有构造，仅 `static` 字段/方法，对应 Kotlin `ButtonDefaults`。
+私有构造，仅 `static` 字段/方法。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -106,7 +106,7 @@ MiuixIconButton(
 
 ### MiuixIconButtonDefaults
 
-私有构造，仅 `static` 字段/方法，对应 Kotlin `IconButtonDefaults`。
+私有构造，仅 `static` 字段/方法。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -123,7 +123,7 @@ Miuix 风格的浮动操作按钮，圆形背景加阴影，内容色默认继�
 | onPressed | VoidCallback? | 必填 | 点击回调，为 null 时视为禁用 |
 | child | Widget | 必填 | 子节点 |
 | enabled | bool | true | 是否启用 |
-| shape | ShapeBorder | `StadiumBorder()`（对应 Kotlin `CircleShape`） | 形状 |
+| shape | ShapeBorder | `StadiumBorder()` | 形状 |
 | containerColor | Color? | null（默认 `colors.primary`） | 容器背景色 |
 | shadowElevation | double | 4 | 阴影高度（逻辑像素） |
 | minWidth | double | 60 | 最小宽度 |
@@ -139,14 +139,14 @@ MiuixFloatingActionButton(
 
 ### MiuixFloatingActionButtonDefaults
 
-私有构造，仅 `static` 字段/方法，对应 Kotlin `FloatingActionButtonDefaults`。
+私有构造，仅 `static` 字段/方法。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
 | minWidth | `60` | 默认最小宽度 |
 | minHeight | `60` | 默认最小高度 |
 | shadowElevation | `4` | 默认阴影高度 |
-| shape | `StadiumBorder()` | 默认形状，对应 Kotlin `CircleShape`（正方形 bounds 下为正圆，矩形下为胶囊） |
+| shape | `StadiumBorder()` | 默认形状；正方形 bounds 下为正圆，矩形下为胶囊 |
 
 ### MiuixCard
 
@@ -172,7 +172,7 @@ const MiuixCard(
 
 ### MiuixCardColors
 
-卡片颜色配置，对应 Kotlin `CardColors`，两个字段均为必填。
+卡片颜色配置，两个字段均为必填。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -189,7 +189,7 @@ const MiuixCardColors(
 
 ### MiuixCardDefaults
 
-私有构造，仅 `static` 字段/方法，对应 Kotlin `CardDefaults`。
+私有构造，仅 `static` 字段/方法。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -241,7 +241,7 @@ const MiuixBadge(child: MiuixText('9'))
 
 ### MiuixBadgeDefaults
 
-私有构造，仅 `static` 字段/方法，对应 Kotlin `BadgeDefaults`。
+私有构造，仅 `static` 字段/方法。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -302,7 +302,7 @@ const SizedBox(height: 24, child: MiuixVerticalDivider())
 
 ### MiuixDividerDefaults
 
-私有构造，仅 `static` 字段/方法，对应 Kotlin `DividerDefaults`。
+私有构造，仅 `static` 字段/方法。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -359,7 +359,7 @@ MiuixBasicComponent(
 
 ### MiuixBasicComponentRole
 
-BasicComponent 的无障碍角色枚举，对应 Compose `Role`。
+BasicComponent 的无障碍角色枚举。
 
 | 值 | 说明 |
 |---|---|
@@ -372,7 +372,7 @@ BasicComponent 的无障碍角色枚举，对应 Compose `Role`。
 
 ### MiuixBasicComponentColors
 
-BasicComponent 颜色配置，对应 Kotlin `BasicComponentColors`，两个字段均为必填。
+BasicComponent 颜色配置，两个字段均为必填。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -389,7 +389,7 @@ const MiuixBasicComponentColors(
 
 ### MiuixBasicComponentDefaults
 
-私有构造，仅 `static` 字段/方法，对应 Kotlin `BasicComponentDefaults`。
+私有构造，仅 `static` 字段/方法。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -446,9 +446,9 @@ MiuixIcon(vector: MiuixIcons.extended.byName('favoritesFill')!, size: 24)
 
 ### MiuixIconDefaults
 
-私有构造，仅 `static` 字段/方法，对应 Kotlin `Icon.kt` 中的 `DefaultIconSizeModifier`。
+私有构造，仅 `static` 字段/方法。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
-| defaultSize | `24` | 默认图标尺寸（逻辑像素），对应 Kotlin `Modifier.size(24.dp)` |
+| defaultSize | `24` | 默认图标尺寸（逻辑像素） |
 

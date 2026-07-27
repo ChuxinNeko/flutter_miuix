@@ -6,7 +6,7 @@ This chapter covers flutter_miuix's low-level infrastructure: popup registration
 
 #### MiuixPopupTransitionBuilder
 
-Type alias for the popup content transition builder. Corresponds to Kotlin `PopupTransitionBuilder`. `MiuixPopupTransition.builder` is of this type; it receives `0..1` progress (0 = fully hidden, 1 = fully shown), the child, and returns the transitioned widget.
+Type alias for the popup content transition builder. `MiuixPopupTransition.builder` is of this type; it receives `0..1` progress (0 = fully hidden, 1 = fully shown), the child, and returns the transitioned widget.
 
 **Signature:**
 
@@ -26,7 +26,7 @@ typedef MiuixPopupTransitionBuilder = Widget Function(
 
 #### MiuixPopupController
 
-Controls the visibility of a dialog or plain popup. Extends `ChangeNotifier` and implements `ValueListenable<bool>`. Corresponds to Kotlin `PopupController`.
+Controls the visibility of a dialog or plain popup. Extends `ChangeNotifier` and implements `ValueListenable<bool>`.
 
 | Field / Method | Type | Description |
 |---|---|---|
@@ -42,7 +42,7 @@ The controller can be retained across layout rebuilds or directly listened to vi
 
 #### MiuixPopupTransition
 
-Describes an enter or exit transition. Corresponds to Kotlin `PopupTransition`.
+Describes an enter or exit transition.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -64,7 +64,7 @@ MiuixPopupTransition.fade(
 
 #### MiuixPopupDefaults
 
-Flutter-equivalent definitions of the Kotlin default transitions (`MiuixPopupDefaults._()` private constructor; all fields are `static final`).
+Default popup transition definitions (`MiuixPopupDefaults._()` private constructor; all fields are `static final`).
 
 | Field | Duration / Curve | Usage |
 |---|---|---|
@@ -199,7 +199,7 @@ MiuixPopupHost(
 
 #### MiuixPopupUtils
 
-Convenience entry point matching the Kotlin static utility class (`MiuixPopupUtils._()` private constructor; only `static` methods are exposed).
+Convenience static utility entry point (`MiuixPopupUtils._()` private constructor; only `static` methods are exposed).
 
 | Method | Equivalent to |
 |---|---|
@@ -212,7 +212,7 @@ Whether the current logical window meets the Miuix large-screen threshold: **wid
 
 ### Squircle rounded corners
 
-The signature HyperOS smooth corner, approximating a superellipse with cubic Béziers (control ratio `0.643`). Sourced from compose-miuix-ui/miuix-squircle's `SquirclePath.kt`.
+The signature HyperOS smooth corner, approximating a superellipse with cubic Béziers (control ratio `0.643`).
 
 #### SquircleDefaults
 
@@ -224,7 +224,7 @@ The signature HyperOS smooth corner, approximating a superellipse with cubic Bé
 
 #### `addSquircleRect(path, width, height, cornerRadius, {extension, enabled})`
 
-Appends a squircle rounded rectangle to [path]. Corresponds to Kotlin `Path.addSquircleRect`.
+Appends a squircle rounded rectangle to [path].
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -260,7 +260,7 @@ Container(
 
 ### MiuixPressable
 
-Miuix-style pressable container. Overlays a translucent mask on the child; on press/hover/focus, the alpha is driven by springs, with optional sink (scale-down) or tilt (3D rotation) feedback. Merges Kotlin `MiuixIndication` + `SinkFeedback` / `TiltFeedback`.
+Miuix-style pressable container. Overlays a translucent mask on the child; on press/hover/focus, the alpha is driven by springs, with optional sink (scale-down) or tilt (3D rotation) feedback.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -283,7 +283,7 @@ Miuix-style pressable container. Overlays a translucent mask on the child; on pr
 
 #### MiuixPressFeedbackType
 
-Press visual feedback type. Corresponds to Kotlin `PressFeedbackType`.
+Press visual feedback type.
 
 | Value | Description |
 |---|---|
@@ -308,7 +308,7 @@ MiuixPressable(
 
 ### MiuixContentColor
 
-Propagates a default "content color" (text/icon color) to the subtree, corresponding to Compose's `LocalContentColor`. Pushed by containers like `MiuixSurface` / `MiuixCard` / `MiuixButton` so children like `MiuixText` / `MiuixIcon` can pick it up by default.
+Propagates a default "content color" (text/icon color) to the subtree. Pushed by containers like `MiuixSurface` / `MiuixCard` / `MiuixButton` so children like `MiuixText` / `MiuixIcon` can pick it up by default.
 
 | Parameter / Method | Type | Default | Description |
 |---|---|---|---|
@@ -318,7 +318,7 @@ Propagates a default "content color" (text/icon color) to the subtree, correspon
 
 ### Spring & damping utilities
 
-Sourced from Kotlin `SpringMath` / `SpringEngine` / `SpringOperator`.
+The underlying math and per-frame engine for Folme spring motion.
 
 #### MiuixSpringDefaults
 
@@ -333,15 +333,15 @@ Sourced from Kotlin `SpringMath` / `SpringEngine` / `SpringOperator`.
 
 #### `obtainDampingDistance(normalizedInput, range)` → `double`
 
-Corresponds to Kotlin `SpringMath.obtainDampingDistance`. Damping formula is `x - x² + x³/3`; `normalizedInput` is clamped to `0..1` and multiplied by `range`.
+Damping formula is `x - x² + x³/3`; `normalizedInput` is clamped to `0..1` and multiplied by `range`.
 
 #### `obtainTouchDistance(currentPixelOffset, range)` → `double`
 
-Corresponds to Kotlin `SpringMath.obtainTouchDistance`, inverting damped displacement back to touch displacement. Formula: `range - range^(2/3) * (range - 3*offset)^(1/3)`.
+Inverts damped displacement back to touch displacement. Formula: `range - range^(2/3) * (range - 3*offset)^(1/3)`.
 
 #### MiuixSpringOperator
 
-Corresponds to Kotlin `SpringOperator`, computing the next-frame velocity via explicit Euler integration.
+Computes the next-frame velocity via explicit Euler integration.
 
 | Parameter | Description |
 |---|---|
@@ -352,7 +352,7 @@ Corresponds to Kotlin `SpringOperator`, computing the next-frame velocity via ex
 
 #### MiuixSpringEngine
 
-Critically damped per-frame engine corresponding to Kotlin `SpringEngine`. You can manually `start`/`step`, or drive it with a Flutter `Ticker` via `runSettleAnimation`.
+Critically damped per-frame engine. You can manually `start`/`step`, or drive it with a Flutter `Ticker` via `runSettleAnimation`.
 
 | Method | Description |
 |---|---|
@@ -374,11 +374,9 @@ Always `true`. Flutter's `FragmentProgram` is available on both Impeller and Ski
 
 #### MiuixRuntimeShader
 
-Cross-platform wrapper for runtime shaders. Corresponds to Kotlin `interface RuntimeShader`.
+Cross-platform wrapper for runtime shaders.
 
-**Key differences from the original:**
-- Kotlin compiles AGSL/SkSL from **runtime strings**, with uniforms set by **name** (`setFloatUniform("name", ...)`).
-- Flutter's `FragmentShader` is produced only from **precompiled `.frag` assets** (via impellerc), with uniforms set by **index** (`setFloat(index, value)`). This wrapper translates names to indices via `uniformLayout` (uniform name → starting float index), preserving Kotlin's "set uniform by name" call style.
+Flutter's `FragmentShader` is produced only from **precompiled `.frag` assets** (via impellerc), with uniforms set by **index** (`setFloat(index, value)`). This wrapper translates names to indices via `uniformLayout` (uniform name → starting float index), enabling a "set uniform by name" call style.
 
 | Parameter / Field | Type | Description |
 |---|---|---|
@@ -387,22 +385,22 @@ Cross-platform wrapper for runtime shaders. Corresponds to Kotlin `interface Run
 | `uniformLayout` | `Map<String, int>` | uniform name → starting float index |
 | `samplerLayout` | `Map<String, int>` | sampler name → sampler index |
 
-| Method | Kotlin equivalent |
+| Method | Description |
 |---|---|
-| `setFloatUniform(name, value)` | `setFloatUniform(name, value)` |
-| `setFloat2Uniform(name, v1, v2)` | `setFloatUniform(name, v1, v2)` |
-| `setFloat3Uniform(name, v1, v2, v3)` | `setFloatUniform(name, v1, v2, v3)` |
-| `setFloat4Uniform(name, v1, v2, v3, v4)` | `setFloatUniform(name, v1, v2, v3, v4)` |
-| `setFloatArrayUniform(name, values)` | `setFloatUniform(name, FloatArray)` |
-| `setColorUniform(name, color)` | `setColorUniform(name, Color)` (RGBA 0..1) |
-| `setInputShader(name, image)` | `setInputShader(name, shader)` (takes a `ui.Image`) |
+| `setFloatUniform(name, value)` | Sets a single float uniform |
+| `setFloat2Uniform(name, v1, v2)` | Sets a vec2 uniform |
+| `setFloat3Uniform(name, v1, v2, v3)` | Sets a vec3 uniform |
+| `setFloat4Uniform(name, v1, v2, v3, v4)` | Sets a vec4 uniform |
+| `setFloatArrayUniform(name, values)` | Sets a float-array uniform |
+| `setColorUniform(name, color)` | Sets a color uniform (RGBA 0..1) |
+| `setInputShader(name, image)` | Sets a sampler (takes a `ui.Image`) |
 | `dispose()` | Releases the underlying `FragmentShader` |
 
 Names not registered in `uniformLayout` / `samplerLayout` throw `ArgumentError`.
 
 ### MiuixScrollEndHaptic
 
-Triggers a haptic feedback when scrollable content is **flung to** the start/end boundary. Corresponds to Kotlin `Modifier.scrollEndHaptic()`.
+Triggers a haptic feedback when scrollable content is **flung to** the start/end boundary.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -431,7 +429,7 @@ MiuixScrollEndHaptic(
 
 #### MiuixVectorPath
 
-Description of a single vector path. Corresponds to a `path { ... }` node in Compose's `ImageVector`.
+Description of a single vector path.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -445,7 +443,7 @@ Description of a single vector path. Corresponds to a `path { ... }` node in Com
 
 #### MiuixVectorIcon
 
-Vector icon. Corresponds to Compose's `ImageVector`.
+Vector icon.
 
 | Parameter | Type | Description |
 |---|---|---|
@@ -461,7 +459,7 @@ A `CustomPainter` that draws [MiuixVectorIcon] onto a **viewport-sized** canvas;
 | Parameter | Type | Description |
 |---|---|---|
 | `icon` | `MiuixVectorIcon` | Vector icon |
-| `tint` | `Color?` | Tint color; when non-null, applies `ColorFilter.mode(tint, BlendMode.srcIn)` to the whole vector, matching Compose's `ColorFilter.tint`; null draws with original vector colors (multi-color / untinted scenarios) |
+| `tint` | `Color?` | Tint color; when non-null, applies `ColorFilter.mode(tint, BlendMode.srcIn)` to the whole vector; null draws with original vector colors (multi-color / untinted scenarios) |
 
 #### `miuixEvenOddPath()` → `Path`
 
@@ -483,4 +481,4 @@ Supported commands (**absolute coordinates only**):
 
 Numbers are whitespace-separated; command letters are individual tokens. `fillType` defaults to `nonZero`.
 
-> Compose's `HorizontalTo` / `VerticalTo` are expanded to full `L x y` at generation time, so H/V do not need to be handled here.
+> `HorizontalTo` / `VerticalTo` are expanded to full `L x y` at generation time, so H/V do not need to be handled here.

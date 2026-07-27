@@ -10,7 +10,7 @@
 
 #### MiuixBackdrop
 
-背景内容提供者的抽象基类，继承 `ChangeNotifier`。对应 Kotlin `interface Backdrop`。模糊组件（[MiuixTextureBlur] 等）通过它拿到"自己背后的内容"来做模糊。
+背景内容提供者的抽象基类，继承 `ChangeNotifier`。模糊组件（[MiuixTextureBlur] 等）通过它拿到"自己背后的内容"来做模糊。
 
 | 字段 / 方法 | 类型 | 说明 |
 |---|---|---|
@@ -21,7 +21,7 @@
 
 #### MiuixLayerBackdrop
 
-通过捕获的图层快照提供背景的 [MiuixBackdrop]。对应 Kotlin `LayerBackdrop`。
+通过捕获的图层快照提供背景的 [MiuixBackdrop]。
 
 | 字段 / 方法 | 类型 | 说明 |
 |---|---|---|
@@ -31,7 +31,7 @@
 
 #### MiuixLayerBackdropCapture
 
-捕获子树渲染输出到 [backdrop] 供模糊组件当背景取样的 `SingleChildRenderObjectWidget`。对应 Kotlin `Modifier.layerBackdrop`。
+捕获子树渲染输出到 [backdrop] 供模糊组件当背景取样的 `SingleChildRenderObjectWidget`。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -70,7 +70,7 @@ Widget tree = Column(
 
 #### MiuixTextureBlur
 
-对 [backdrop] 提供的背景做高斯模糊并叠加子内容。对应 Kotlin `Modifier.textureBlur`。模糊由 `ui.ImageFilter.blur` 完成（可分离两趟 + 逐级降采样，无颗粒），颜色控制用 `ColorFilter.matrix`。
+对 [backdrop] 提供的背景做高斯模糊并叠加子内容。模糊由 `ui.ImageFilter.blur` 完成（可分离两趟 + 逐级降采样，无颗粒），颜色控制用 `ColorFilter.matrix`。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -87,11 +87,11 @@ Widget tree = Column(
 
 ### Bloom 高光边框
 
-圆角矩形 SDF + 3D 半球 rim 法线 + 方向光，画出被照亮的玻璃边缘；`BlendMode.plus` 叠加。源自 compose-miuix-ui/miuix 的 `miuix-blur/highlight/{Highlight,HighlightStyle,HighlightDrawing}.kt`。
+圆角矩形 SDF + 3D 半球 rim 法线 + 方向光，画出被照亮的玻璃边缘；`BlendMode.plus` 叠加。
 
 #### LightPosition
 
-光源的 3D 位置（归一化 UV）。对应 Kotlin `LightPosition`。
+光源的 3D 位置（归一化 UV）。
 
 | 字段 | 类型 | 说明 |
 |---|---|---|
@@ -102,7 +102,7 @@ Widget tree = Column(
 
 #### LightSource
 
-一个方向光源。对应 Kotlin `LightSource`。
+一个方向光源。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -112,7 +112,7 @@ Widget tree = Column(
 
 #### BloomStroke
 
-边缘 bloom 描边的着色模型。对应 Kotlin `BloomStroke`。
+边缘 bloom 描边的着色模型。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -125,7 +125,7 @@ Widget tree = Column(
 
 默认主光源：`LightPosition(0.5, 0.5, -0.5)`、intensity `0.4`；副光源：`LightPosition(0.5, 0.8, -0.5)`、intensity `0.25`。
 
-**6 个 GlassStroke 预设**（值 1:1 抄 `HighlightStyle.kt`）：
+**6 个 GlassStroke 预设**：
 
 | 静态常量 | innerBlurRadius | 主光 intensity | 副光 intensity |
 |---|---|---|---|
@@ -138,7 +138,7 @@ Widget tree = Column(
 
 #### Highlight
 
-高光配置。对应 Kotlin `Highlight`。
+高光配置。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -152,7 +152,7 @@ Widget tree = Column(
 
 #### MiuixHighlight
 
-在子内容之上绘制 bloom 高光边框的 `StatefulWidget`。对应 Kotlin `Modifier.highlight` / `drawHighlight`。
+在子内容之上绘制 bloom 高光边框的 `StatefulWidget`。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -170,12 +170,12 @@ Widget tree = Column(
 
 #### MiuixBlurDefaults
 
-模糊效果默认值。对应 Kotlin `BlurDefaults` + `BlurEffect.kt` 内部常量。`MiuixBlurDefaults._()` 私有构造，全部为 `static` 字段。
+模糊效果默认值。`MiuixBlurDefaults._()` 私有构造，全部为 `static` 字段。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
-| `blurRadius` | `20.0` | 默认模糊半径（dp），对应 `BlurDefaults.BlurRadius` |
-| `noiseCoefficient` | `0.0045` | 默认噪声抖动系数（抗色带），对应 `BlurDefaults.NoiseCoefficient` |
+| `blurRadius` | `20.0` | 默认模糊半径（dp） |
+| `noiseCoefficient` | `0.0045` | 默认噪声抖动系数（抗色带） |
 | `progressiveNoiseCoefficient` | `0.0` | progressive blur 的默认噪声系数（0=禁用） |
 | `maxBlurRadius` | `150.0` | 最大模糊半径（dp） |
 | `blurRadiusToSigma` | `0.45` | 模糊半径 → 高斯 sigma 的转换系数 |
@@ -187,7 +187,7 @@ Widget tree = Column(
 
 #### BlurColors
 
-模糊后应用的颜色配置。对应 Kotlin `BlurColors`。
+模糊后应用的颜色配置。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -200,7 +200,7 @@ Widget tree = Column(
 
 #### BlendColorEntry
 
-叠加在模糊背景上的单个颜色 blend。对应 Kotlin `BlendColorEntry`。
+叠加在模糊背景上的单个颜色 blend。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -211,7 +211,7 @@ Widget tree = Column(
 
 #### BlurBlendMode
 
-模糊颜色 blend 模式。对应 Kotlin `BlurBlendMode`（value class）。`value` 为原始模式标识。
+模糊颜色 blend 模式。`value` 为原始模式标识。
 
 - `0-28`：标准 `SkBlendMode`（GPU 硬件处理），与 Flutter `BlendMode` 一一对应。
 - `>=100`：扩展自定义模式（Lab / 线性光等，由 runtime shader 处理）。

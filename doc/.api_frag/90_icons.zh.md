@@ -1,18 +1,18 @@
 ## 图标 Icons
 
-本章涵盖 flutter_miuix 的图标系统：[MiuixIcon]（统一渲染入口，对应 Kotlin `Icon`）、[MiuixIcons]（图标集合入口，对应 Kotlin `MiuixIcons`）、[MiuixBasicIcons]（7 个基础矢量图标）、[MiuixExtendedIcons]（120+ 扩展图标 × 5 种字重）。
+本章涵盖 flutter_miuix 的图标系统：[MiuixIcon]（统一渲染入口）、[MiuixIcons]（图标集合入口）、[MiuixBasicIcons]（7 个基础矢量图标）、[MiuixExtendedIcons]（120+ 扩展图标 × 5 种字重）。
 
 底层矢量数据模型（[MiuixVectorIcon] / [MiuixVectorPath] / `miuixParsePath`）见「基础设施」章节。
 
 ### MiuixIcon
 
-Miuix 风格的图标。对应 Kotlin `Icon`。单色图标通过 `tint` 上色（默认取自 `MiuixContentColor`），多色图标传 [kMiuixTintUnspecified] 禁用上色，或通过 `child` 传入自定义 Widget。
+Miuix 风格的图标。单色图标通过 `tint` 上色（默认取自 `MiuixContentColor`），多色图标传 [kMiuixTintUnspecified] 禁用上色，或通过 `child` 传入自定义 Widget。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `icon` | `IconData?` | `null` | Material 图标数据（对应 Kotlin `ImageVector` / `ImageBitmap` 输入） |
+| `icon` | `IconData?` | `null` | Material 图标数据 |
 | `vector` | `MiuixVectorIcon?` | `null` | Miuix 矢量图标（内置 basic / 扩展图标） |
-| `child` | `Widget?` | `null` | 自定义图标 Widget（多色图标等，对应 Kotlin `Painter` 输入） |
+| `child` | `Widget?` | `null` | 自定义图标 Widget（多色图标等） |
 | `tint` | `Color?` | `null` | 上色颜色；`null` 时取 `MiuixContentColor.of(context)`；传 [kMiuixTintUnspecified] 时不应用任何 tint |
 | `contentDescription` | `String?` | `null` | 无障碍描述；`null` 时不包裹 `Semantics`（装饰性图标） |
 | `size` | `double?` | `null` | 图标尺寸；`null` 时 `icon` 路径回退到 `MiuixIconDefaults.defaultSize`（24），`child` 路径保留自身尺寸 |
@@ -21,13 +21,13 @@ Miuix 风格的图标。对应 Kotlin `Icon`。单色图标通过 `tint` 上色�
 
 #### `kMiuixTintUnspecified`
 
-哨兵色值 `Color(0x00000001)`，表示"不上色"（用于多色图标），对应 Compose 的 `Color.Unspecified`。通过 `identical` 判等：只有传入此常量本身才被视为"无 tint"。
+哨兵色值 `Color(0x00000001)`，表示"不上色"（用于多色图标）。通过 `identical` 判等：只有传入此常量本身才被视为"无 tint"。
 
 #### MiuixIconDefaults
 
 | 常量 | 值 | 说明 |
 |---|---|---|
-| `defaultSize` | `24` | 默认图标尺寸（逻辑像素），对应 Kotlin `Modifier.size(24.dp)` |
+| `defaultSize` | `24` | 默认图标尺寸（逻辑像素） |
 
 **渲染路径**：
 
@@ -62,26 +62,26 @@ MiuixIcon(
 
 ### MiuixIcons
 
-Miuix 内置图标集合入口。对应 Kotlin `object MiuixIcons`。`MiuixIcons._()` 私有构造，仅暴露 `static` 字段。
+Miuix 内置图标集合入口。`MiuixIcons._()` 私有构造，仅暴露 `static` 字段。
 
 | 字段 | 类型 | 说明 |
 |---|---|---|
-| `basic` | `MiuixBasicIcons` | 组件内部使用的基础矢量图标（对应 `MiuixIcons.Basic`） |
-| `extended` | `MiuixExtendedIcons` | 扩展图标 120+ × 5 字重（对应 `MiuixIcons.Extended`） |
+| `basic` | `MiuixBasicIcons` | 组件内部使用的基础矢量图标 |
+| `extended` | `MiuixExtendedIcons` | 扩展图标 120+ × 5 字重 |
 
 ### MiuixBasicIcons
 
-基础图标命名空间。对应 Kotlin `MiuixIcons.Basic` 上的一组扩展属性。每个 getter 返回一个 [MiuixVectorIcon]，懒加载缓存单例（保证同一图标只构建一次）。
+基础图标命名空间。每个 getter 返回一个 [MiuixVectorIcon]，懒加载缓存单例（保证同一图标只构建一次）。
 
-| getter | 视口 | 说明 | 源自 |
-|---|---|---|---|
-| `arrowRight` | 10×16 | 右向箭头（`>`） | `icon/basic/ArrowRight.kt` |
-| `arrowUpDown` | 10×16 | 上下双箭头 | `icon/basic/ArrowUpDown.kt` |
-| `check` | 56×56 | 勾选 | `icon/basic/Check.kt` |
-| `close` | 24×24 | 关闭（`x`，描边） | `icon/basic/Close.kt` |
-| `search` | 20×20 | 搜索（放大镜） | `icon/basic/Search.kt` |
-| `searchCleanup` | 68×68 | 搜索清除（圆底 x） | `icon/basic/SearchCleanup.kt` |
-| `sidebar` | 1224×1224 | 侧边栏（含纵向翻转） | `icon/basic/Sidebar.kt` |
+| getter | 视口 | 说明 |
+|---|---|---|
+| `arrowRight` | 10×16 | 右向箭头（`>`） |
+| `arrowUpDown` | 10×16 | 上下双箭头 |
+| `check` | 56×56 | 勾选 |
+| `close` | 24×24 | 关闭（`x`，描边） |
+| `search` | 20×20 | 搜索（放大镜） |
+| `searchCleanup` | 68×68 | 搜索清除（圆底 x） |
+| `sidebar` | 1224×1224 | 侧边栏（含纵向翻转） |
 
 **示例：**
 ```dart
@@ -91,7 +91,7 @@ MiuixIcon(vector: MiuixIcons.basic.arrowRight, size: 12);
 
 ### MiuixExtendedIcons
 
-扩展图标集合。对应 Kotlin `MiuixIcons.Extended`（通过 `MiuixIcons.<Name>` 访问）。共 120+ 个图标 × 5 种字重。
+扩展图标集合。共 120+ 个图标 × 5 种字重。
 
 | 字段 / 方法 | 类型 | 说明 |
 |---|---|---|
@@ -101,15 +101,15 @@ MiuixIcon(vector: MiuixIcons.basic.arrowRight, size: 12);
 
 #### MiuixIconWeight
 
-扩展图标的字重。对应 Kotlin `MiuixIcons.{Light,Normal,Regular,Medium,Demibold}`。
+扩展图标的字重。
 
-| 值 | 对应 Kotlin | 说明 |
-|---|---|---|
-| `light` | `MiuixIcons.Light` | 细体 |
-| `normal` | `MiuixIcons.Normal` | 常规 |
-| `regular` | `MiuixIcons.Regular` | 标准（默认） |
-| `medium` | `MiuixIcons.Medium` | 中等 |
-| `demibold` | `MiuixIcons.Demibold` | 半粗 |
+| 值 | 说明 |
+|---|---|
+| `light` | 细体 |
+| `normal` | 常规 |
+| `regular` | 标准（默认） |
+| `medium` | 中等 |
+| `demibold` | 半粗 |
 
 **实现要点**：扩展图标的原始数据由 `tool/gen_extended_icons.py` 生成，把每个图标 5 个字重的 `PathNode` 列表压成 SVG 路径串，运行时经 `miuixParsePath` 还原为 [MiuixVectorIcon]。按 `name#weightIndex` 缓存懒构建。
 

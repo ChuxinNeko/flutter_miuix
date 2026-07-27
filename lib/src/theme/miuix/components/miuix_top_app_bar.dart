@@ -163,7 +163,12 @@ class MiuixExitUntilCollapsedScrollBehavior
 
   bool handleScroll(ScrollNotification n) {
     if (canScroll != null && !canScroll!()) return false;
-    if (n is ScrollUpdateNotification) {
+    if (n is ScrollStartNotification) {
+      // 新滚动手势开始：停掉上一次松手的吸附动画。否则残留动画会与手势
+      // 输入争抢 heightOffset——例如折叠到底后，被上一次"吸附回展开"的
+      // 动画重新拉开。
+      _snapController?.stop();
+    } else if (n is ScrollUpdateNotification) {
       final delta = n.scrollDelta ?? 0.0;
       if (delta == 0) return false;
       // Flutter 的 scrollDelta 与 Compose 的 available.y 符号相反：
@@ -547,15 +552,23 @@ class _MiuixTopAppBarState extends State<MiuixTopAppBar> {
         final largeLeft = widget.titlePadding;
         final largeCenterY = collapsedHeight + _largeTitleTextHeight / 2;
 
-        // 端点 B：水平居中（避开 nav/actions），垂直中心 = verticalCenter
-        var smallLeft = (contentWidth - _smallTitleTextWidth) / 2;
+        // 端点 B：水平居中（避开 nav/actions），垂直中心 = verticalCenter。
+        // 文字宽度先按 nav/actions 之间的可用区间钳制：超长标题按钳制后的
+        // 宽度参与定位，再由 Positioned 上的 maxWidth 约束触发省略号。
+        final smallAvailWidth =
+            math.max(0.0, contentWidth - navWidth - actionsWidth);
+        final smallTitleWidth = math.min(_smallTitleTextWidth, smallAvailWidth);
+        var smallLeft = (contentWidth - smallTitleWidth) / 2;
         if (smallLeft < navWidth) {
-          smallLeft += (navWidth - smallLeft);
-        } else if (smallLeft + _smallTitleTextWidth >
-            contentWidth - actionsWidth) {
-          smallLeft += ((contentWidth - actionsWidth) -
-              (smallLeft + _smallTitleTextWidth));
+          smallLeft = navWidth;
+        } else if (smallLeft + smallTitleWidth > contentWidth - actionsWidth) {
+          smallLeft = contentWidth - actionsWidth - smallTitleWidth;
         }
+        // 防御性钳制：无论 nav/actions 测量结果如何，折叠目标绝不超出可视范围。
+        smallLeft = smallLeft.clamp(
+          0.0,
+          math.max(0.0, contentWidth - smallTitleWidth),
+        );
         final smallCenterY = verticalCenter;
 
         // 位置插值（基于垂直中心，top 用当前字号高度反算以保证垂直居中）
@@ -563,6 +576,14 @@ class _MiuixTopAppBarState extends State<MiuixTopAppBar> {
         final curCenterY =
             lerpDouble(largeCenterY, smallCenterY, curFraction)!;
         final curTitleTop = curCenterY - curTitleHeight / 2;
+        // 当前可用宽度：大端点右侧留 titlePadding 对称边距，小端点避开 actions；
+        // Positioned 不约束宽度，须显式限制才能让 ellipsis 生效。
+        final curTitleMaxWidth = math.max(
+          0.0,
+          contentWidth -
+              curLeft -
+              lerpDouble(widget.titlePadding, actionsWidth, curFraction)!,
+        );
 
         // === 副标题连续插值（如果有） ===
         // 大状态：紧贴大标题底部，左对齐
@@ -575,10 +596,17 @@ class _MiuixTopAppBarState extends State<MiuixTopAppBar> {
         final curSubtitleTop = hasSubtitle
             ? lerpDouble(largeSubtitleBottom, smallSubtitleBottom, curFraction)!
             : 0.0;
-        final smallSubtitleLeft = (contentWidth - subtitleWidth) / 2;
+        final smallSubtitleLeft =
+            (contentWidth - math.min(subtitleWidth, smallAvailWidth)) / 2;
         final curSubtitleLeft = hasSubtitle
             ? lerpDouble(largeLeft, smallSubtitleLeft, curFraction)!
             : 0.0;
+        final curSubtitleMaxWidth = math.max(
+          0.0,
+          contentWidth -
+              curSubtitleLeft -
+              lerpDouble(widget.titlePadding, actionsWidth, curFraction)!,
+        );
 
         // === contentTop / layoutHeight（用于 bottomContent 定位与 Stack 高度） ===
         final smallTitleBottomForLayout =
@@ -601,11 +629,14 @@ class _MiuixTopAppBarState extends State<MiuixTopAppBar> {
               Positioned(
                 left: curLeft,
                 top: curTitleTop,
-                child: Text(
-                  widget.title,
-                  style: curTitleStyle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: curTitleMaxWidth),
+                  child: Text(
+                    widget.title,
+                    style: curTitleStyle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
 
@@ -614,12 +645,15 @@ class _MiuixTopAppBarState extends State<MiuixTopAppBar> {
                 Positioned(
                   left: curSubtitleLeft,
                   top: curSubtitleTop,
-                  child: Text(
-                    widget.subtitle,
-                    style: theme.textStyles.body2
-                        .copyWith(color: subtitleColor),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: curSubtitleMaxWidth),
+                    child: Text(
+                      widget.subtitle,
+                      style: theme.textStyles.body2
+                          .copyWith(color: subtitleColor),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
 

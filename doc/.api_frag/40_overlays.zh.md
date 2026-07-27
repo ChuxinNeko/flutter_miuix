@@ -2,7 +2,7 @@
 
 ### MiuixDismissScope
 
-向对话框内容提供关闭请求的 InheritedWidget。对应 Kotlin `LocalDismissState`。包装在 `MiuixOverlayDialog` 内容外侧；子树可通过 `MiuixDismissScope.maybeOf(context)` 取得当前对话框的关闭回调，未处于对话框时返回 `null`。
+向对话框内容提供关闭请求的 InheritedWidget。包装在 `MiuixOverlayDialog` 内容外侧；子树可通过 `MiuixDismissScope.maybeOf(context)` 取得当前对话框的关闭回调，未处于对话框时返回 `null`。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -49,7 +49,7 @@ MiuixOverlayDialog(
 
 ### MiuixDialogDefaults
 
-Miuix 对话框的默认值。对应 Kotlin `DialogDefaults`（私有构造，仅 `static` 字段与方法）。
+Miuix 对话框的默认值（私有构造，仅 `static` 字段与方法）。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -101,7 +101,7 @@ MiuixOverlayBottomSheet(
 
 ### MiuixBottomSheetDefaults
 
-Miuix 底部抽屉的默认值。对应 Kotlin `BottomSheetDefaults`（私有构造，仅 `static` 字段与方法）。
+Miuix 底部抽屉的默认值（私有构造，仅 `static` 字段与方法）。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -117,7 +117,7 @@ Miuix 底部抽屉的默认值。对应 Kotlin `BottomSheetDefaults`（私有构
 
 ### MiuixWindowBottomSheet
 
-窗口级底部抽屉。对应 Kotlin `WindowBottomSheet`。Flutter 中无独立 OS 窗口层；本组件以 root Overlay 注册（`renderInRootScaffold` 强制 `true`），作为 Compose `Window*` 的等价物。与 `MiuixOverlayBottomSheet` 的差异：无 `renderInRootScaffold` 参数（强制 `true`），其余参数一致。
+窗口级底部抽屉。Flutter 中无独立 OS 窗口层；本组件以 root Overlay 注册（`renderInRootScaffold` 强制 `true`）。与 `MiuixOverlayBottomSheet` 的差异：无 `renderInRootScaffold` 参数（强制 `true`），其余参数一致。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -176,7 +176,7 @@ MiuixWindowBottomSheet(
 
 ### MiuixDropdownColors
 
-下拉选项行使用的颜色。对应 Kotlin `DropdownColors`（旧别名 `SpinnerColors`）。7 个字段均为必填。
+下拉选项行使用的颜色（旧别名 `SpinnerColors`）。7 个字段均为必填。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -190,7 +190,7 @@ MiuixWindowBottomSheet(
 
 ### MiuixDropdownDefaults
 
-下拉行的默认尺寸、间距与颜色。对应 Kotlin `DropdownDefaults`（私有构造，仅 `static` 字段与方法）。
+下拉行的默认尺寸、间距与颜色（私有构造，仅 `static` 字段与方法）。
 
 | 常量 | 值 | 说明 |
 |---|---|---|
@@ -215,11 +215,11 @@ MiuixWindowBottomSheet(
 
 ### MiuixDropdownArrowEndAction
 
-尾部的上下箭头动作图标。对应 Kotlin `RowScope.DropdownArrowEndAction`。以 `MiuixDropdownDefaults.arrowSize`（10×16）绘制，垂直居中，颜色由 `actionColor` 决定。通常放在触发行的尾部，指示可展开下拉。
+尾部的上下箭头动作图标。以 `MiuixDropdownDefaults.arrowSize`（10×16）绘制，垂直居中，颜色由 `actionColor` 决定。通常放在触发行的尾部，指示可展开下拉。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `actionColor` | `Color` | 必填 | 箭头的填充颜色（对应 Kotlin `ColorFilter.tint(actionColor)`） |
+| `actionColor` | `Color` | 必填 | 箭头的填充颜色 |
 
 **示例：**
 ```dart
@@ -234,7 +234,7 @@ MiuixBasicComponent(
 
 ### MiuixDropdownImpl
 
-下拉选项行的渲染实现。对应 Kotlin `DropdownImpl`（含旧 `SpinnerItemImpl`）。本组件仅负责单行的呈现与点击；弹层、触发器与级联子菜单在独立文件中。常用于 `MiuixListPopupColumn` 内构造自定义下拉内容。
+下拉选项行的渲染实现。本组件仅负责单行的呈现与点击；弹层、触发器与级联子菜单在独立文件中。常用于 `MiuixListPopupColumn` 内构造自定义下拉内容。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -307,7 +307,7 @@ MiuixOverlayDropdownMenu(
 
 ### MiuixWindowDropdownMenu
 
-窗口级下拉菜单（单分组）。对应 Kotlin `WindowDropdownMenu(entry)`。命名构造 `.entries` 收多分组。Flutter 中无独立 OS 窗口层；本组件以 root Overlay 注册（`renderInRootScaffold` 强制 `true`），作为 Compose `Window*` 的等价物。与 `MiuixOverlayDropdownMenu` 的差异：无 `renderInRootScaffold` 参数（强制 `true`），其余参数一致。
+窗口级下拉菜单（单分组）。命名构造 `.entries` 收多分组。Flutter 中无独立 OS 窗口层；本组件以 root Overlay 注册（`renderInRootScaffold` 强制 `true`）。与 `MiuixOverlayDropdownMenu` 的差异：无 `renderInRootScaffold` 参数（强制 `true`），其余参数一致。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -359,7 +359,7 @@ MiuixWindowDropdownMenu(
 
 ### MiuixWindowIconDropdownMenu
 
-窗口级图标下拉菜单（单分组）。对应 Kotlin `WindowIconDropdownMenu(entry)`。命名构造 `.entries` 收多分组。Flutter 中无独立 OS 窗口层；本组件以 root Overlay 注册（`renderInRootScaffold` 强制 `true`），作为 Compose `Window*` 的等价物。与 `MiuixOverlayIconDropdownMenu` 的差异：无 `renderInRootScaffold` 参数（强制 `true`），其余参数一致。
+窗口级图标下拉菜单（单分组）。命名构造 `.entries` 收多分组。Flutter 中无独立 OS 窗口层；本组件以 root Overlay 注册（`renderInRootScaffold` 强制 `true`）。与 `MiuixOverlayIconDropdownMenu` 的差异：无 `renderInRootScaffold` 参数（强制 `true`），其余参数一致。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -397,7 +397,7 @@ MiuixWindowDropdownMenu(
 
 ### MiuixWindowIconCascadingDropdownMenu
 
-窗口级图标级联下拉菜单（单分组）。对应 Kotlin `WindowIconCascadingDropdownMenu(entry)`。命名构造 `.entries` 收多分组。Flutter 中无独立 OS 窗口层；本组件以窗口级 Overlay 注册，作为 Compose `Window*` 的等价物。与 `MiuixOverlayIconCascadingDropdownMenu` 的差异：无 `renderInRootScaffold` 参数（强制 `true`），其余参数一致。
+窗口级图标级联下拉菜单（单分组）。命名构造 `.entries` 收多分组。Flutter 中无独立 OS 窗口层；本组件以窗口级 Overlay 注册。与 `MiuixOverlayIconCascadingDropdownMenu` 的差异：无 `renderInRootScaffold` 参数（强制 `true`），其余参数一致。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -415,7 +415,7 @@ MiuixWindowDropdownMenu(
 
 ### MiuixDropdownEntriesPopupContent
 
-在弹窗容器内渲染 `MiuixDropdownEntry` 分组列表。对应 Kotlin `DropdownEntriesPopupContent`。内部计算弹窗全局的 first/last：仅整个弹窗的第一行与最后一行获得更大的首/末内边距；分组边界回退到中间行内边距。分组之间插入 1.5dp 分隔线。调用方需将其放入 `MiuixListPopupColumn` 之类的滚动容器；本组件本身不滚动。
+在弹窗容器内渲染 `MiuixDropdownEntry` 分组列表。内部计算弹窗全局的 first/last：仅整个弹窗的第一行与最后一行获得更大的首/末内边距；分组边界回退到中间行内边距。分组之间插入 1.5dp 分隔线。调用方需将其放入 `MiuixListPopupColumn` 之类的滚动容器；本组件本身不滚动。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -425,7 +425,7 @@ MiuixWindowDropdownMenu(
 
 ### MiuixDropdownEntriesDialogItems
 
-在对话框容器内渲染 `MiuixDropdownEntry` 分组列表（作为 `ListView`/`Column` 的 children）。对应 Kotlin `LazyListScope.dropdownEntriesDialogItems`。对话框模式使用统一的垂直内边距，不传播弹窗全局 first/last；分组之间同样插入 1.5dp 分隔线。
+在对话框容器内渲染 `MiuixDropdownEntry` 分组列表（作为 `ListView`/`Column` 的 children）。对话框模式使用统一的垂直内边距，不传播弹窗全局 first/last；分组之间同样插入 1.5dp 分隔线。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -435,7 +435,7 @@ MiuixWindowDropdownMenu(
 
 ### MiuixOverlayDropdownPopup
 
-Scaffold 内下拉弹窗。对应 Kotlin `OverlayDropdownPopup`。默认构造收单个 `entry`（单分组）；命名构造 `.entries` 收 `entries` 列表（多分组）。内部使用 `MiuixOverlayListPopup` 与 `MiuixDropdownEntriesPopupContent` 渲染，对齐方式为 `MiuixPopupAlign.end`。点击项时触发 `HapticFeedback.selectionClick()` 并按 `collapseOnSelection` 决定是否关闭。
+Scaffold 内下拉弹窗。默认构造收单个 `entry`（单分组）；命名构造 `.entries` 收 `entries` 列表（多分组）。内部使用 `MiuixOverlayListPopup` 与 `MiuixDropdownEntriesPopupContent` 渲染，对齐方式为 `MiuixPopupAlign.end`。点击项时触发 `HapticFeedback.selectionClick()` 并按 `collapseOnSelection` 决定是否关闭。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -452,7 +452,7 @@ Scaffold 内下拉弹窗。对应 Kotlin `OverlayDropdownPopup`。默认构造�
 
 ### MiuixWindowDropdownPopup
 
-窗口级下拉弹窗。对应 Kotlin `WindowDropdownPopup`。Flutter 的 Navigator Overlay 已是窗口级宿主，故不依赖 `MiuixScaffold`，无 `renderInRootScaffold` 参数。其余行为与 `MiuixOverlayDropdownPopup` 一致。
+窗口级下拉弹窗。Flutter 的 Navigator Overlay 已是窗口级宿主，故不依赖 `MiuixScaffold`，无 `renderInRootScaffold` 参数。其余行为与 `MiuixOverlayDropdownPopup` 一致。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -468,7 +468,7 @@ Scaffold 内下拉弹窗。对应 Kotlin `OverlayDropdownPopup`。默认构造�
 
 ### MiuixOverlayDropdownDialog
 
-Scaffold 内下拉对话框（单分组）。对应 Kotlin `OverlayDropdownDialog(entry)`。命名构造 `.entries` 收多分组；以 `MiuixOverlayDialog` 为容器渲染 `MiuixDropdownEntriesDialogItems`，附带标题、底部确认按钮。点击项触发 `HapticFeedback.selectionClick()`，并根据 `collapseOnSelection` 决定是否关闭。
+Scaffold 内下拉对话框（单分组）。命名构造 `.entries` 收多分组；以 `MiuixOverlayDialog` 为容器渲染 `MiuixDropdownEntriesDialogItems`，附带标题、底部确认按钮。点击项触发 `HapticFeedback.selectionClick()`，并根据 `collapseOnSelection` 决定是否关闭。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -485,7 +485,7 @@ Scaffold 内下拉对话框（单分组）。对应 Kotlin `OverlayDropdownDialo
 
 ### MiuixWindowDropdownDialog
 
-窗口级下拉对话框（单分组）。对应 Kotlin `WindowDropdownDialog(entry)`。命名构造 `.entries` 收多分组。Flutter 中无独立 OS 窗口层；本组件以 `MiuixOverlayDialog` 的 `renderInRootScaffold: true` 注册至根 Overlay，作为 Compose `WindowDropdownDialog` 的等价物。与 `MiuixOverlayDropdownDialog` 的差异：无 `renderInRootScaffold` 参数（强制 `true`），其余参数一致。
+窗口级下拉对话框（单分组）。命名构造 `.entries` 收多分组。Flutter 中无独立 OS 窗口层；本组件以 `MiuixOverlayDialog` 的 `renderInRootScaffold: true` 注册至根 Overlay。与 `MiuixOverlayDropdownDialog` 的差异：无 `renderInRootScaffold` 参数（强制 `true`），其余参数一致。
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|

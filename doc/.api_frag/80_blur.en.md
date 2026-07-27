@@ -10,7 +10,7 @@ This chapter covers flutter_miuix's liquid-glass effects: backdrop capture ([Miu
 
 #### MiuixBackdrop
 
-Abstract base class for backdrop content providers, extends `ChangeNotifier`. Corresponds to Kotlin `interface Backdrop`. Blur components (e.g., [MiuixTextureBlur]) use it to access "the content behind themselves" to blur.
+Abstract base class for backdrop content providers, extends `ChangeNotifier`. Blur components (e.g., [MiuixTextureBlur]) use it to access "the content behind themselves" to blur.
 
 | Field / Method | Type | Description |
 |---|---|---|
@@ -21,7 +21,7 @@ Abstract base class for backdrop content providers, extends `ChangeNotifier`. Co
 
 #### MiuixLayerBackdrop
 
-A [MiuixBackdrop] backed by a captured layer snapshot. Corresponds to Kotlin `LayerBackdrop`.
+A [MiuixBackdrop] backed by a captured layer snapshot.
 
 | Field / Method | Type | Description |
 |---|---|---|
@@ -31,7 +31,7 @@ A [MiuixBackdrop] backed by a captured layer snapshot. Corresponds to Kotlin `La
 
 #### MiuixLayerBackdropCapture
 
-A `SingleChildRenderObjectWidget` that captures a subtree's render output to [backdrop] for blur components to sample. Corresponds to Kotlin `Modifier.layerBackdrop`.
+A `SingleChildRenderObjectWidget` that captures a subtree's render output to [backdrop] for blur components to sample.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -70,7 +70,7 @@ Widget tree = Column(
 
 #### MiuixTextureBlur
 
-Performs a Gaussian blur on the background provided by [backdrop] and overlays the child. Corresponds to Kotlin `Modifier.textureBlur`. The blur is done with `ui.ImageFilter.blur` (separable two-pass + progressive downsampling, grain-free); color controls use `ColorFilter.matrix`.
+Performs a Gaussian blur on the background provided by [backdrop] and overlays the child. The blur is done with `ui.ImageFilter.blur` (separable two-pass + progressive downsampling, grain-free); color controls use `ColorFilter.matrix`.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -87,11 +87,11 @@ Performs a Gaussian blur on the background provided by [backdrop] and overlays t
 
 ### Bloom highlight border
 
-A rounded-rectangle SDF + 3D hemispherical rim normal + directional light, drawing an illuminated glass edge; composited with `BlendMode.plus`. Sourced from compose-miuix-ui/miuix's `miuix-blur/highlight/{Highlight,HighlightStyle,HighlightDrawing}.kt`.
+A rounded-rectangle SDF + 3D hemispherical rim normal + directional light, drawing an illuminated glass edge; composited with `BlendMode.plus`.
 
 #### LightPosition
 
-3D position of a light source (normalized UV). Corresponds to Kotlin `LightPosition`.
+3D position of a light source (normalized UV).
 
 | Field | Type | Description |
 |---|---|---|
@@ -102,7 +102,7 @@ The shader normalizes `(x-0.5, y-0.7, z)` into a direction.
 
 #### LightSource
 
-A directional light. Corresponds to Kotlin `LightSource`.
+A directional light.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -112,7 +112,7 @@ A directional light. Corresponds to Kotlin `LightSource`.
 
 #### BloomStroke
 
-Shading model for the edge bloom stroke. Corresponds to Kotlin `BloomStroke`.
+Shading model for the edge bloom stroke.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -125,7 +125,7 @@ Shading model for the edge bloom stroke. Corresponds to Kotlin `BloomStroke`.
 
 Default primary light: `LightPosition(0.5, 0.5, -0.5)`, intensity `0.4`; secondary light: `LightPosition(0.5, 0.8, -0.5)`, intensity `0.25`.
 
-**6 GlassStroke presets** (values 1:1 from `HighlightStyle.kt`):
+**6 GlassStroke presets**:
 
 | Static constant | innerBlurRadius | Primary intensity | Secondary intensity |
 |---|---|---|---|
@@ -138,7 +138,7 @@ Default primary light: `LightPosition(0.5, 0.5, -0.5)`, intensity `0.4`; seconda
 
 #### Highlight
 
-Highlight configuration. Corresponds to Kotlin `Highlight`.
+Highlight configuration.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -152,7 +152,7 @@ Highlight configuration. Corresponds to Kotlin `Highlight`.
 
 #### MiuixHighlight
 
-A `StatefulWidget` that draws a bloom highlight border on top of its child. Corresponds to Kotlin `Modifier.highlight` / `drawHighlight`.
+A `StatefulWidget` that draws a bloom highlight border on top of its child.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -170,12 +170,12 @@ A `StatefulWidget` that draws a bloom highlight border on top of its child. Corr
 
 #### MiuixBlurDefaults
 
-Blur effect defaults. Corresponds to Kotlin `BlurDefaults` + internal constants in `BlurEffect.kt`. `MiuixBlurDefaults._()` private constructor; all fields are `static`.
+Blur effect defaults. `MiuixBlurDefaults._()` private constructor; all fields are `static`.
 
 | Constant | Value | Description |
 |---|---|---|
-| `blurRadius` | `20.0` | Default blur radius (dp), `BlurDefaults.BlurRadius` |
-| `noiseCoefficient` | `0.0045` | Default noise jitter coefficient (anti-banding), `BlurDefaults.NoiseCoefficient` |
+| `blurRadius` | `20.0` | Default blur radius (dp) |
+| `noiseCoefficient` | `0.0045` | Default noise jitter coefficient (anti-banding) |
 | `progressiveNoiseCoefficient` | `0.0` | Default noise coefficient for progressive blur (0 = disabled) |
 | `maxBlurRadius` | `150.0` | Maximum blur radius (dp) |
 | `blurRadiusToSigma` | `0.45` | Conversion coefficient from blur radius to Gaussian sigma |
@@ -187,7 +187,7 @@ Convenience factory for [BlurColors].
 
 #### BlurColors
 
-Color configuration applied after blur. Corresponds to Kotlin `BlurColors`.
+Color configuration applied after blur.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -200,7 +200,7 @@ Implements `==` / `hashCode`.
 
 #### BlendColorEntry
 
-A single color blend stacked on the blurred background. Corresponds to Kotlin `BlendColorEntry`.
+A single color blend stacked on the blurred background.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -211,7 +211,7 @@ Implements `==` / `hashCode`.
 
 #### BlurBlendMode
 
-Blur color blend mode. Corresponds to Kotlin `BlurBlendMode` (value class). `value` is the raw mode identifier.
+Blur color blend mode. `value` is the raw mode identifier.
 
 - `0-28`: standard `SkBlendMode` (GPU-processed), one-to-one with Flutter `BlendMode`.
 - `>=100`: extended custom modes (Lab / linear light, etc., handled by runtime shader).
