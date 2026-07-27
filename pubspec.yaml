@@ -3,7 +3,7 @@ description: >-
   A HyperOS-style component library for Flutter, ported from miuix. 45+ widgets
   with squircle corners, Folme spring motion, liquid glass blur, and Monet
   dynamic colors.
-version: 1.0.7
+version: 1.0.8
 repository: https://github.com/ChuxinNeko/flutter_miuix
 issue_tracker: https://github.com/ChuxinNeko/flutter_miuix/issues
 

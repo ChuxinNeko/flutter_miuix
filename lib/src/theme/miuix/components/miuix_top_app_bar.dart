@@ -163,6 +163,9 @@ class MiuixExitUntilCollapsedScrollBehavior
 
   bool handleScroll(ScrollNotification n) {
     if (canScroll != null && !canScroll!()) return false;
+    // 只响应直接子滚动体的竖向滚动：页面内嵌套的横向/内层列表（depth > 0）
+    // 不得驱动顶栏折叠，否则横滑一个内嵌列表也会牵动大标题。
+    if (n.depth != 0 || n.metrics.axis != Axis.vertical) return false;
     if (n is ScrollStartNotification) {
       // 新滚动手势开始：停掉上一次松手的吸附动画。否则残留动画会与手势
       // 输入争抢 heightOffset——例如折叠到底后，被上一次"吸附回展开"的
@@ -171,30 +174,60 @@ class MiuixExitUntilCollapsedScrollBehavior
     } else if (n is ScrollUpdateNotification) {
       final delta = n.scrollDelta ?? 0.0;
       if (delta == 0) return false;
-      // Flutter 的 scrollDelta 与 Compose 的 available.y 符号相反：
-      // - delta > 0：上滑（内容上移，pixels 增加），应折叠 TopAppBar（heightOffset → 负）
-      // - delta < 0：下滑（内容下移，pixels 减少），应展开 TopAppBar（heightOffset → 0）
-      //
-      // 上滑与下滑对称处理：都把 delta 取反累加到 heightOffset。
-      // 注意：不能照搬 Kotlin 的"下滑时仅在内容到顶后才展开"逻辑——Kotlin 通过
-      // nestedScroll.onPostScroll 能拿到"内容到顶后的剩余下滑量"；
-      // 而 Flutter 的 NotificationListener 是事后通知，Android 的 ClampingScrollPhysics
-      // 会把到顶后的 scrollDelta clamp 成 0，导致缓慢下滑时 handleScroll 收到 delta=0
-      // 直接 return，大标题永远无法重新展开。对称处理能保证缓慢下滑也能立即展开大标题，
-      // snap 动画（_scheduleSnap）会在松手后把 TopAppBar 平滑吸附到完全展开/折叠状态。
-      final prev = state.heightOffset;
-      state.heightOffset = prev - delta;
-      // contentOffset 只在 TopAppBar 处于折叠/折叠中时累积；
-      // 完全展开后继续下滑不再增加正偏移（对齐 Kotlin onPostFling 的 contentOffset=0 重置语义）。
-      if (state.heightOffset < 0) {
-        state.contentOffset = state.contentOffset - delta;
-      } else {
-        state.contentOffset = 0;
+      _applyGatedDelta(n.metrics, delta);
+    } else if (n is OverscrollNotification) {
+      // Android ClampingScrollPhysics 到顶后不再发 ScrollUpdate（delta 被物理层
+      // 钳成 0），顶部继续下拉只会发 overscroll<0 的 OverscrollNotification。
+      // 这正对应 Kotlin onPostScroll 里"内容到顶后的剩余下滑量"——用它驱动展开，
+      // clamping 物理下大标题才能重新展开。
+      if (n.overscroll < 0 && n.metrics.pixels <= n.metrics.minScrollExtent) {
+        state.heightOffset = state.heightOffset - n.overscroll;
       }
     } else if (n is ScrollEndNotification) {
       _scheduleSnap();
     }
     return false;
+  }
+
+  /// 把滚动增量映射为顶栏折叠增量——仅统计发生在顶部过渡区间内的行程。
+  ///
+  /// 对应 Kotlin `ExitUntilCollapsedScrollBehavior` 的语义：上滑折叠，下滑仅在
+  /// 内容回到顶部后展开。Flutter 的 NotificationListener 拿不到 Compose
+  /// nestedScroll 的"消费/剩余"信息，等价改写为按内容位置门控：
+  ///
+  /// - 过渡区间 = [minScrollExtent, minScrollExtent + 展开量]；
+  /// - 上滑（delta > 0）：只统计 minScrollExtent 以上的行程（忽略 iOS 回弹
+  ///   归位段），不设上界——吸附展开后在列表中部继续上滑仍可折叠；
+  /// - 下滑（delta < 0）：只统计过渡区上界以下的行程——列表中部下滑门控量
+  ///   恒为 0，大标题保持折叠；滚回顶部区间才逐像素展开（含 iOS 弹性下拉
+  ///   越过顶部的负偏移段）。
+  ///
+  /// Flutter 的 scrollDelta 与 Compose 的 available.y 符号相反：
+  /// delta > 0 为上滑（pixels 增加），应折叠（heightOffset → 负）。
+  void _applyGatedDelta(ScrollMetrics metrics, double delta) {
+    final minExtent = metrics.minScrollExtent;
+    final after = metrics.pixels; // 通知携带的是本次滚动后的位置。
+    final before = after - delta;
+    final limit = state.heightOffsetLimit;
+    // 展开量未测出（limit 仍为 -∞）时无从门控，退回全量累加。
+    final zoneTop = limit.isFinite ? minExtent - limit : double.infinity;
+
+    final double gated;
+    if (delta > 0) {
+      gated = math.max(after, minExtent) - math.max(before, minExtent);
+    } else {
+      gated = math.min(after, zoneTop) - math.min(before, zoneTop);
+    }
+    if (gated != 0) {
+      state.heightOffset = state.heightOffset - gated;
+    }
+    // contentOffset 只在 TopAppBar 处于折叠/折叠中时累积；
+    // 完全展开后继续下滑不再增加正偏移（对齐 Kotlin onPostFling 的 contentOffset=0 重置语义）。
+    if (state.heightOffset < 0) {
+      state.contentOffset = state.contentOffset - delta;
+    } else {
+      state.contentOffset = 0;
+    }
   }
 
   void _scheduleSnap() {

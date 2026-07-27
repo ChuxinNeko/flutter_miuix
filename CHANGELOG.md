@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.8
+
+### 修复
+
+- **大标题在列表中部下滑时被弹回展开**：`ExitUntilCollapsedScrollBehavior` 此前对上滑/下滑对称累加 `heightOffset`，在列表任意位置轻微下滑都会立即展开顶栏（松手后还被 snap 完整弹回大标题），偏离 Kotlin 原版"下滑仅在内容到顶后才展开"的语义。现改为按内容位置门控：只统计发生在顶部过渡区间 `[minScrollExtent, minScrollExtent + 展开量]` 内的滚动行程——中部下滑门控量恒为 0 保持折叠，滚回顶部区间才逐像素展开（含 iOS 弹性下拉过顶段）；上滑折叠只忽略回弹归位段（min 以下），其余不变。Android `ClampingScrollPhysics` 到顶后 `scrollDelta` 被钳成 0 的场景（当年对称累加的动机），改用顶部 `OverscrollNotification`（overscroll < 0）驱动展开，对应 Kotlin `onPostScroll` 的"剩余下滑量"。回归测试 `test/top_app_bar_scroll_gate_test.dart`。
+- **内嵌子列表误驱动顶栏折叠**：`handleScroll` 未过滤通知来源，页面内嵌套的横向/内层滚动视图（如卡片里的横向列表）滚动时也会牵动大标题。现仅响应 `depth == 0` 且竖向轴的通知。
+
 ## 1.0.7
 
 ### 修复
