@@ -5,6 +5,7 @@
 [![Flutter](https://img.shields.io/badge/Flutter-%E2%89%A53.12.2-02569B?logo=flutter)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-%E2%89%A53.12.2-0175C2?logo=dart)](https://dart.dev)
 [![License](https://img.shields.io/badge/License-Apache--2.0-blue)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Docs](https://img.shields.io/badge/文档-miuix.nekofun.top-3482FF)](https://miuix.nekofun.top/)
 
 `flutter_miuix` 是一个适用于 Flutter 的 HyperOS 风格组件库，移植自 [miuix](https://github.com/compose-miuix-ui/miuix)。
 
@@ -117,7 +118,9 @@ class HomePage extends StatelessWidget {
 
 ## 文档
 
-详细的 API 文档位于 [`doc/.api_frag/`](doc/.api_frag/) 目录，按分类组织为中英双语：
+📖 **在线文档：[miuix.nekofun.top](https://miuix.nekofun.top/)**
+
+详细的 API 文档同时位于仓库内 [`doc/.api_frag/`](doc/.api_frag/) 目录，按分类组织为中英双语：
 
 | 文件 | 内容 |
 |---|---|

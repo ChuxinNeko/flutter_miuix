@@ -5,6 +5,7 @@
 [![Flutter](https://img.shields.io/badge/Flutter-%E2%89%A53.12.2-02569B?logo=flutter)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-%E2%89%A53.12.2-0175C2?logo=dart)](https://dart.dev)
 [![License](https://img.shields.io/badge/License-Apache--2.0-blue)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Docs](https://img.shields.io/badge/Docs-miuix.nekofun.top-3482FF)](https://miuix.nekofun.top/)
 
 `flutter_miuix` is a HyperOS-style component library for Flutter, ported from [miuix](https://github.com/compose-miuix-ui/miuix).
 
@@ -117,7 +118,9 @@ class HomePage extends StatelessWidget {
 
 ## Documentation
 
-Detailed API documentation lives in [`doc/.api_frag/`](doc/.api_frag/) and is organized by category in both Chinese and English:
+📖 **Read the docs online: [miuix.nekofun.top](https://miuix.nekofun.top/)**
+
+Detailed API documentation also lives in-repo at [`doc/.api_frag/`](doc/.api_frag/) and is organized by category in both Chinese and English:
 
 | File | Content |
 |---|---|
