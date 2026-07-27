@@ -9,6 +9,8 @@
 
 `flutter_miuix` is a HyperOS-style component library for Flutter, ported from [miuix](https://github.com/compose-miuix-ui/miuix).
 
+📖 **文档链接 / Documentation**: <https://miuix.nekofun.top/>
+
 ## Features
 
 - **Complete component coverage**: 45+ components with 100% parity to the original, including Button / TextField / Switch / Slider / NavigationBar / NavigationRail / Scaffold / TopAppBar / TabRow / BreadcrumbBar / BottomSheet / Dialog / Snackbar / Tooltip / Dropdown / ListPopup / CascadingMenu / ColorPicker / PullToRefresh, and more

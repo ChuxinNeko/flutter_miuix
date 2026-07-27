@@ -9,6 +9,8 @@
 
 `flutter_miuix` 是一个适用于 Flutter 的 HyperOS 风格组件库，移植自 [miuix](https://github.com/compose-miuix-ui/miuix)。
 
+📖 **文档链接**：<https://miuix.nekofun.top/>
+
 ## 特性
 
 - **完整组件覆盖**：45+ 个组件，对应原版 100% 覆盖率，含 Button / TextField / Switch / Slider / NavigationBar / NavigationRail / Scaffold / TopAppBar / TabRow / BreadcrumbBar / BottomSheet / Dialog / Snackbar / Tooltip / Dropdown / ListPopup / CascadingMenu / ColorPicker / PullToRefresh 等
