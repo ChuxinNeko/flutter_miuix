@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.9
+
+### 修复
+
+- **大标题折叠后稍微下滑立即弹回大标题（1.0.8 门控仍未根治）**：`ExitUntilCollapsedScrollBehavior` 此前把 `heightOffset` 当成独立累加量（逐 delta 门控增减），并在松手时用弹簧 `snap` 吸到端点。`snap` 会把 `heightOffset` 拉到完全折叠/展开，而真实滚动位置 `pixels` 仍停在顶部过渡区中段——两者就此**解耦**：折叠到居中小标题后轻微下滑，门控发现 `pixels` 尚在过渡区，按增量把标题又展开，视觉上"稍微一动就弹回大标题"。现改为**按位置直接映射**：`heightOffset = -(pixels - minScrollExtent)`，再由 setter 钳到 `[heightOffsetLimit, 0]`。折叠量恒为滚动位置的纯函数，只有内容滚回顶部对应位置才逐像素恢复，中途上/下滑绝不跳变（对齐 iOS/标准大标题语义）。随之移除累加门控、松手 `snap`（弹簧动画）、`AnimationController`/`TickerProvider` 依赖，`MiuixScrollBehaviorListener` 降为无状态组件。回归测试同步更新 `test/top_app_bar_scroll_gate_test.dart`。
+
 ## 1.0.8
 
 ### 修复
