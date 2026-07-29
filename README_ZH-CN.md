@@ -138,6 +138,23 @@ class HomePage extends StatelessWidget {
 | `90_icons` | 图标系统（MiuixIcon / MiuixBasicIcons / MiuixExtendedIcons） |
 | `100_color_spaces` | 色彩空间变换（HSV / OkLab / OkLCH / OkHSV / Color 扩展） |
 
+## AI 编程 Skill
+
+用 AI 编程助手（Claude Code 等支持 [Agent Skill](https://docs.claude.com/en/docs/claude-code/skills) 的工具）写 `flutter_miuix` 界面？一键安装配套使用指南，AI 即可获得正确的组件用法、主题接线、组合范式与避坑要点，并内置 45+ 组件的中英双语 API 参考。
+
+```bash
+npx flutter-miuix-skill
+```
+
+在你的 Flutter 项目根目录运行，指南会装进 `.claude/skills/flutter-miuix/`。重启 AI 工具即可自动加载。
+
+```bash
+npx flutter-miuix-skill --path <dir>   # 指定项目目录（默认当前目录）
+npx flutter-miuix-skill --force        # 覆盖已存在的安装
+```
+
+> 详见 [`skill/`](skill/) 目录。
+
 ## 平台支持
 
 | 平台 | 支持情况 | 备注 |
