@@ -29,3 +29,6 @@ windows/
 # --- Repo-only tooling and doc source fragments ---
 tool/
 doc/
+
+# --- npm-distributed AI agent skill (published to npm, not part of the Dart package) ---
+skill/

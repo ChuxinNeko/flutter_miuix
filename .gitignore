@@ -61,3 +61,6 @@ demo/
 /macos/
 /web/
 /windows/
+
+# npm skill package (skill/) - never commit installed dependencies
+skill/node_modules/

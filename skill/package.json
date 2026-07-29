@@ -1,0 +1,44 @@
+{
+  "name": "flutter-miuix-skill",
+  "version": "1.0.0",
+  "description": "AI agent skill for the flutter_miuix component library (HyperOS / MIUI-style Flutter widgets). Installs a Claude Code / Agent Skill so AI gets correct component usage, patterns, and gotchas.",
+  "type": "module",
+  "bin": {
+    "flutter-miuix-skill": "bin/cli.mjs"
+  },
+  "files": [
+    "bin/",
+    "payload/",
+    "README.md"
+  ],
+  "scripts": {
+    "sync": "node scripts/sync-references.mjs",
+    "check-sync": "node scripts/sync-references.mjs --check"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "keywords": [
+    "flutter",
+    "flutter_miuix",
+    "miuix",
+    "hyperos",
+    "miui",
+    "claude",
+    "claude-code",
+    "agent-skill",
+    "skill",
+    "ai"
+  ],
+  "author": "ChuxinNeko",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/ChuxinNeko/flutter_miuix/tree/main/skill#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChuxinNeko/flutter_miuix.git",
+    "directory": "skill"
+  },
+  "bugs": {
+    "url": "https://github.com/ChuxinNeko/flutter_miuix/issues"
+  }
+}
