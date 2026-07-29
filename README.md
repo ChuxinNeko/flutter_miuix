@@ -11,6 +11,23 @@
 
 📖 **[文档链接 / Documentation](https://miuix.nekofun.top/)**
 
+## AI Coding Skill
+
+Writing Flutter UI with `flutter_miuix` via an AI coding assistant (Claude Code, or any tool supporting [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills))? Install the companion skill so your AI gets correct component usage, theming wiring, composition patterns, and gotchas out of the box - with bilingual API reference for all 45+ components.
+
+```bash
+npx flutter-miuix-skill
+```
+
+Run it in your Flutter project root - it installs the guide into `.claude/skills/flutter-miuix/`. Restart your AI tool and it's picked up automatically.
+
+```bash
+npx flutter-miuix-skill --path <dir>   # target project dir (default: cwd)
+npx flutter-miuix-skill --force        # overwrite an existing install
+```
+
+> See the [`skill/`](skill/) directory for details.
+
 ## Features
 
 - **Complete component coverage**: 45+ components with 100% parity to the original, including Button / TextField / Switch / Slider / NavigationBar / NavigationRail / Scaffold / TopAppBar / TabRow / BreadcrumbBar / BottomSheet / Dialog / Snackbar / Tooltip / Dropdown / ListPopup / CascadingMenu / ColorPicker / PullToRefresh, and more
@@ -137,23 +154,6 @@ Detailed API documentation also lives in-repo at [`doc/.api_frag/`](doc/.api_fra
 | `80_blur` | Blur & liquid glass (TextureBlur / Highlight / Backdrop) |
 | `90_icons` | Icon system (MiuixIcon / MiuixBasicIcons / MiuixExtendedIcons) |
 | `100_color_spaces` | Color space transforms (HSV / OkLab / OkLCH / OkHSV / Color extensions) |
-
-## AI Coding Skill
-
-Writing Flutter UI with `flutter_miuix` via an AI coding assistant (Claude Code, or any tool supporting [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills))? Install the companion skill so your AI gets correct component usage, theming wiring, composition patterns, and gotchas out of the box — with bilingual API reference for all 45+ components.
-
-```bash
-npx flutter-miuix-skill
-```
-
-Run it in your Flutter project root — it installs the guide into `.claude/skills/flutter-miuix/`. Restart your AI tool and it's picked up automatically.
-
-```bash
-npx flutter-miuix-skill --path <dir>   # target project dir (default: cwd)
-npx flutter-miuix-skill --force        # overwrite an existing install
-```
-
-> See the [`skill/`](skill/) directory for details.
 
 ## Platform Support
 
