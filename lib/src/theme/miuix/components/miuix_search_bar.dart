@@ -142,11 +142,16 @@ class _MiuixInputFieldState extends State<MiuixInputField>
     with SingleTickerProviderStateMixin {
   late FocusNode _focusNode;
   late final AnimationController _textAlpha;
+  // 持久化 controller：绝不每帧重建，否则会丢弃 IME 的 composing 区，导致中文
+  // 等合成输入被反复重新插入（如输入 "ji" 变成 "jjijiji"）。外部 query 仅在与
+  // 当前文本不同时才覆盖（见 didUpdateWidget），合成期间不打断。
+  late final TextEditingController _controller;
   Timer? _collapseTimer;
 
   @override
   void initState() {
     super.initState();
+    _controller = TextEditingController(text: widget.query);
     _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(_onFocusChanged);
     _textAlpha = AnimationController(
@@ -164,6 +169,14 @@ class _MiuixInputFieldState extends State<MiuixInputField>
   @override
   void didUpdateWidget(MiuixInputField oldWidget) {
     super.didUpdateWidget(oldWidget);
+    // 仅当外部 query 与字段当前文本不同才覆盖（程序化置入 / 清空 / 折叠）。
+    // 用户正在输入时 query 与 _controller.text 相等，跳过覆盖以保住 composing。
+    if (widget.query != _controller.text) {
+      _controller.value = TextEditingValue(
+        text: widget.query,
+        selection: TextSelection.collapsed(offset: widget.query.length),
+      );
+    }
     if (oldWidget.focusNode != widget.focusNode) {
       _focusNode.removeListener(_onFocusChanged);
       if (oldWidget.focusNode == null) _focusNode.dispose();
@@ -200,6 +213,7 @@ class _MiuixInputFieldState extends State<MiuixInputField>
   @override
   void dispose() {
     _collapseTimer?.cancel();
+    _controller.dispose();
     _focusNode.removeListener(_onFocusChanged);
     if (widget.focusNode == null) _focusNode.dispose();
     _textAlpha.dispose();
@@ -284,7 +298,7 @@ class _MiuixInputFieldState extends State<MiuixInputField>
                     FadeTransition(
                       opacity: _textAlpha,
                       child: TextField(
-                        controller: _EphemeralTextController(widget.query),
+                        controller: _controller,
                         focusNode: _focusNode,
                         enabled: widget.enabled,
                         maxLines: 1,
@@ -319,14 +333,4 @@ class _MiuixInputFieldState extends State<MiuixInputField>
       ),
     );
   }
-}
-
-class _EphemeralTextController extends TextEditingController {
-  _EphemeralTextController(String text)
-    : super.fromValue(
-        TextEditingValue(
-          text: text,
-          selection: TextSelection.collapsed(offset: text.length),
-        ),
-      );
 }

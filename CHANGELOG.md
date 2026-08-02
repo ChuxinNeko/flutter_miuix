@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.10
+
+### 修复
+
+- **MiuixInputField 中文 / 输入法（IME）合成输入错乱**：内部 `TextField` 此前用 `_EphemeralTextController(widget.query)`——**每帧新建** `TextEditingController`，光标 collapse 到末尾且**不带 composing（合成）区**。在受控用法下（父级每次 `onQueryChange` → `setState` 重建），拼音输入第二个字母时 controller 被整体换掉、composing 丢失，平台增量被错误地重新插入——输入 "ji" 变成 "jjijiji"。现改为**持久 `TextEditingController`**（`initState` 建、`dispose` 释放），`didUpdateWidget` 仅当 `widget.query != _controller.text` 才覆盖其 `value`（用户正在合成时二者相等 → 跳过覆盖，保住 composing）；程序化置入 / 清空 / 折叠等外部改动仍即时同步。移除不再使用的 `_EphemeralTextController`。回归测试 `test/miuix_input_field_ime_test.dart`。
+
 ## 1.0.9
 
 ### 修复
