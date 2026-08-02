@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../foundation/miuix_content_color.dart';
 import '../foundation/miuix_pressable.dart';
 import '../foundation/miuix_squircle.dart';
+import '../theme/miuix_text_styles.dart';
 import '../theme/miuix_theme.dart';
 
 /// Button 颜色配置。对应 Kotlin `ButtonColors`。
@@ -102,7 +103,9 @@ class MiuixButton extends StatelessWidget {
           // 显式注入 txtColor，使 Flutter 内置 Text 也能正确取色。
           // MiuixContentColor 仅对 MiuixText / MiuixIcon 生效，对 Text 无效，
           // 不在此 merge 会导致 disabled 态文字色不变（与 enabled 难以区分）。
-          style: theme.textStyles.button.copyWith(color: txtColor),
+          style: theme.textStyles.button
+              .copyWith(color: txtColor)
+              .withMiuixWeight(theme.fontWeightAdjustment),
           child: child,
         ),
       ),
@@ -163,7 +166,11 @@ class MiuixTextButton extends StatelessWidget {
       minHeight: minHeight,
       colors: colors,
       insideMargin: insideMargin,
-      child: Text(text, style: textStyle ?? theme.textStyles.button),
+      child: Text(
+        text,
+        style: (textStyle ?? theme.textStyles.button)
+            .withMiuixWeight(theme.fontWeightAdjustment),
+      ),
     );
   }
 }

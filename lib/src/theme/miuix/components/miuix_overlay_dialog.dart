@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 
 import '../foundation/miuix_popup_utils.dart';
 import '../foundation/miuix_squircle.dart';
+import '../theme/miuix_text_styles.dart';
 import '../theme/miuix_theme.dart';
 
 /// 对应 Kotlin `LocalDismissState`：向对话框内容提供关闭请求。
@@ -201,7 +202,7 @@ class _MiuixDialogContent extends StatelessWidget {
                 style: theme.textStyles.title4.copyWith(
                   fontWeight: FontWeight.w500,
                   color: titleColor ?? MiuixDialogDefaults.titleColor(context),
-                ),
+                ).withMiuixWeight(theme.fontWeightAdjustment),
               ),
             ),
           ),
@@ -216,7 +217,7 @@ class _MiuixDialogContent extends StatelessWidget {
                 style: theme.textStyles.body1.copyWith(
                   color:
                       summaryColor ?? MiuixDialogDefaults.summaryColor(context),
-                ),
+                ).withMiuixWeight(theme.fontWeightAdjustment),
               ),
             ),
           ),

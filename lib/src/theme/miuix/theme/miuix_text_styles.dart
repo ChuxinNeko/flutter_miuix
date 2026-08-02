@@ -130,6 +130,27 @@ class MiuixTextStyles {
       );
 }
 
+/// 按 [adjustment] 偏移字重，对应 Android Compose 平台自动施加的
+/// `Configuration.fontWeightAdjustment`（跟随系统字体粗细度）。
+///
+/// [adjustment] 为权重数值，100 为一档（与 Flutter [FontWeight] 步进一致）：
+/// +100 时 w400→w500、w600→w700、w700→w800。[weight] 为 null 时按 w400 处理。
+///
+/// [adjustment] == 0 时原样返回（含 null），保证零行为回归。
+FontWeight? adjustFontWeight(FontWeight? weight, int adjustment) {
+  if (adjustment == 0) return weight;
+  final base = weight ?? FontWeight.w400;
+  final target = base.value + adjustment;
+  final idx = ((target / 100).round() - 1).clamp(0, FontWeight.values.length - 1);
+  return FontWeight.values[idx];
+}
+
+/// 在样式上应用字重偏移的便捷写法。见 [adjustFontWeight]。
+extension MiuixFontWeightAdjustment on TextStyle {
+  TextStyle withMiuixWeight(int adjustment) =>
+      adjustment == 0 ? this : copyWith(fontWeight: adjustFontWeight(fontWeight, adjustment));
+}
+
 /// 默认文本样式，与 Miuix 规范一致。字号单位为逻辑像素（Flutter sp 近似）。
 MiuixTextStyles defaultTextStyles() => MiuixTextStyles(
       main: const TextStyle(fontSize: 17),

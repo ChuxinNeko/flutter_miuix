@@ -11,16 +11,43 @@
 | `colors` | `MiuixColors` | 配色方案 |
 | `textStyles` | `MiuixTextStyles` | 文本样式集 |
 | `brightness` | `Brightness` | 当前亮度模式 |
-| `MiuixThemeData.light({colors, textStyles})` | 工厂 | 浅色主题；默认 [lightColorScheme] + [defaultTextStyles] |
-| `MiuixThemeData.dark({colors, textStyles})` | 工厂 | 深色主题；默认 [darkColorScheme] + [defaultTextStyles] |
-| `MiuixThemeData.of(brightness, {lightColors, darkColors, textStyles})` | 工厂 | 跟随系统亮度自动选择 |
-| `copyWith({colors, textStyles, brightness})` | `MiuixThemeData` | 复制并覆盖部分字段 |
+| `fontWeightAdjustment` | `int` | 全局字重偏移量（权重数值，100=一档），默认 `0`；见下方「跟随系统字重」 |
+| `MiuixThemeData.light({colors, textStyles, fontWeightAdjustment})` | 工厂 | 浅色主题；默认 [lightColorScheme] + [defaultTextStyles] |
+| `MiuixThemeData.dark({colors, textStyles, fontWeightAdjustment})` | 工厂 | 深色主题；默认 [darkColorScheme] + [defaultTextStyles] |
+| `MiuixThemeData.of(brightness, {lightColors, darkColors, textStyles, fontWeightAdjustment})` | 工厂 | 跟随系统亮度自动选择 |
+| `copyWith({colors, textStyles, brightness, fontWeightAdjustment})` | `MiuixThemeData` | 复制并覆盖部分字段 |
 
 **示例：**
 ```dart
 final data = MiuixThemeData.light(
   colors: lightColorScheme().copy(primary: Color(0xFFFF6B35)),
 );
+```
+
+#### 跟随系统字重（fontWeightAdjustment）
+
+对应 Android Compose 平台自动施加的 `Configuration.fontWeightAdjustment`：把一个偏移量整体加到**每段文字最终解析出的字重**上（未指定字重按 `w400` 处理），组件内的标题/副标题层级随之整体变粗。偏移量以权重数值计，**100 为一档**（与 Flutter `FontWeight` 步进一致）：
+
+| 偏移量 | 正文 | 半粗标题 | 粗体标题 |
+|---|---|---|---|
+| `0`（默认） | 400 | 600 | 700 |
+| `+100` | 500 | 700 | 800 |
+
+`MiuixSystemTheme` / `MiuixThemeController` 默认读 `MediaQuery.boldTextOf`：系统「粗体文字」开启时自动加一档（+100，可由 `boldTextFontWeightAdjustment` 调整），关闭时为 0。也可用 `fontWeightAdjustment` 显式指定任意值（HyperOS 应用可自行接原生读连续字重值再传入）来关闭自动跟随。
+
+底层辅助 API（一般无需直接调用）：
+
+| API | 说明 |
+|---|---|
+| `adjustFontWeight(FontWeight? weight, int adjustment)` → `FontWeight?` | 按偏移量偏移字重；`weight` 为 null 时按 w400 处理；`adjustment==0` 原样返回（含 null），保证零回归；越界 clamp 到 w100..w900 |
+| `TextStyle.withMiuixWeight(int adjustment)` → `TextStyle` | 在样式上应用上述偏移的扩展写法 |
+
+```dart
+// 关闭自动跟随，强制 +200：
+MiuixSystemTheme(
+  fontWeightAdjustment: 200,
+  child: MyApp(),
+)
 ```
 
 ### MiuixTheme
@@ -51,6 +78,8 @@ MiuixTheme(
 | `light` | `MiuixColors?` | `null`（= [lightColorScheme]） | 自定义浅色配色 |
 | `dark` | `MiuixColors?` | `null`（= [darkColorScheme]） | 自定义深色配色 |
 | `textStyles` | `MiuixTextStyles?` | `null`（= [defaultTextStyles]） | 自定义文本样式 |
+| `fontWeightAdjustment` | `int?` | `null`（= 自动跟随 `boldText`） | 显式指定全局字重偏移量；非空则关闭自动跟随 |
+| `boldTextFontWeightAdjustment` | `int` | `100` | 自动模式下系统「粗体文字」开启时施加的偏移量 |
 | `child` | `Widget` | 必填 | 子树 |
 
 **示例：**
@@ -91,6 +120,8 @@ MiuixSystemTheme(
 | `lightColors` | `MiuixColors?` | `null`（= [lightColorScheme]） | 浅色静态配色 |
 | `darkColors` | `MiuixColors?` | `null`（= [darkColorScheme]） | 深色静态配色 |
 | `textStyles` | `MiuixTextStyles?` | `null`（= [defaultTextStyles]） | 文本样式 |
+| `fontWeightAdjustment` | `int?` | `null`（= 自动跟随 `boldText`） | 显式全局字重偏移量；非空则关闭自动跟随 |
+| `boldTextFontWeightAdjustment` | `int` | `100` | 自动模式下系统「粗体文字」开启时施加的偏移量 |
 | `keyColor` | `Color?` | `null` | Monet 种子色；为 null 时走平台壁纸取色 |
 | `colorSpec` | `MiuixThemeColorSpec` | `spec2021` | 配色规范版本 |
 | `paletteStyle` | `MiuixThemePaletteStyle` | `tonalSpot` | Monet palette 风格 |

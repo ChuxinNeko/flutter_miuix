@@ -8,6 +8,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
+import '../theme/miuix_text_styles.dart';
 import '../theme/miuix_theme.dart';
 import 'miuix_text.dart';
 
@@ -663,11 +664,11 @@ class _MiuixTopAppBarState extends State<MiuixTopAppBar>
     final largeTitleStyle = theme.textStyles.title1.copyWith(
       color: largeTitleColor,
       fontWeight: FontWeight.normal,
-    );
+    ).withMiuixWeight(theme.fontWeightAdjustment);
     final smallTitleStyle = theme.textStyles.title3.copyWith(
       color: titleColor,
       fontWeight: FontWeight.w500,
-    );
+    ).withMiuixWeight(theme.fontWeightAdjustment);
 
     // 测量并缓存大/小字号下的文字尺寸：只在标题文字变化时重算，
     // 滚动时不创建任何 TextPainter（文字 shaping 昂贵，每帧调用会掉帧）。
@@ -859,7 +860,8 @@ class _MiuixTopAppBarState extends State<MiuixTopAppBar>
                               child: Text(
                                 widget.subtitle,
                                 style: theme.textStyles.body2
-                                    .copyWith(color: subtitleColor),
+                                    .copyWith(color: subtitleColor)
+                                    .withMiuixWeight(theme.fontWeightAdjustment),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -904,7 +906,8 @@ class _MiuixTopAppBarState extends State<MiuixTopAppBar>
                       child: Text(
                         widget.subtitle,
                         style: theme.textStyles.body2
-                            .copyWith(color: subtitleColor),
+                            .copyWith(color: subtitleColor)
+                            .withMiuixWeight(theme.fontWeightAdjustment),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

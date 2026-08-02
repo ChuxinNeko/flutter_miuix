@@ -12,6 +12,7 @@ import '../foundation/miuix_pressable.dart';
 import '../foundation/miuix_squircle.dart';
 import '../icon/miuix_basic_icons.dart';
 import '../theme/miuix_motion.dart';
+import '../theme/miuix_text_styles.dart';
 import '../theme/miuix_theme.dart';
 import 'miuix_icon.dart';
 
@@ -447,7 +448,7 @@ class MiuixNavigationRailItem extends StatelessWidget {
                 color: contentColor,
                 fontSize: collapsedFontSize,
                 fontWeight: FontWeight.w500,
-              ),
+              ).withMiuixWeight(MiuixTheme.of(context).fontWeightAdjustment),
             ),
           ],
         ),
@@ -543,7 +544,7 @@ class _ExpandableRailItem extends StatelessWidget {
       color: colors.content,
       fontSize: lerpDouble(collapsedFontSize, expandedFontSize, fraction),
       fontWeight: FontWeight.w500,
-    );
+    ).withMiuixWeight(MiuixTheme.of(context).fontWeightAdjustment);
     return MiuixPressable(
       onPressed: enabled ? onPressed : null,
       enabled: enabled,

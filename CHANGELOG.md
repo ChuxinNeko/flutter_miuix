@@ -2,6 +2,14 @@
 
 
 
+## 1.1.0
+
+### 新增
+
+- **文字字重跟随系统（fontWeightAdjustment）**：此前未指定字重的文本一律按 Flutter 默认 `w400` 渲染，不随系统字体粗细度变化；而 MiuiX Compose 依托 Android 平台自动施加的 `Configuration.fontWeightAdjustment`，会把一个偏移量整体加到每段文字最终解析出的字重上（正文 400→500、半粗标题 600→700、粗体标题 700→800）。移植版现复刻该机制：`MiuixThemeData` 新增 `fontWeightAdjustment`（权重数值，100 为一档），组件在渲染时把偏移应用到最终字重（未指定按 `w400` 处理）。`MiuixSystemTheme` / `MiuixThemeController` 默认读 `MediaQuery.boldTextOf` 自动跟随系统「粗体文字」（开启 +100，可由 `boldTextFontWeightAdjustment` 调整），也可用 `fontWeightAdjustment` 显式指定任意值关闭自动跟随。新增底层辅助 `adjustFontWeight()` 与 `TextStyle.withMiuixWeight()`。`fontWeightAdjustment == 0`（默认）时行为与旧版完全一致，无回归。
+
+
+
 ## 1.0.9
 
 ### 修复

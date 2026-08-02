@@ -11,16 +11,43 @@ Immutable Miuix theme data aggregating [MiuixColors], [MiuixTextStyles] and [Bri
 | `colors` | `MiuixColors` | Color scheme |
 | `textStyles` | `MiuixTextStyles` | Text style set |
 | `brightness` | `Brightness` | Current brightness mode |
-| `MiuixThemeData.light({colors, textStyles})` | factory | Light theme; defaults to [lightColorScheme] + [defaultTextStyles] |
-| `MiuixThemeData.dark({colors, textStyles})` | factory | Dark theme; defaults to [darkColorScheme] + [defaultTextStyles] |
-| `MiuixThemeData.of(brightness, {lightColors, darkColors, textStyles})` | factory | Auto-selects light/dark by system brightness |
-| `copyWith({colors, textStyles, brightness})` | `MiuixThemeData` | Copies and overrides selected fields |
+| `fontWeightAdjustment` | `int` | Global font-weight adjustment (in weight units, 100 = one step), default `0`; see "Following system font weight" below |
+| `MiuixThemeData.light({colors, textStyles, fontWeightAdjustment})` | factory | Light theme; defaults to [lightColorScheme] + [defaultTextStyles] |
+| `MiuixThemeData.dark({colors, textStyles, fontWeightAdjustment})` | factory | Dark theme; defaults to [darkColorScheme] + [defaultTextStyles] |
+| `MiuixThemeData.of(brightness, {lightColors, darkColors, textStyles, fontWeightAdjustment})` | factory | Auto-selects light/dark by system brightness |
+| `copyWith({colors, textStyles, brightness, fontWeightAdjustment})` | `MiuixThemeData` | Copies and overrides selected fields |
 
 **Example:**
 ```dart
 final data = MiuixThemeData.light(
   colors: lightColorScheme().copy(primary: Color(0xFFFF6B35)),
 );
+```
+
+#### Following system font weight (fontWeightAdjustment)
+
+Mirrors Android Compose's automatic `Configuration.fontWeightAdjustment`: a single offset is added to the **final resolved weight of every piece of text** (unspecified weights are treated as `w400`), so title/subtitle levels get bolder together. The offset is expressed in weight units, **100 = one step** (matching Flutter's `FontWeight` increments):
+
+| Adjustment | Body | Semibold title | Bold title |
+|---|---|---|---|
+| `0` (default) | 400 | 600 | 700 |
+| `+100` | 500 | 700 | 800 |
+
+`MiuixSystemTheme` / `MiuixThemeController` read `MediaQuery.boldTextOf` by default: when the system "Bold text" setting is on, one step is added automatically (+100, tunable via `boldTextFontWeightAdjustment`); otherwise 0. Set `fontWeightAdjustment` explicitly to any value (a HyperOS app may read the continuous native value and pass it in) to disable auto-following.
+
+Low-level helpers (rarely called directly):
+
+| API | Description |
+|---|---|
+| `adjustFontWeight(FontWeight? weight, int adjustment)` → `FontWeight?` | Shifts a weight by the offset; treats null as w400; returns as-is (incl. null) when `adjustment==0` for zero regression; clamps to w100..w900 |
+| `TextStyle.withMiuixWeight(int adjustment)` → `TextStyle` | Extension applying the offset onto a style |
+
+```dart
+// Disable auto-following, force +200:
+MiuixSystemTheme(
+  fontWeightAdjustment: 200,
+  child: MyApp(),
+)
 ```
 
 ### MiuixTheme
@@ -51,6 +78,8 @@ A convenience widget that applies light/dark theme automatically based on `Media
 | `light` | `MiuixColors?` | `null` (= [lightColorScheme]) | Custom light colors |
 | `dark` | `MiuixColors?` | `null` (= [darkColorScheme]) | Custom dark colors |
 | `textStyles` | `MiuixTextStyles?` | `null` (= [defaultTextStyles]) | Custom text styles |
+| `fontWeightAdjustment` | `int?` | `null` (= auto-follows `boldText`) | Explicit global font-weight adjustment; non-null disables auto-following |
+| `boldTextFontWeightAdjustment` | `int` | `100` | Offset applied in auto mode when system "Bold text" is on |
 | `child` | `Widget` | required | Subtree |
 
 **Example:**
@@ -91,6 +120,8 @@ Full theme controller that resolves colors by [MiuixColorSchemeMode] and provide
 | `lightColors` | `MiuixColors?` | `null` (= [lightColorScheme]) | Static light colors |
 | `darkColors` | `MiuixColors?` | `null` (= [darkColorScheme]) | Static dark colors |
 | `textStyles` | `MiuixTextStyles?` | `null` (= [defaultTextStyles]) | Text styles |
+| `fontWeightAdjustment` | `int?` | `null` (= auto-follows `boldText`) | Explicit global font-weight adjustment; non-null disables auto-following |
+| `boldTextFontWeightAdjustment` | `int` | `100` | Offset applied in auto mode when system "Bold text" is on |
 | `keyColor` | `Color?` | `null` | Monet seed color; null reads platform wallpaper |
 | `colorSpec` | `MiuixThemeColorSpec` | `spec2021` | Color spec version |
 | `paletteStyle` | `MiuixThemePaletteStyle` | `tonalSpot` | Monet palette style |

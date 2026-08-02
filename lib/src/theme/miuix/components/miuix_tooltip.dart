@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 import '../foundation/miuix_content_color.dart';
 import '../foundation/miuix_squircle.dart';
+import '../theme/miuix_text_styles.dart';
 import '../theme/miuix_theme.dart';
 
 /// Tooltip 相对锚点的首选方位；空间不足时会翻转到相反一侧。
@@ -419,7 +420,8 @@ class MiuixPlainTooltip extends StatelessWidget {
         child: MiuixContentColor(
           color: content,
           child: DefaultTextStyle.merge(
-            style: MiuixTheme.of(context).textStyles.body2.copyWith(color: content),
+            style: MiuixTheme.of(context).textStyles.body2.copyWith(color: content)
+                .withMiuixWeight(MiuixTheme.of(context).fontWeightAdjustment),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             child: child,
@@ -478,7 +480,8 @@ class MiuixRichTooltip extends StatelessWidget {
                   style: MiuixTheme.of(context)
                       .textStyles
                       .subtitle
-                      .copyWith(color: palette.titleContentColor),
+                      .copyWith(color: palette.titleContentColor)
+                      .withMiuixWeight(MiuixTheme.of(context).fontWeightAdjustment),
                   child: title!,
                 ),
               ),
@@ -490,7 +493,8 @@ class MiuixRichTooltip extends StatelessWidget {
                 style: MiuixTheme.of(context)
                     .textStyles
                     .body2
-                    .copyWith(color: palette.contentColor),
+                    .copyWith(color: palette.contentColor)
+                    .withMiuixWeight(MiuixTheme.of(context).fontWeightAdjustment),
                 child: text,
               ),
             ),

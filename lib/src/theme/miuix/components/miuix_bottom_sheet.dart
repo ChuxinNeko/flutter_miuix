@@ -10,6 +10,7 @@ import 'package:flutter/physics.dart';
 import 'package:flutter/rendering.dart';
 
 import '../foundation/miuix_popup_utils.dart';
+import '../theme/miuix_text_styles.dart';
 import '../theme/miuix_theme.dart';
 import 'miuix_overlay_dialog.dart' show MiuixDismissScope;
 
@@ -519,7 +520,7 @@ class _MiuixBottomSheetLayoutState extends State<_MiuixBottomSheetLayout>
               style: MiuixTheme.of(context).textStyles.title4.copyWith(
                 fontWeight: FontWeight.w500,
                 color: MiuixTheme.of(context).colors.onSurface,
-              ),
+              ).withMiuixWeight(MiuixTheme.of(context).fontWeightAdjustment),
             ),
           Align(
             alignment: AlignmentDirectional.centerStart,

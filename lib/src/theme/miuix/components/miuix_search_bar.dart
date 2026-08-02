@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 
 import '../foundation/miuix_content_color.dart';
 import '../icon/miuix_basic_icons.dart';
+import '../theme/miuix_text_styles.dart';
 import '../theme/miuix_theme.dart';
 import 'miuix_icon.dart';
 
@@ -227,14 +228,16 @@ class _MiuixInputFieldState extends State<MiuixInputField>
     final inputStyle = theme.textStyles.main
         .copyWith(fontWeight: FontWeight.w500)
         .merge(widget.textStyle)
-        .copyWith(color: foreground);
+        .copyWith(color: foreground)
+        .withMiuixWeight(theme.fontWeightAdjustment);
     final labelStyle =
         const TextStyle(
               fontSize: MiuixSearchBarDefaults.inputFieldFontSize,
               fontWeight: FontWeight.w500,
             )
             .merge(widget.textStyle)
-            .copyWith(color: theme.colors.onSurfaceContainerHigh);
+            .copyWith(color: theme.colors.onSurfaceContainerHigh)
+            .withMiuixWeight(theme.fontWeightAdjustment);
     final showLabel = widget.query.isEmpty && !widget.expanded;
 
     final leading =

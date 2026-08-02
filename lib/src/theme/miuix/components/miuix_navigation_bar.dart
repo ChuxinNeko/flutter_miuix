@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../foundation/miuix_squircle.dart';
+import '../theme/miuix_text_styles.dart';
 import '../theme/miuix_theme.dart';
 import 'miuix_divider.dart';
 
@@ -555,7 +556,7 @@ class _NavigationLabel extends StatelessWidget {
           color: tint,
           fontSize: MiuixNavigationBarDefaults.labelFontSize,
           fontWeight: selected ? FontWeight.bold : FontWeight.normal,
-        ),
+        ).withMiuixWeight(MiuixTheme.of(context).fontWeightAdjustment),
         textAlign: TextAlign.center,
         child: labelWidget ?? Text(label, textAlign: TextAlign.center),
       ),

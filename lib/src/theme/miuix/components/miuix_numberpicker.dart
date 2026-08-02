@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
 
+import '../theme/miuix_text_styles.dart';
 import '../theme/miuix_theme.dart';
 
 /// NumberPicker 颜色配置。对应 Kotlin `NumberPickerColors`。
@@ -209,7 +210,9 @@ class _MiuixNumberPickerState extends State<MiuixNumberPicker>
         widget.colors ?? MiuixNumberPickerDefaults.colors(context);
     final theme = MiuixTheme.of(context);
     final baseStyle = widget.textStyle ?? theme.textStyles.title1;
-    final textStyle = baseStyle.copyWith(fontWeight: FontWeight.w600);
+    final textStyle = baseStyle
+        .copyWith(fontWeight: FontWeight.w600)
+        .withMiuixWeight(theme.fontWeightAdjustment);
     final enabled = _effectiveEnabled;
     final selectedColor = colors.selectedTextColorFor(enabled);
     final unselectedColor = colors.unselectedTextColorFor(enabled);

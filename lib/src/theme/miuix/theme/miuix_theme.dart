@@ -17,21 +17,32 @@ class MiuixThemeData {
     required this.colors,
     required this.textStyles,
     required this.brightness,
+    this.fontWeightAdjustment = 0,
   });
 
   final MiuixColors colors;
   final MiuixTextStyles textStyles;
   final Brightness brightness;
 
+  /// 全局字重偏移量（权重数值，100 为一档）。对应 Android Compose 平台自动施加的
+  /// `Configuration.fontWeightAdjustment`，用于跟随系统字体粗细度。
+  ///
+  /// 组件在渲染文本时会把该偏移应用到最终字重上（未指定字重按 w400 处理）：
+  /// +100 时正文 400→500、半粗标题 600→700、粗体标题 700→800。默认 0（不偏移）。
+  /// 通常由 [MiuixSystemTheme] / [MiuixThemeController] 依据 `MediaQuery.boldText` 自动设置。
+  final int fontWeightAdjustment;
+
   /// 浅色主题。
   factory MiuixThemeData.light({
     MiuixColors? colors,
     MiuixTextStyles? textStyles,
+    int fontWeightAdjustment = 0,
   }) {
     return MiuixThemeData(
       colors: colors ?? lightColorScheme(),
       textStyles: textStyles ?? defaultTextStyles(),
       brightness: Brightness.light,
+      fontWeightAdjustment: fontWeightAdjustment,
     );
   }
 
@@ -39,11 +50,13 @@ class MiuixThemeData {
   factory MiuixThemeData.dark({
     MiuixColors? colors,
     MiuixTextStyles? textStyles,
+    int fontWeightAdjustment = 0,
   }) {
     return MiuixThemeData(
       colors: colors ?? darkColorScheme(),
       textStyles: textStyles ?? defaultTextStyles(),
       brightness: Brightness.dark,
+      fontWeightAdjustment: fontWeightAdjustment,
     );
   }
 
@@ -53,12 +66,14 @@ class MiuixThemeData {
     MiuixColors? lightColors,
     MiuixColors? darkColors,
     MiuixTextStyles? textStyles,
+    int fontWeightAdjustment = 0,
   }) {
     final isDark = brightness == Brightness.dark;
     return MiuixThemeData(
       colors: isDark ? (darkColors ?? darkColorScheme()) : (lightColors ?? lightColorScheme()),
       textStyles: textStyles ?? defaultTextStyles(),
       brightness: brightness,
+      fontWeightAdjustment: fontWeightAdjustment,
     );
   }
 
@@ -66,11 +81,13 @@ class MiuixThemeData {
     MiuixColors? colors,
     MiuixTextStyles? textStyles,
     Brightness? brightness,
+    int? fontWeightAdjustment,
   }) {
     return MiuixThemeData(
       colors: colors ?? this.colors,
       textStyles: textStyles ?? this.textStyles,
       brightness: brightness ?? this.brightness,
+      fontWeightAdjustment: fontWeightAdjustment ?? this.fontWeightAdjustment,
     );
   }
 
@@ -80,11 +97,12 @@ class MiuixThemeData {
     return other is MiuixThemeData &&
         other.colors == colors &&
         other.textStyles == textStyles &&
-        other.brightness == brightness;
+        other.brightness == brightness &&
+        other.fontWeightAdjustment == fontWeightAdjustment;
   }
 
   @override
-  int get hashCode => Object.hash(colors, textStyles, brightness);
+  int get hashCode => Object.hash(colors, textStyles, brightness, fontWeightAdjustment);
 }
 
 /// 提供 [MiuixThemeData] 给子树。对应 Kotlin 的 `MiuixTheme { ... }`。
@@ -131,6 +149,8 @@ class MiuixSystemTheme extends StatelessWidget {
     this.light,
     this.dark,
     this.textStyles,
+    this.fontWeightAdjustment,
+    this.boldTextFontWeightAdjustment = 100,
     required this.child,
   });
 
@@ -143,17 +163,28 @@ class MiuixSystemTheme extends StatelessWidget {
   /// 自定义文本样式。
   final MiuixTextStyles? textStyles;
 
+  /// 显式指定全局字重偏移量（权重数值，100 为一档）。为 null（默认）时自动跟随系统
+  /// `MediaQuery.boldText`：开启时加 [boldTextFontWeightAdjustment]，关闭时为 0。
+  /// 见 [MiuixThemeData.fontWeightAdjustment]。
+  final int? fontWeightAdjustment;
+
+  /// 自动模式下，系统「粗体文字」开启时施加的字重偏移量，默认 +100（一档）。
+  final int boldTextFontWeightAdjustment;
+
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
     final brightness = MediaQuery.platformBrightnessOf(context);
+    final adj = fontWeightAdjustment ??
+        (MediaQuery.boldTextOf(context) ? boldTextFontWeightAdjustment : 0);
     return MiuixTheme(
       data: MiuixThemeData.of(
         brightness,
         lightColors: light,
         darkColors: dark,
         textStyles: textStyles,
+        fontWeightAdjustment: adj,
       ),
       child: child,
     );
@@ -190,6 +221,8 @@ class MiuixThemeController extends StatefulWidget {
     this.lightColors,
     this.darkColors,
     this.textStyles,
+    this.fontWeightAdjustment,
+    this.boldTextFontWeightAdjustment = 100,
     this.keyColor,
     this.colorSpec = MiuixThemeColorSpec.spec2021,
     this.paletteStyle = MiuixThemePaletteStyle.tonalSpot,
@@ -208,6 +241,14 @@ class MiuixThemeController extends StatefulWidget {
 
   /// 文本样式，默认 [defaultTextStyles]。
   final MiuixTextStyles? textStyles;
+
+  /// 显式指定全局字重偏移量（权重数值，100 为一档）。为 null（默认）时自动跟随系统
+  /// `MediaQuery.boldText`：开启时加 [boldTextFontWeightAdjustment]，关闭时为 0。
+  /// 见 [MiuixThemeData.fontWeightAdjustment]。
+  final int? fontWeightAdjustment;
+
+  /// 自动模式下，系统「粗体文字」开启时施加的字重偏移量，默认 +100（一档）。
+  final int boldTextFontWeightAdjustment;
 
   /// 动态取色的种子色。对应 Kotlin `keyColor`。为 null 时 monet 模式走平台壁纸取色。
   final Color? keyColor;
@@ -288,6 +329,8 @@ class _MiuixThemeControllerState extends State<MiuixThemeController> {
         colors: colors,
         textStyles: widget.textStyles ?? defaultTextStyles(),
         brightness: brightness,
+        fontWeightAdjustment: widget.fontWeightAdjustment ??
+            (MediaQuery.boldTextOf(context) ? widget.boldTextFontWeightAdjustment : 0),
       ),
       child: widget.child,
     );

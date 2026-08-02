@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
 
+import '../theme/miuix_text_styles.dart';
+import '../theme/miuix_theme.dart';
 import 'miuix_top_app_bar.dart';
 
 /// 下拉刷新指示器的五种视觉状态。
@@ -600,7 +602,8 @@ class _MiuixPullToRefreshState extends State<MiuixPullToRefresh>
                                     _refreshText,
                                     style: widget.refreshTextStyle.copyWith(
                                       color: widget.color,
-                                    ),
+                                    ).withMiuixWeight(
+                                        MiuixTheme.of(context).fontWeightAdjustment),
                                   ),
                                 ),
                               ),

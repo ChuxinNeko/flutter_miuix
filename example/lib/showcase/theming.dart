@@ -13,6 +13,7 @@ class ThemingShowcase extends StatelessWidget {
     final entries = <(String, String, Widget)>[
       ('动态取色', 'MiuixThemeController · 种子色 → 整套配色', const _DynamicThemePage()),
       ('文本样式', 'MiuixTextStyles 全部预设', const _TextStylesPage()),
+      ('字重跟随', 'fontWeightAdjustment · 跟随系统字体粗细度', const _FontWeightPage()),
       ('配色角色', 'MiuixColors 全部语义角色', const _ColorRolesPage()),
       ('图标浏览', 'MiuixIcons.extended · 5 字重', const _IconBrowserPage()),
     ];
@@ -271,6 +272,107 @@ class _TextStylesPage extends StatelessWidget {
                 ),
               ],
             ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// 字重跟随系统演示：切换 fontWeightAdjustment，预览正文/标题/组件一起变粗。
+class _FontWeightPage extends StatefulWidget {
+  const _FontWeightPage();
+
+  @override
+  State<_FontWeightPage> createState() => _FontWeightPageState();
+}
+
+class _FontWeightPageState extends State<_FontWeightPage> {
+  static const _labels = ['0（默认）', '+100', '+200'];
+  static const _values = [0, 100, 200];
+  int _index = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    final base = MiuixTheme.of(context);
+    final adjustment = _values[_index];
+    final boldText = MediaQuery.boldTextOf(context);
+    return _SubPage(
+      title: '字重跟随',
+      subtitle: 'fontWeightAdjustment',
+      children: [
+        MiuixSmallTitle('偏移档位（100 为一档）'),
+        _Pad(
+          child: MiuixTabRow(
+            tabs: _labels,
+            selectedTabIndex: _index,
+            onTabSelected: (i) => setState(() => _index = i),
+          ),
+        ),
+        _Pad(
+          child: MiuixText(
+            '对应 Android Compose 平台自动施加的 Configuration.fontWeightAdjustment：'
+            '把偏移整体加到每段文字最终字重上（正文 400→500、半粗 600→700、粗体 700→800）。'
+            '默认 MiuixSystemTheme / MiuixThemeController 会读系统「粗体文字」自动跟随。\n'
+            '当前系统 boldText：${boldText ? '开启' : '关闭'}。',
+            style: base.textStyles.footnote1,
+            color: base.colors.onSurfaceVariantSummary,
+          ),
+        ),
+        MiuixSmallTitle('实时预览'),
+        _Pad(
+          // 用局部主题注入 fontWeightAdjustment，展示对整个子树文字的整体影响。
+          child: MiuixTheme(
+            data: base.copyWith(fontWeightAdjustment: adjustment),
+            child: Builder(
+              builder: (context) {
+                final ts = MiuixTheme.of(context).textStyles;
+                final colors = MiuixTheme.of(context).colors;
+                return Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: colors.background,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      MiuixText('大标题 title1', style: ts.title1),
+                      const SizedBox(height: 8),
+                      MiuixText('副标题 subtitle（bold）', style: ts.subtitle),
+                      const SizedBox(height: 8),
+                      MiuixText('正文 body1，未指定字重时随系统变粗', style: ts.body1),
+                      const SizedBox(height: 12),
+                      MiuixCard(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            MiuixBasicComponent(
+                              title: '列表项标题',
+                              summary: '摘要文字',
+                            ),
+                            const IndentDivider(),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 12),
+                              child: Row(
+                                children: [
+                                  MiuixButton(
+                                    onPressed: () {},
+                                    child: MiuixText('主按钮', style: ts.button),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  MiuixTextButton('文本按钮', onPressed: () {}),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ],

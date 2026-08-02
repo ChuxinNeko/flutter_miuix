@@ -8,6 +8,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import '../foundation/miuix_squircle.dart';
+import '../theme/miuix_text_styles.dart';
 import '../theme/miuix_theme.dart';
 
 /// TextField 颜色配置。对应 Kotlin `TextFieldColors`。
@@ -233,7 +234,9 @@ class _MiuixTextFieldState extends State<MiuixTextField>
         widget.colors ?? MiuixTextFieldDefaults.textFieldColors(context);
     final theme = MiuixTheme.of(context);
     final baseStyle = widget.textStyle ?? theme.textStyles.main;
-    final textStyle = baseStyle.copyWith(color: theme.colors.onBackground);
+    final textStyle = baseStyle
+        .copyWith(color: theme.colors.onBackground)
+        .withMiuixWeight(theme.fontWeightAdjustment);
     final cursorColor = widget.cursorColor ?? colors.borderColor;
 
     return AnimatedBuilder(
@@ -293,6 +296,7 @@ class _MiuixTextFieldState extends State<MiuixTextField>
                       cursorColor: cursorColor,
                       labelColor: colors.labelColor,
                       labelProgress: labelProgress,
+                      fontWeightAdjustment: theme.fontWeightAdjustment,
                     ),
                   ),
                 ),
@@ -311,6 +315,7 @@ class _MiuixTextFieldState extends State<MiuixTextField>
     required Color cursorColor,
     required Color labelColor,
     required double labelProgress,
+    required int fontWeightAdjustment,
   }) {
     // 对应 Kotlin insideMargin.height / 2（单侧值的一半 = 8）。
     final floatOffset = widget.insideMargin.top / 2 * labelProgress;
@@ -368,7 +373,7 @@ class _MiuixTextFieldState extends State<MiuixTextField>
                   fontSize: labelFontSize,
                   color: labelColor,
                   fontWeight: FontWeight.w500,
-                ),
+                ).withMiuixWeight(fontWeightAdjustment),
               ),
             ),
           ),
