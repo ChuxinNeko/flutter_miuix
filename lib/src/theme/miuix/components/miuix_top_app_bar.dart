@@ -4,9 +4,9 @@
 
 import 'dart:math' as math;
 import 'dart:ui' as ui;
-import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../theme/miuix_theme.dart';
 import 'miuix_text.dart';
@@ -38,6 +38,20 @@ class MiuixTopAppBarDefaults {
 
   /// 居中标题与导航/操作之间的横向余量比例。
   static const double titleWidthFraction = 0.9;
+
+  /// 大标题淡出斜率。原版 `TopAppBarLayout`：
+  /// `alpha = 1 - (collapsedFraction * 3)`——从折叠的第一个像素就开始淡出，
+  /// 折叠 1/3 处大标题完全消失，早于小标题出现。
+  static const double largeTitleFadeRate = 3.0;
+
+  /// 小标题切换可见的折叠比例阈值。原版：`collapsedFraction * 3 >= 1`。
+  static const double smallTitleRevealFraction = 1.0 / 3.0;
+
+  /// 小标题出现过渡的上浮距离。原版用 folme 弹簧把 `translationY` 从 20 动画到 0。
+  static const double smallTitleRisePx = 20.0;
+
+  /// 短页面松手时的折叠去留阈值：折叠比例达到该值则停驻在折叠态，否则重新展开。
+  static const double titleCoverHandoff = 0.50;
 }
 
 /// TopAppBar 的状态。对应 Kotlin `TopAppBarState`。
@@ -61,9 +75,27 @@ class MiuixTopAppBarState extends ChangeNotifier {
   double get heightOffsetLimit => _heightOffsetLimit;
 
   set heightOffsetLimit(double value) {
+    // 忽略瞬时零值：父级重建时 Offstage 测量层尚未回填尺寸，expansion 会短暂
+    // 为 0。若已持有有效负值上限，接受 0 会把 heightOffset 强制归零，折叠中的
+    // 标题会闪一下重新展开。SmallTopAppBar 需要固定钉住时请改用 [pin]。
+    if (value.abs() < 0.5 &&
+        _heightOffsetLimit.isFinite &&
+        _heightOffsetLimit < -1.0) {
+      return;
+    }
     if (_heightOffsetLimit == value) return;
     _heightOffsetLimit = value;
-    notifyListeners();
+    // 上限变化后把当前偏移重新夹进新区间。
+    heightOffset = _heightOffset;
+    _notify();
+  }
+
+  /// 把折叠上限锁为 0（SmallTopAppBar 的 pinned 语义），绕过瞬时零值防护。
+  void pin() {
+    if (_heightOffsetLimit == 0 && _heightOffset == 0) return;
+    _heightOffsetLimit = 0;
+    _heightOffset = 0;
+    _notify();
   }
 
   /// 当前折叠偏移量，被夹在 [heightOffsetLimit] 与 0 之间。
@@ -73,15 +105,35 @@ class MiuixTopAppBarState extends ChangeNotifier {
     final clamped = value.clamp(_heightOffsetLimit, 0.0);
     if (_heightOffset == clamped) return;
     _heightOffset = clamped;
-    notifyListeners();
+    _notify();
   }
 
   /// TopAppBar 下方内容的累计滚动偏移量。
   double get contentOffset => _contentOffset;
 
   set contentOffset(double value) {
+    // 仅记账不通知：折叠量已被钳制在端点时，每个滚动像素都通知会让监听者
+    // 白白重建（可见为标题闪烁 / 无谓的重绘开销）。
     if (_contentOffset == value) return;
     _contentOffset = value;
+  }
+
+  bool _notifyScheduled = false;
+
+  /// 布局/绘制阶段（滚动通知可能在 performLayout 中冒泡）直接 notifyListeners
+  /// 会触发 "Build scheduled during frame"，此时延迟到帧末；其余阶段立即通知，
+  /// 不引入任何一帧滞后。
+  void _notify() {
+    if (SchedulerBinding.instance.schedulerPhase ==
+        SchedulerPhase.persistentCallbacks) {
+      if (_notifyScheduled) return;
+      _notifyScheduled = true;
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        _notifyScheduled = false;
+        notifyListeners();
+      });
+      return;
+    }
     notifyListeners();
   }
 
@@ -116,9 +168,15 @@ abstract class MiuixScrollBehavior {
 /// `heightOffset = -(pixels - minScrollExtent)`，再由 setter 钳到 [limit, 0]。
 /// 只有内容滚回顶部对应位置，大标题才逐像素恢复；中途上/下滑不跳变。
 ///
-/// 不再累积 delta、不再松手吸附——那两者会让 heightOffset 与真实滚动位置
-/// 解耦（吸附把 heightOffset 拉到端点，pixels 却停在过渡区中段），造成"稍微
-/// 下滑，居中小标题就弹回大标题"。改为按位置直接映射后此问题不复存在。
+/// 松手吸附（[snapOnRelease]，对应原版 `settleAppBar` 的 snap 段）：手指抬起
+/// 时若停在折叠过渡区中段，把**列表本身**动画到全展开/全折叠的对应滚动
+/// 位置。注意与早期（1.0.2–1.0.8）实现的关键区别：吸附动画的是 pixels 而非
+/// heightOffset，折叠量始终是滚动位置的纯函数，不会重新引入"吸附后 offset 与
+/// pixels 解耦、中部微下滑弹回大标题"的回归问题。
+///
+/// 短页面（可滚行程不足以靠滚动位置把标题保持在折叠态）走专用路径：回弹
+/// 期间冻结折叠量，松手后按 [MiuixTopAppBarDefaults.titleCoverHandoff] 吸附到
+/// 近端，避免橡皮筋回弹把折叠中的标题拉回展开（"回弹 + 闪烁"）。
 ///
 /// 用法：
 /// ```dart
@@ -134,6 +192,10 @@ class MiuixExitUntilCollapsedScrollBehavior
   MiuixExitUntilCollapsedScrollBehavior({
     MiuixTopAppBarState? state,
     this.canScroll,
+    this.snapOnRelease = true,
+    this.snapDuration = const Duration(milliseconds: 280),
+    this.snapCurve = Curves.easeOutCubic,
+    this.lockSmallTitleUntilTop = false,
   }) : state = state ?? MiuixTopAppBarState();
 
   @override
@@ -141,6 +203,30 @@ class MiuixExitUntilCollapsedScrollBehavior
 
   /// 是否处理滚动事件。
   final bool Function()? canScroll;
+
+  /// 松手时若停在折叠过渡区中段，把列表吸附到全展开/全折叠的近端。
+  final bool snapOnRelease;
+
+  /// 吸附动画时长与曲线（对应原版 `snapAnimationSpec`）。
+  final Duration snapDuration;
+  final Curve snapCurve;
+
+  /// 可选增强（非原版行为，默认关闭）：标题折叠后保持小标题，直到用户发起
+  /// **新手势**把内容拉回顶部才重新展开；惯性滚动碰巧到达顶部不触发展开，
+  /// 避免阅读中标题在大/小态之间意外来回切换。
+  final bool lockSmallTitleUntilTop;
+
+  bool _snapInProgress = false;
+
+  /// 吸附动画运行中。监听者可据此避免在吸附期间切换视觉状态造成闪烁。
+  bool get isSnapInProgress => _snapInProgress;
+
+  /// 松手后列表仍在越界回弹：回弹期间冻结标题，否则 pixels 回落会把折叠中
+  /// 的标题渐渐拉回展开（用户感知为"松手后标题又弹回大标题"）。
+  bool _frozenDuringOverscrollSpringBack = false;
+
+  /// [lockSmallTitleUntilTop] 启用时：标题已折叠，在下一次新手势前保持冻结。
+  bool _smallTitleLocked = false;
 
   @override
   bool get isPinned => false;
@@ -150,10 +236,105 @@ class MiuixExitUntilCollapsedScrollBehavior
     // 只响应直接子滚动体的竖向滚动：页面内嵌套的横向/内层列表（depth > 0）
     // 不得驱动顶栏折叠，否则横滑一个内嵌列表也会牵动大标题。
     if (n.depth != 0 || n.metrics.axis != Axis.vertical) return false;
-    // 每个滚动通知都带有本次滚动后的 metrics.pixels——直接据此定位折叠量。
-    // ScrollUpdate / Overscroll / ScrollEnd 一视同仁：折叠量恒为位置的函数，
-    // 不再累积、不再吸附，杜绝与真实滚动位置解耦。
-    _syncOffsetToPosition(n.metrics);
+
+    final metrics = n.metrics;
+    final pixels = metrics.pixels;
+    final minExtent = metrics.minScrollExtent;
+    final maxExtent = metrics.maxScrollExtent;
+
+    // 短页面：最大可滚行程小于展开量，标题只能靠橡皮筋越界折叠，而越界
+    // 松手必回弹——通用的位置同步会在回弹期间把标题重新拉回展开。走专用
+    // 路径：回弹期冻结，松手后按阈值吸附到端点。
+    final limit = state.heightOffsetLimit;
+    final expansion = limit.isFinite ? -limit : 0.0;
+    final canParkViaScroll =
+        expansion <= 0 || (maxExtent - minExtent) >= expansion - 1.0;
+    if (!canParkViaScroll) {
+      return _handleShortPageScroll(n);
+    }
+
+    if (_snapInProgress && n is! ScrollEndNotification) {
+      // 吸附动画运行期间仍按位置同步折叠量（保持 offset ≡ f(pixels)）。
+      _syncOffsetToPosition(metrics);
+      return false;
+    }
+
+    // 松手时列表仍在底部越界：后续回弹动画期间冻结标题。
+    if (n is ScrollEndNotification &&
+        pixels > maxExtent + 0.5 &&
+        state.heightOffset < 0) {
+      _frozenDuringOverscrollSpringBack = true;
+    }
+    // 新手势开始 → 清除冻结与小标题锁。
+    if (n is ScrollStartNotification) {
+      _frozenDuringOverscrollSpringBack = false;
+      _smallTitleLocked = false;
+    }
+    if (_frozenDuringOverscrollSpringBack) {
+      state.contentOffset = pixels;
+      if (pixels <= maxExtent + 0.5) {
+        // 回弹结束；重新同步一次并清除标志。
+        _frozenDuringOverscrollSpringBack = false;
+        _syncOffsetToPosition(metrics);
+      }
+      return false;
+    }
+
+    if (_smallTitleLocked) {
+      // 当前手势/惯性期间保持小标题冻结。
+      state.contentOffset = pixels;
+      return false;
+    }
+
+    _syncOffsetToPosition(metrics);
+
+    // 可选增强：折叠后锁定小标题，直到新手势。
+    if (lockSmallTitleUntilTop &&
+        state.heightOffset < -5.0 &&
+        pixels > 0.5) {
+      _smallTitleLocked = true;
+    }
+
+    if (snapOnRelease && n is ScrollEndNotification) {
+      _snapToNearestEndpoint(n);
+    }
+    return false;
+  }
+
+  /// 短页面折叠处理（见 [handleScroll]）：手指按住时标题跟随橡皮筋越界行程，
+  /// 但只有活跃拖拽才允许*重新展开*；回弹/惯性期间保持冻结，松手后按
+  /// [MiuixTopAppBarDefaults.titleCoverHandoff] 吸附到近端，绝不停在半折叠态。
+  bool _handleShortPageScroll(ScrollNotification n) {
+    final metrics = n.metrics;
+    final limit = state.heightOffsetLimit;
+    if (!limit.isFinite || limit >= 0) {
+      _syncOffsetToPosition(metrics);
+      return false;
+    }
+
+    if (n is ScrollEndNotification) {
+      // 回弹期标题一直冻结，当前折叠比例即松手时的比例——吸附到近端。
+      final fraction = state.collapsedFraction;
+      state.heightOffset =
+          fraction >= MiuixTopAppBarDefaults.titleCoverHandoff ? limit : 0.0;
+      state.contentOffset = metrics.pixels;
+      return false;
+    }
+
+    final isActiveUserDrag =
+        n is ScrollUpdateNotification && n.dragDetails != null;
+    final scrolled = metrics.pixels - metrics.minScrollExtent;
+    final desired = scrolled <= 0 ? 0.0 : -scrolled;
+    final wouldExpand = desired > state.heightOffset + 0.01;
+
+    if (wouldExpand && !isActiveUserDrag) {
+      // 回弹/惯性：保持折叠中的标题冻结，不回弹。
+      state.contentOffset = metrics.pixels;
+      return false;
+    }
+
+    state.heightOffset = desired;
+    state.contentOffset = metrics.pixels;
     return false;
   }
 
@@ -174,7 +355,57 @@ class MiuixExitUntilCollapsedScrollBehavior
       return;
     }
     final scrolled = metrics.pixels - metrics.minScrollExtent;
-    state.heightOffset = -scrolled; // setter 内部 clamp 到 [limit, 0]
+    state.heightOffset = scrolled <= 0 ? 0.0 : -scrolled;
+    state.contentOffset = metrics.pixels;
+  }
+
+  /// 松手吸附：fraction < 0.5 → 滚回全展开，否则滚到全折叠。对应原版
+  /// `settleAppBar` 的 snap 段，但动画对象是列表位置而非 heightOffset，
+  /// 保证折叠量与滚动位置永不解耦。
+  void _snapToNearestEndpoint(ScrollEndNotification n) {
+    final limit = state.heightOffsetLimit;
+    if (!limit.isFinite || limit >= 0) return;
+    final fraction = state.collapsedFraction;
+    // 已停在端点——无需吸附。
+    if (fraction <= 0.02 || fraction >= 0.98) return;
+
+    final metrics = n.metrics;
+    final expansion = -limit;
+    final minExtent = metrics.minScrollExtent;
+    final targetPixels =
+        fraction < 0.5 ? minExtent : minExtent + expansion;
+
+    final context = n.context;
+    final ScrollPosition? position =
+        context == null ? null : Scrollable.maybeOf(context)?.position;
+    if (position == null || !position.hasPixels) return;
+    if ((position.pixels - targetPixels).abs() < 0.5) return;
+
+    _snapInProgress = true;
+    // ScrollEndNotification 在滚动活动收尾过程中同步分发，此刻直接
+    // animateTo 会被随后的 goIdle/goBallistic 立即顶替（吸附静默失效）。
+    // 推迟到当前分发栈之外再启动。
+    Future<void>.microtask(() {
+      if (!position.hasPixels) {
+        _snapInProgress = false;
+        return;
+      }
+      position
+          .animateTo(
+            targetPixels.clamp(
+              position.minScrollExtent,
+              position.maxScrollExtent,
+            ),
+            duration: snapDuration,
+            curve: snapCurve,
+          )
+          .whenComplete(() {
+            _snapInProgress = false;
+            if (position.hasPixels) {
+              _syncOffsetToPosition(position);
+            }
+          });
+    });
   }
 }
 
@@ -205,14 +436,30 @@ class MiuixScrollBehaviorListener extends StatelessWidget {
 MiuixExitUntilCollapsedScrollBehavior miuixScrollBehavior({
   MiuixTopAppBarState? state,
   bool Function()? canScroll,
+  bool snapOnRelease = true,
+  Duration snapDuration = const Duration(milliseconds: 280),
+  Curve snapCurve = Curves.easeOutCubic,
+  bool lockSmallTitleUntilTop = false,
 }) {
   return MiuixExitUntilCollapsedScrollBehavior(
     state: state,
     canScroll: canScroll,
+    snapOnRelease: snapOnRelease,
+    snapDuration: snapDuration,
+    snapCurve: snapCurve,
+    lockSmallTitleUntilTop: lockSmallTitleUntilTop,
   );
 }
 
-/// 大标题可折叠的 TopAppBar。对应 Kotlin `TopAppBar`。
+/// 大标题可折叠的 TopAppBar。对应 Kotlin `TopAppBar`（`TopAppBarLayout`）。
+///
+/// 折叠过渡与原版一致，采用双层结构而非字号连续插值：
+/// - 展开态：仅显示左对齐大标题（`title1` 32sp）；
+/// - 大标题住在折叠带下方的独立裁剪层里，随折叠偏移上移并在带下缘被
+///   裁掉；从折叠第一个像素开始淡出（`alpha = 1 - fraction * 3`，原版
+///   公式），折叠 1/3 处完全消失；
+/// - 小标题在折叠 1/3 处阈值翻转，以弹簧曲线淡入 + 上浮 20px 出现，
+///   重新展开时更快收回——对应原版 folme 弹簧规格。
 ///
 /// 必须配合 [MiuixScrollBehavior] 使用才能实现折叠/展开。
 /// 不传入 [scrollBehavior] 时表现为静态展开状态。
@@ -301,10 +548,11 @@ class MiuixTopAppBar extends StatefulWidget {
   State<MiuixTopAppBar> createState() => _MiuixTopAppBarState();
 }
 
-class _MiuixTopAppBarState extends State<MiuixTopAppBar> {
+class _MiuixTopAppBarState extends State<MiuixTopAppBar>
+    with SingleTickerProviderStateMixin {
   // 用于测量大标题真实尺寸（决定 expansion / heightOffsetLimit）。
   // 大标题/副标题/导航/操作/bottomContent 尺寸用 Offstage 测量；
-  // 主标题文字尺寸改由 TextPainter 在 build 中动态测量（字号随 fraction 连续插值）。
+  // 标题纯文字尺寸用 TextPainter 测量并缓存（仅标题文字变化时重算）。
   final GlobalKey _largeTitleKey = GlobalKey();
   final GlobalKey _navigationIconKey = GlobalKey();
   final GlobalKey _actionsKey = GlobalKey();
@@ -318,12 +566,37 @@ class _MiuixTopAppBarState extends State<MiuixTopAppBar> {
   Size? _bottomContentSize;
   bool _measured = false;
 
-  // 主标题纯文字尺寸缓存（不随 fraction 变化，仅在 widget.title 变化时重算）。
+  // 主标题纯文字尺寸缓存（不随 fraction 变化，仅在标题文字变化时重算）。
   // 避免每帧创建 TextPainter 做文字 shaping（昂贵），解决滚动掉帧。
   String? _measuredTitle;
+  String? _measuredLargeTitle;
   double _largeTitleTextHeight = 0;
   double _smallTitleTextHeight = 0;
   double _smallTitleTextWidth = 0;
+
+  /// 小标题显隐过渡。原版用 folme 弹簧（show: damping 1.0 / response 0.3s；
+  /// hide: response 0.15s）驱动透明度 0→1 叠加 translationY 从
+  /// [MiuixTopAppBarDefaults.smallTitleRisePx] 上浮到 0。
+  late final AnimationController _smallTitleController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 300),
+    reverseDuration: const Duration(milliseconds: 150),
+  );
+  late final Animation<double> _smallTitleAnim = CurvedAnimation(
+    parent: _smallTitleController,
+    curve: Curves.easeOutCubic,
+  );
+
+  /// 首次构建前为 null——用于把控制器直接定位到当前可见性而不播放动画
+  /// （原版同样用当前可见性初始化 Animatable：已折叠状态下新建的 State
+  /// 不得重播淡入，否则表现为标题闪烁）。
+  bool? _smallTitleShown;
+
+  @override
+  void dispose() {
+    _smallTitleController.dispose();
+    super.dispose();
+  }
 
   @override
   void didUpdateWidget(covariant MiuixTopAppBar oldWidget) {
@@ -396,12 +669,14 @@ class _MiuixTopAppBarState extends State<MiuixTopAppBar> {
       fontWeight: FontWeight.w500,
     );
 
-    // 测量并缓存大/小字号下的文字尺寸：只在 widget.title 变化时重算，
+    // 测量并缓存大/小字号下的文字尺寸：只在标题文字变化时重算，
     // 滚动时不创建任何 TextPainter（文字 shaping 昂贵，每帧调用会掉帧）。
-    if (_measuredTitle != widget.title) {
+    if (_measuredTitle != widget.title ||
+        _measuredLargeTitle != largeTitleText) {
       _measuredTitle = widget.title;
+      _measuredLargeTitle = largeTitleText;
       final largeTp = TextPainter(
-        text: TextSpan(text: widget.title, style: largeTitleStyle),
+        text: TextSpan(text: largeTitleText, style: largeTitleStyle),
         textDirection: TextDirection.ltr,
         maxLines: 1,
       )..layout(maxWidth: double.infinity);
@@ -442,7 +717,10 @@ class _MiuixTopAppBarState extends State<MiuixTopAppBar> {
     final contentWidth = mediaQuery.size.width - horizontalPadding * 2;
 
     Widget body = AnimatedBuilder(
-      animation: behavior?.state ?? const AlwaysStoppedAnimation<double>(0),
+      animation: Listenable.merge([
+        if (behavior != null) behavior.state,
+        _smallTitleController,
+      ]),
       builder: (context, _) {
         final curFraction = behavior?.state.collapsedFraction ?? 0.0;
         final curOffset = behavior?.state.heightOffset ?? 0.0;
@@ -455,26 +733,41 @@ class _MiuixTopAppBarState extends State<MiuixTopAppBar> {
             ? collapsedHeight + curExpansion * (1 - curCollapseFraction)
             : collapsedHeight;
 
-        // === 主标题连续插值（关键帧动画） ===
-        // 端点 A（fraction=0）：title1 字号(32)，左对齐，垂直中心 = collapsedHeight + largeHeight/2
-        // 端点 B（fraction=1）：title3 字号(20)，水平居中（避开 nav/actions），垂直中心 = verticalCenter
-        // 字号/颜色用 TextStyle.lerp，位置基于垂直中心插值，实现丝滑过渡。
-        // 性能：大/小字号尺寸已缓存（_largeTitleTextHeight 等），当前字号高度用 lerp 近似，
-        // 滚动时每帧 0 个 TextPainter。
-        final curTitleStyle = TextStyle.lerp(
-          largeTitleStyle,
-          smallTitleStyle,
-          curFraction,
-        )!;
-        // 当前字号下的文字高度（线性插值近似，字体 metrics 近似线性，视觉差异不可见）。
-        final curTitleHeight = lerpDouble(
-            _largeTitleTextHeight, _smallTitleTextHeight, curFraction)!;
+        // === 小标题阈值开关（原版 boolean derivedStateOf） ===
+        // 跨过 1/3 折叠时翻转一次，由弹簧曲线驱动透明度 + 上浮过渡；
+        // 而非每帧跟随 fraction。
+        final smallVisible = curFraction >=
+            MiuixTopAppBarDefaults.smallTitleRevealFraction;
+        if (_smallTitleShown == null) {
+          // 首次构建：直接定位到当前状态，不播放动画。
+          _smallTitleShown = smallVisible;
+          _smallTitleController.value = smallVisible ? 1.0 : 0.0;
+        } else if (smallVisible != _smallTitleShown) {
+          _smallTitleShown = smallVisible;
+          if (smallVisible) {
+            _smallTitleController.forward();
+          } else {
+            _smallTitleController.reverse();
+          }
+        }
 
-        // 端点 A：左对齐
+        // === 大标题：原版公式 `alpha = 1 - (collapsedFraction * 3)` ===
+        // 从折叠的第一个像素就开始淡出，1/3 处完全消失，早于小标题出现。
+        final largeOpacity = (1.0 -
+                curFraction * MiuixTopAppBarDefaults.largeTitleFadeRate)
+            .clamp(0.0, 1.0);
+        final smallOpacity = _smallTitleAnim.value;
+        final smallTitleRise = MiuixTopAppBarDefaults.smallTitleRisePx *
+            (1.0 - _smallTitleAnim.value);
+
+        // 大标题端点：左对齐，随折叠偏移上移。
         final largeLeft = widget.titlePadding;
-        final largeCenterY = collapsedHeight + _largeTitleTextHeight / 2;
+        final largeTitleMaxWidth = math.max(
+          0.0,
+          contentWidth - largeLeft - widget.titlePadding,
+        );
 
-        // 端点 B：水平居中（避开 nav/actions），垂直中心 = verticalCenter。
+        // 小标题端点：水平居中（避开 nav/actions），垂直中心 = verticalCenter。
         // 文字宽度先按 nav/actions 之间的可用区间钳制：超长标题按钳制后的
         // 宽度参与定位，再由 Positioned 上的 maxWidth 约束触发省略号。
         final smallAvailWidth =
@@ -491,44 +784,17 @@ class _MiuixTopAppBarState extends State<MiuixTopAppBar> {
           0.0,
           math.max(0.0, contentWidth - smallTitleWidth),
         );
-        final smallCenterY = verticalCenter;
-
-        // 位置插值（基于垂直中心，top 用当前字号高度反算以保证垂直居中）
-        final curLeft = lerpDouble(largeLeft, smallLeft, curFraction)!;
-        final curCenterY =
-            lerpDouble(largeCenterY, smallCenterY, curFraction)!;
-        final curTitleTop = curCenterY - curTitleHeight / 2;
-        // 当前可用宽度：大端点右侧留 titlePadding 对称边距，小端点避开 actions；
-        // Positioned 不约束宽度，须显式限制才能让 ellipsis 生效。
-        final curTitleMaxWidth = math.max(
+        final smallTitleTop = verticalCenter - _smallTitleTextHeight / 2;
+        final smallTitleMaxWidth = math.max(
           0.0,
-          contentWidth -
-              curLeft -
-              lerpDouble(widget.titlePadding, actionsWidth, curFraction)!,
+          contentWidth - smallLeft - actionsWidth,
         );
 
-        // === 副标题连续插值（如果有） ===
-        // 大状态：紧贴大标题底部，左对齐
-        // 小状态：紧贴小标题底部，水平居中
+        // 小副标题：居中紧贴小标题下方，与小标题共用透明度/上浮（原版
+        // smallSubtitle 与 title 共用同一对 Animatable）。
         final subtitleWidth = _subtitleSize?.width ?? 0.0;
-        final largeSubtitleBottom =
-            largeCenterY + _largeTitleTextHeight / 2 + 2.0;
-        final smallSubtitleBottom =
-            smallCenterY + _smallTitleTextHeight / 2 + 2.0;
-        final curSubtitleTop = hasSubtitle
-            ? lerpDouble(largeSubtitleBottom, smallSubtitleBottom, curFraction)!
-            : 0.0;
         final smallSubtitleLeft =
             (contentWidth - math.min(subtitleWidth, smallAvailWidth)) / 2;
-        final curSubtitleLeft = hasSubtitle
-            ? lerpDouble(largeLeft, smallSubtitleLeft, curFraction)!
-            : 0.0;
-        final curSubtitleMaxWidth = math.max(
-          0.0,
-          contentWidth -
-              curSubtitleLeft -
-              lerpDouble(widget.titlePadding, actionsWidth, curFraction)!,
-        );
 
         // === contentTop / layoutHeight（用于 bottomContent 定位与 Stack 高度） ===
         final smallTitleBottomForLayout =
@@ -536,7 +802,7 @@ class _MiuixTopAppBarState extends State<MiuixTopAppBar> {
         final curContentTop = math.max(
           curBarHeight + expandedBottomPadding,
           smallTitleBottomForLayout +
-              (hasSubtitle ? smallSubtitleHeight + 2.0 : 0.0) +
+              (hasSubtitle ? smallSubtitleHeight : 0.0) +
               expandedBottomPadding,
         );
         final curLayoutHeight = curContentTop + bottomContentHeight;
@@ -547,34 +813,101 @@ class _MiuixTopAppBarState extends State<MiuixTopAppBar> {
           child: Stack(
             clipBehavior: Clip.hardEdge,
             children: [
-              // 主标题（字号/位置/颜色随 fraction 连续插值）
+              // === 下层：大标题（+ 大副标题），严格位于折叠带之下 ===
+              // 图层起点在折叠带下缘（top = collapsedHeight），字形随折叠
+              // 偏移上移并在该边缘被裁掉——两层彼此独立，大标题永远不会
+              // 进入折叠带，无论背景是纯色还是毛玻璃（对应原版 largeTitle
+              // Box 的 `padding(top = CollapsedHeight)` + 整栏 clipToBounds）。
               Positioned(
-                left: curLeft,
-                top: curTitleTop,
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: curTitleMaxWidth),
-                  child: Text(
-                    widget.title,
-                    style: curTitleStyle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                top: collapsedHeight,
+                left: 0,
+                right: 0,
+                height: _largeTitleTextHeight +
+                    (hasSubtitle ? smallSubtitleHeight : 0.0),
+                child: ClipRect(
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: largeLeft,
+                        top: effectiveOffset,
+                        child: Opacity(
+                          opacity: largeOpacity,
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxWidth: largeTitleMaxWidth,
+                            ),
+                            child: Text(
+                              largeTitleText,
+                              style: largeTitleStyle,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ),
+                      // 大副标题与大标题同层同偏移同透明度（原版同一 Column）。
+                      if (hasSubtitle)
+                        Positioned(
+                          left: largeLeft,
+                          top: _largeTitleTextHeight + effectiveOffset,
+                          child: Opacity(
+                            opacity: largeOpacity,
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxWidth: largeTitleMaxWidth,
+                              ),
+                              child: Text(
+                                widget.subtitle,
+                                style: theme.textStyles.body2
+                                    .copyWith(color: subtitleColor),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                 ),
               ),
 
-              // 副标题（位置随 fraction 连续插值，字号固定 body2）
-              if (hasSubtitle)
+              // === 上层：折叠带内的小标题（阈值弹簧：透明度 + 上浮） ===
+              if (smallOpacity > 0.001)
                 Positioned(
-                  left: curSubtitleLeft,
-                  top: curSubtitleTop,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: curSubtitleMaxWidth),
-                    child: Text(
-                      widget.subtitle,
-                      style: theme.textStyles.body2
-                          .copyWith(color: subtitleColor),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                  left: smallLeft,
+                  top: smallTitleTop + smallTitleRise,
+                  child: Opacity(
+                    opacity: smallOpacity,
+                    child: ConstrainedBox(
+                      constraints:
+                          BoxConstraints(maxWidth: smallTitleMaxWidth),
+                      child: Text(
+                        widget.title,
+                        style: smallTitleStyle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                ),
+
+              // 小副标题（居中紧贴小标题下方，与小标题同步显隐）。
+              if (hasSubtitle && smallOpacity > 0.001)
+                Positioned(
+                  left: smallSubtitleLeft,
+                  top: smallTitleBottomForLayout + smallTitleRise,
+                  child: Opacity(
+                    opacity: smallOpacity,
+                    child: ConstrainedBox(
+                      constraints:
+                          BoxConstraints(maxWidth: smallAvailWidth),
+                      child: Text(
+                        widget.subtitle,
+                        style: theme.textStyles.body2
+                            .copyWith(color: subtitleColor),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                 ),
@@ -782,11 +1115,11 @@ class MiuixSmallTopAppBar extends StatelessWidget {
     final txtColor = titleColor ?? colors.onSurface;
     final subColor = subtitleColor ?? colors.onSurfaceVariantSummary;
 
-    // SideEffect 等价：把 heightOffsetLimit 锁为 0。
+    // SideEffect 等价：把折叠上限钉住为 0（绕过瞬时零值防护）。
     final behavior = scrollBehavior;
     if (behavior != null && behavior.state.heightOffsetLimit != 0) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        behavior.state.heightOffsetLimit = 0;
+        behavior.state.pin();
       });
     }
 
