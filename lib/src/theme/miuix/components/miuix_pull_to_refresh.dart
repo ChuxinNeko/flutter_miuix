@@ -344,7 +344,14 @@ class _MiuixPullToRefreshState extends State<MiuixPullToRefresh>
     if (_isRefreshingInternally) return;
     _isRefreshingInternally = true;
     final settled = await _animateSpringTo(_controller._visualThresholdOffset);
-    if (!mounted || !settled) return;
+    if (!mounted) return;
+    if (!settled) {
+      // 回弹到静止位的过程中被新的下拉取消（_cancelSpring）：释放内部锁，
+      // 否则后续所有松手都会因 _isRefreshingInternally 提前返回，
+      // 指示器卡在拉长状态永不回弹。
+      _isRefreshingInternally = false;
+      return;
+    }
     if (_isTouching) {
       _isRefreshingInternally = false;
       return;
