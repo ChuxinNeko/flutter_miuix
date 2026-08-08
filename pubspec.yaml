@@ -37,7 +37,7 @@ dependencies:
 
   # Android system wallpaper color extraction (Android impl of platformDynamicColors).
   # Android only; other platforms fall back to a fixed seed color.
-  dynamic_color: ^1.8.1
+  dynamic_color: ^1.9.0
 
 dev_dependencies:
   flutter_test:
